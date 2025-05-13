@@ -1,0 +1,21 @@
+[
+    {
+        "id": 1,
+        "name": "Felicia",
+        "password": "123",
+        "pfp": "orkoqwp",
+        "lists": [
+            101,
+            102
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Alex",
+        "password": "abc",
+        "pfp": "bildurl",
+        "lists": [
+            103
+        ]
+    }
+]

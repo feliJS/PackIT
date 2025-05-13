@@ -22,7 +22,14 @@ async function handler(request){
     return new Response(null, { headers: headersCORS });
     }
     //users
-    
+    if(url.pathname == "/users"){
+        const allowedMethods = ["GET", "POST", "DELETE"]
+        if (!allowedMethods.includes(request.method)) {
+            return new Response({status: 400,
+
+                headers: { "Content-Type": "application/json" }
+            });
+        }
 }
 
 Deno.serve(handler)

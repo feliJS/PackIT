@@ -6,11 +6,6 @@
         pfp : "orkoqwp", 
     },
     online : true, --- kolla mer på det
-    Lists : {
-        listId : "12412421"
-        listId : "12412421"
-        listId : "12412421"
-    }
 ]*/
 
 async function handler(request){
@@ -31,7 +26,7 @@ async function handler(request){
             });
         }
         if(request.method == "GET"){
-                let file = Deno.readTextFileSync("../databaser/users.json")
+                let file = Deno.readTextFileSync("../../databaser/users.json")
                 let users = JSON.parse(file)
             headersCORS.set("Content-Type", "application/json");
             return new Response(JSON.stringify(users), { 
@@ -44,4 +39,4 @@ async function handler(request){
     }
 }
 
-Deno.serve(handler)
+Deno.serve( handler)

@@ -30,6 +30,18 @@ async function handler(request){
                 headers: { "Content-Type": "application/json" }
             });
         }
+        if(request.method == "GET"){
+                let file = Deno.readTextFileSync("../databaser/users.json")
+                let users = JSON.parse(file)
+            headersCORS.set("Content-Type", "application/json");
+            return new Response(JSON.stringify(users), { 
+
+                status: 200,
+
+                headers: headersCORS,
+              });
+        }
+    }
 }
 
 Deno.serve(handler)

@@ -21,6 +21,9 @@ async function handler(request){
     if (request.method === "OPTIONS") {
     return new Response(null, { headers: headersCORS });
     }
+
+    const getUsers = JSON.parse(Deno.readTextFileSync("../../databaser/users.json"))
+    const saveUsers = (users) => Deno.writeTextFileSync(filePath, JSON.stringify(users, null, 2)); //2 används för rader (enklare att läsa)
     //users
     if(url.pathname == "/users"){
         const allowedMethods = ["GET", "POST", "DELETE"]
@@ -31,15 +34,37 @@ async function handler(request){
             });
         }
         if(request.method == "GET"){
-                let file = Deno.readTextFileSync("../../databaser/users.json")
-                let users = JSON.parse(file)
             headersCORS.set("Content-Type", "application/json");
-            return new Response(JSON.stringify(users), { 
+            return new Response(JSON.stringify(getUsers), { 
 
                 status: 200,
 
                 headers: headersCORS,
               });
+        }
+        
+        if(request.method == "POST"){
+            headersCORS.set("Content-Type", "application/json");
+            const getBody = async () => await request.json()
+            if (!getBody.name || !getBody.password) {
+                return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400, headers: headersCORS });
+            }
+            if (getUsers.find(user => user.name === getBody.name)) {
+                return new Response(JSON.stringify({ error: "User already exists" }), { status: 409, headers: headersCORS });
+            }
+        
+            const newUser = {
+                id: 123, //id
+                name: getBody.name,
+                password: getBody.password, 
+                //profil bild?
+                lists: []
+            };
+
+            getUsers.push(newUser);
+            saveUsers(getUsers);
+            return new Response(JSON.stringify(newUser), { status: 201, headers: headersCORS });
+       
         }
     }
 }

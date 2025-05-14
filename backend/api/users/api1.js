@@ -5,12 +5,7 @@
         password : "123",
         pfp : "orkoqwp", 
     },
-    Cookies - för o kolla om online
-    Lists : {
-        listId : "12412421"
-        listId : "12412421"
-        listId : "12412421"
-    }
+    online : true, --- kolla mer på det
 ]*/
 
 async function handler(request){

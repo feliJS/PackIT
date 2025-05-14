@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Tester</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>User API Tester</h1>
+    <p>This page tests all API endpoints and expected responses.</p>
+
+    <!-- TEST 1: GET /users -->
+    <div class="test-card" id="test-get-users">
+        <div class="test-title">
+            TEST 1 
+            <span class="method-tag">GET</span> 
+            /users
+        </div>
+        <p>
+            This test will send a 
+            <span class="method-tag">GET</span> 
+            request to /users. The test expects status 
+            <strong>200</strong>.
+        </p>
+        <div>
+            <strong>Expected response body:</strong>
+        </div>
+        <p>[]</p>
+        <div class="expected">Request all users (expect empty array at the start)</div>
+        <div class="test-result" id="result-get-users">
+        </div>
+        <button id="btn-test-get-users">Run test</button>
+
+    </div>
+
+</body>
+
+</html>

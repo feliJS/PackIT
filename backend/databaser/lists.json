@@ -1,0 +1,34 @@
+[
+    {
+        "userId": 1,
+        "listId": 1,
+        "listItems": [
+            {
+                "itemName": "Passport / ID",
+                "itemQuantity": 1
+            },
+            {
+                "itemName": "Socks",
+                "itemQuantity": 7
+            }
+        ]
+    },
+    {
+        "userId": 1,
+        "listId": 2,
+        "listItems": [
+            {
+                "itemName": "Medications",
+                "itemQuantity": 1
+            },
+            {
+                "itemName": "Phone Charger",
+                "itemQuantity": 1
+            },
+            {
+                "itemName": "Headphones",
+                "itemQuantity": 1
+            }
+        ]
+    }
+]

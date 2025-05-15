@@ -5,6 +5,7 @@ async function handler(request){
     headersCORS.set("Access-Control-Allow-Origin", "http://localhost:4242"); 
     headersCORS.set("Access-Control-Allow-Headers", "Content-Type");
     headersCORS.set("Access-Control-Allow-Credentials", "true");
+    headersCORS.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     if (request.method === "OPTIONS") {
     return new Response(null, { headers: headersCORS });
     }

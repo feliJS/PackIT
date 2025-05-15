@@ -18,6 +18,7 @@ body {
 }
 
 
+/* Header: */ 
 header {
     position: relative;
     display: flex;
@@ -65,3 +66,56 @@ p {
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.478);
     margin: 0;
 }
+
+
+/* Huvudinnehåll sida 1: */
+#create-list-div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 150px;
+
+    width: 60%;
+    
+}
+
+h1 {
+    text-align: center;
+    color: #eee2d3;
+    font-size: 42px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.478);
+    /* animation: fadeIn 2s ease-in-out; */
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+button {
+    font-family: "fredoka";
+    border-radius: 5px;
+    border: none;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 6px 12px rgba(0,0,0,0.3);
+}
+
+
+#create-list-button {
+    font-size: 16px;
+    background-color: #cc7d5f;
+    width: 150px;
+    height: 50px;
+}
+

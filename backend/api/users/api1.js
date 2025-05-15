@@ -80,7 +80,8 @@ async function handler(request){
         }
 
         if (request.method === "PUT") {
-             if (sessionId !== id) { //cookie matching
+            
+            if (sessionId !== id) { //cookie matching
                 return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: headersCORS });
             }
 

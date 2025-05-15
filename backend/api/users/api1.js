@@ -1,23 +1,8 @@
-/*[
-    "ID": 1341342,
-    "User" : {
-        name : "hej",
-        password : "123",
-        pfp : "orkoqwp", 
-    },
-    Cookies - för o kolla om online
-    Lists : {
-        listId : "12412421"
-        listId : "12412421"
-        listId : "12412421"
-    }
-]*/
 
 async function handler(request){
-    console.log(request.url + " " + request.method)
-    console.log(request.headers.get("Cookie"))
     const url = new URL(request.url);
     const headersCORS = new Headers();
+    const cookieHeader = request.headers.get("Cookie"); //cookie
     headersCORS.set("Access-Control-Allow-Origin", "http://localhost:4242"); 
     headersCORS.set("Access-Control-Allow-Headers", "Content-Type");
     headersCORS.set("Access-Control-Allow-Credentials", "true");
@@ -57,7 +42,7 @@ async function handler(request){
             }
         
             const newUser = {
-                id: 123, //id
+                id: Date.now(), // Ger unikt ID
                 name: body.name,
                 password: body.password, 
                 //profil bild?
@@ -75,6 +60,19 @@ async function handler(request){
         const id = url.pathname.split("/")[2]; // Plockar ut id:et, ger: ["", "users", "abc123"]
         const userIndex = getUsers.findIndex(user => user.id == id);
 
+        //cookie ckontroll
+        let sessionId = null;
+        if (cookieHeader) {
+        const match = cookieHeader.match(/session_id=(\d+)/);
+        if (match) {
+            sessionId = match[1];
+        }
+        }
+
+        if (sessionId != id) {
+            return new Response(JSON.stringify({ error: "Not the right sessionId" }), { status: 403, headers: headersCORS });
+        }
+
         if (request.method === "GET") {
             if (userIndex == -1) {
                 return new Response(JSON.stringify({ error: "user not found" }), { status: 404, headers: headersCORS });
@@ -85,6 +83,10 @@ async function handler(request){
         }
 
         if (request.method === "PUT") {
+             if (sessionId !== id) { //cookie matching
+                return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: headersCORS });
+            }
+
             const body = await request.json();
             if (!body.name) { //lägg till && body.pfp senare!
                 return new Response(JSON.stringify({ error: "Invalid request body" }), { status: 400, headers: headersCORS });
@@ -101,6 +103,10 @@ async function handler(request){
         }
     
         if (request.method === "DELETE") {
+             if (sessionId !== id) {//cookie matching
+                return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: headersCORS });
+            }
+
             if (userIndex == -1) {
                 return new Response(JSON.stringify({ error: "User not found" }), { status: 404, headers: headersCORS });
             }
@@ -125,7 +131,10 @@ async function handler(request){
         //cookies work
     }
 
-    //add logout
+    if (url.pathname === "/users/logout" && request.method === "POST") { //vet ej om denna fungerar..
+        headersCORS.set("Set-Cookie", `session_id=;`); //sätta cookien till ingenting?
+        return new Response(JSON.stringify({ message: "Logged out successfully" }), { status: 200, headers: headersCORS });
+    }
      return new Response("Not Found", { status: 404 });
 }
 

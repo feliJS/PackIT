@@ -6,7 +6,7 @@
 body {
     margin: 0;
     font-family: "fredoka";
-    background-image: url(background-pic.jpg);
+    background-image: url(../images/background-pic.jpg);
     background-size: cover;
     background-attachment: fixed;
     background-position: center;

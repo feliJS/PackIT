@@ -119,3 +119,36 @@ button:hover {
     height: 50px;
 }
 
+
+/* LogIn / Create acc BOX: */ 
+#log-in-div {
+    background: rgba(238, 226, 211, 0.2);
+    margin-top: 150px;
+    width: 320px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    justify-content: center;
+    align-items: center;
+    
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+#log-in-button {
+    background-color: #5b7961;
+}
+
+#create-acc-button {
+    background-color: #6fa9bb;
+}
+
+.log-create-acc-buttons {
+    width: 120px;
+    height: 30px;
+    
+}

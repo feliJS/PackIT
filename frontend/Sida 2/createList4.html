@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create List Vehicle</title>
+        <link rel="stylesheet" href="style.css"> <!-- Conflict? -->
+        <link rel="stylesheet" href="../common/common.css">
+    </head>
+
+    <body>
+        <header>
+            <div id="header-left">
+                <img class="header-img" src="/frontend/icons/suitcase.png" alt="">
+                <p id="logo">PACK IT</p>
+            </div>
+
+            <div id="header-right">
+                <img class="header-img" src="/frontend/icons/plus.png" alt="">
+                <img class="header-img" src="/frontend/icons/user2.png" alt="">
+            </div>
+        </header>
+
+        <main>
+
+            <div class="createListModule">
+
+                <div class="createListHeaderContainer">
+                    <h1 class="createListModuleH1">4/4</h1>
+                    <h3 class="createListModuleH3">How will you travel?</h3>
+                </div>
+
+                <div class="createListInput">
+
+                    <div class="createListInputContainer">
+                        <div class="createListInputSelectContainer">
+                            <label for="createListTravel">
+                                <input type="radio" name="travelVehicle" value="1" class="checkListRadio">
+                                <span class="checkListIconText">Train</span>
+                                <img src="../icons/trainIcon.png" alt="Train" class="checkListIconImg">
+                              </label>
+                              
+                              <label>
+                                <input type="radio" name="travelVehicle" value="2" class="checkListRadio">
+                                <span class="checkListIconText">Airplane</span>
+                                <img src="../icons/airplaneIcon.png" alt="Airplane" class="checkListIconImg">
+                              </label>
+                              
+                              <label>
+                                <input type="radio" name="travelVehicle" value="3" class="checkListRadio">
+                                <span class="checkListIconText">Bus</span>
+                                <img src="../icons/busIcon.png" alt="Bus" class="checkListIconImg">
+                              </label>
+                              
+                              <label>
+                                <input type="radio" name="travelVehicle" value="4" class="checkListRadio">
+                                <span class="checkListIconText">Boat</span>
+                                <img src="../icons/boatIcon.png" alt="Boat" class="checkListIconImg">
+                              </label>
+                              
+                              <label>
+                                <input type="radio" name="travelVehicle" value="5" class="checkListRadio">
+                                <span class="checkListIconText">Car</span>
+                                <img src="../icons/carIcon.png" alt="Car" class="checkListIconImg">
+                              </label>
+                              
+                              <label>
+                                <input type="radio" name="travelVehicle" value="6" class="checkListRadio">
+                                <span class="checkListIconText">Other</span>
+                                <img src="../icons/otherTravel.png" alt="Other" class="checkListIconImg">
+                              </label>
+                        </div>
+
+
+                    </div>
+
+                    <div class="createListFooter">
+                        <button class="btnBackCreateList">Back</button>
+                        <button class="btnNextCreateList">Create new list</button>
+                    </div>
+
+                </div>
+        </main>
+
+    </body>
+
+</html>

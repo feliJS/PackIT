@@ -4,10 +4,12 @@
         "listId": 1,
         "listItems": [
             {
+                "itemId": 1,
                 "itemName": "Passport / ID",
                 "itemQuantity": 1
             },
             {
+                "itemId": 2,
                 "itemName": "Socks",
                 "itemQuantity": 7
             }
@@ -18,14 +20,17 @@
         "listId": 2,
         "listItems": [
             {
+                "itemId": 1,
                 "itemName": "Medications",
                 "itemQuantity": 1
             },
             {
+                "itemId": 2,
                 "itemName": "Phone Charger",
                 "itemQuantity": 1
             },
             {
+                "itemId": 3,
                 "itemName": "Headphones",
                 "itemQuantity": 1
             }

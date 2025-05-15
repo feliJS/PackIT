@@ -12,3 +12,7 @@ userApi.loginUser("Frog", "123").then(user => {
 userApi.getAllUsers().then(users => {
     document.querySelector("body h1").textContent = JSON.stringify(users);
 });
+
+userApi.updateUser("2", "Alex").then(response => {
+    document.querySelector("body h3").textContent = JSON.stringify(response);
+});

@@ -1,4 +1,3 @@
-
 async function handler(request){
     const url = new URL(request.url);
     const headersCORS = new Headers();
@@ -69,17 +68,15 @@ async function handler(request){
         }
         }
 
-        if (sessionId != id) {
-            return new Response(JSON.stringify({ error: "Not the right sessionId" }), { status: 403, headers: headersCORS });
-        }
-
         if (request.method === "GET") {
             if (userIndex == -1) {
                 return new Response(JSON.stringify({ error: "user not found" }), { status: 404, headers: headersCORS });
             }
-        const user = getUsers[userIndex]; //användaren vi ville få ut (m/ lösenord)
-        return new Response(JSON.stringify(user), { status: 200, headers: headersCORS }); //skicka användaren
-
+            const user = getUsers[userIndex];
+            return new Response(JSON.stringify(user), { status: 200, headers: headersCORS });
+        }
+        if (sessionId != id && (request.method === "PUT" || request.method === "DELETE")) {
+            return new Response(JSON.stringify({ error: "Not the right sessionId" }), { status: 403, headers: headersCORS });
         }
 
         if (request.method === "PUT") {
@@ -103,6 +100,7 @@ async function handler(request){
         }
     
         if (request.method === "DELETE") {
+            
              if (sessionId !== id) {//cookie matching
                 return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: headersCORS });
             }

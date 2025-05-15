@@ -1,14 +1,20 @@
 [
-    {
-        "id": 1,
-        "name": "Felicia",
-        "password": "123",
-        "pfp": "orkoqwp"
-    },
-    {
-        "id": 2,
-        "name": "Alex",
-        "password": "abc",
-        "pfp": "bildurl"
-    }
+  {
+    "id": 1,
+    "name": "Frog",
+    "password": "123",
+    "pfp": "orkoqwp"
+  },
+  {
+    "id": 2,
+    "name": "Alex",
+    "password": "abc",
+    "pfp": "bildurl"
+  },
+  {
+    "id": 123,
+    "name": "Trelleborg",
+    "password": "hej123",
+    "lists": []
+  }
 ]

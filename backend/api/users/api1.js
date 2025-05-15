@@ -14,10 +14,13 @@
 ]*/
 
 async function handler(request){
+    console.log(request.url + " " + request.method)
+    console.log(request.headers.get("Cookie"))
     const url = new URL(request.url);
     const headersCORS = new Headers();
-    headersCORS.set("Access-Control-Allow-Origin", "*"); 
+    headersCORS.set("Access-Control-Allow-Origin", "http://localhost:4242"); 
     headersCORS.set("Access-Control-Allow-Headers", "Content-Type");
+    headersCORS.set("Access-Control-Allow-Credentials", "true");
     if (request.method === "OPTIONS") {
     return new Response(null, { headers: headersCORS });
     }
@@ -106,6 +109,23 @@ async function handler(request){
             return new Response(JSON.stringify({ deleted: "deleted user" }), { status: 200, headers: headersCORS });
         }
     }
+     // /users/login
+    if (url.pathname === "/users/login" && request.method === "POST") {
+        const body = await request.json();
+         if (!body.name || !body.password) {
+            return new Response(JSON.stringify({ error: "Missing credentials" }), { status: 400, headers: headersCORS });
+        }
+        const user = getUsers.find(u => u.name == body.name && u.password == body.password);
+        if (!user) {
+            return new Response(JSON.stringify({ error: "Invalid credentials" }), { status: 401, headers: headersCORS });
+        }
+        headersCORS.set("Set-Cookie", `session_id=${user.id}`);
+        const userData = { id: user.id, name: user.name};//add pfp here aswell
+        return new Response(JSON.stringify(userData), { status: 200, headers:  headersCORS});
+        //cookies work
+    }
+
+    //add logout
      return new Response("Not Found", { status: 404 });
 }
 

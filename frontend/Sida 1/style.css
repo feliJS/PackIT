@@ -1,12 +1,12 @@
 @font-face {
     font-family: "fredoka";
-    src: url(Fredoka/Fredoka-VariableFont_wdth\,wght.ttf);
+    src: url(/frontend/Fonts/Fredoka-VariableFont_wdth\,wght.ttf);
 }
 
 body {
     margin: 0;
     font-family: "fredoka";
-    background-image: url(berg.jpg);
+    background-image: url(background-pic.jpg);
     background-size: cover;
     background-attachment: fixed;
     background-position: center;

@@ -1,6 +1,6 @@
 //Använda själva responsen 
 
-import { UserAPI } from './requests.js';
+import { UserAPI } from './Client-class.js';
 
 const userApi = new UserAPI('http://localhost:8000');
 

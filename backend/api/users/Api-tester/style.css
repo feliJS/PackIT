@@ -1,0 +1,63 @@
+body {
+    font-family: system-ui, sans-serif;
+    background-color: #f6f6fc;
+    padding: 2px;
+}
+
+.test-card {
+    background: white;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.test-card.success {
+    border-color: green;
+}
+
+.test-card.error {
+    border-color: red;
+}
+
+.test-title {
+    font-weight: bold;
+    font-size: 20px;
+    color: #0a3972;
+}
+
+.method-tag {
+    background-color: #e0ecff;
+    color: #084298;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.expected {
+    background-color: #fff9c4;
+    padding: 10px;
+    border-radius: 4px;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+button {
+    background-color: #1e40af;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+pre {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.test-result {
+    margin-top: 10px;
+}

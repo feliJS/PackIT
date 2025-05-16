@@ -9,13 +9,16 @@
     <button class="open-button" onclick="openRegister()">Register</button>
         <div class="account-popup" id="account-field">
         <div class="account-container">
+          
+            <div class="profile-pic"></div> <!-- Profilbild-div -->
             <h1>Create account!</h1>
+          <div class="inputs">
             <input type=text>
             <input type=password>
 
-            <button class="btn">Login</button>
+            <button class="btn">Register!</button>
             <button class="btn cancel" onclick="closeRegister()">Close</button>
-        </form>
+         </div>
         </div>
     </div>
 </div>
@@ -29,6 +32,7 @@ function openRegister() {
 function closeRegister() {
   document.getElementById("account-field").style.display = "none";
 }
+
 </script>
 
 </body>

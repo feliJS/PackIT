@@ -1,110 +1,242 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    height: 100vh;
+
+@font-face {
+    font-family: "fredoka";
+    src: url(/frontend/Fonts/Fredoka-VariableFont_wdth\,wght.ttf);
 }
-* {
+
+body {
+    margin: 0;
+    font-family: "fredoka", sans-serif;
+    background-image: url(../images/background-pic.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+    position: relative;
+    color: #eee2d3;
+}
+
+/* Mörk overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
+
+
+/* --- Header --- */
+header {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.headers {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-img {
+    width: 24px;
+    height: auto;
+}
+
+#logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0;
+    color: black;
+}
+
+
+/* --- Main container --- */
+main {
+    width: 100%;
+    max-width: 900px;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
     box-sizing: border-box;
 }
 
-.open-button {
-  background-color: #555;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  width: 280px;
-}
 
-/* The popup hidden first  */
-.account-popup {
-    display: none;
-    position: fixed;
-    z-index: 9;
-    inset: 0;
-    background: rgba(0,0,0,0.35); /* semitransparent overlay */
-}
-
-.account-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 320px;
-    width: 90%;
-    padding: 24px 28px 32px;
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px #1e2b20;
-    text-align: center;
-}
-
-.account-container #create-text{
-    color: #BF694D;
-    font-size: 20px;
-    text-align: center;
-    padding-bottom: 20px;
-}
-
-/* Gör profilbilden rund */
-.profile-pic {
-    width: 96px;
-    height: 96px;
-    background-color: #BF694D;
-    border-radius: 50%;
-    margin: 0 auto 20px;
-}
-
-.account-container input {
+/* --- Modul  --- */
+.createListModule {
+    background-color: #6fa9bb; /* Turkos */
+    border-radius: 12px;
+    padding: 30px 40px;
     width: 100%;
-    padding: 14px 16px;
-    font-size: 1rem;
-    border: 1px solid #BF694D;
-    border-radius: 8px;
-    background: #f1f1f1;
-    transition: box-shadow 0.25s ease, transform 0.2s ease;
-}
-
-.account-container input:focus {
-    outline: none;
-    background: #fff;
-    box-shadow: 0 0 8px #BF694D;
-    transform: scale(1.03);
-}
-
-.account-container .btn {
-    background-color: #BF694D;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom:10px;
-    opacity: 0.8;
-}
-.inputs{
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 20px;
 }
 
-.btn {
-    background-color: #BF694D;
-    color: #fff;
-    padding: 16px 20px;
+
+/* --- Rubriker --- */
+.createListHeaderContainer h1,
+.createListHeaderContainer h3 {
+    margin: 0;
+    text-align: center;
+}
+
+.createListHeaderContainer h1 {
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.createListHeaderContainer h3 {
+    font-size: 1.8rem;
+}
+
+
+/* --- Input containers --- */
+.createListInput {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.createListPurpose {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.createListInputContainer {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.createListInputContainerDuration {
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.createListInputContainer p {
+    margin: 0 0 5px 0;
+    font-weight: 600;
+}
+
+/* Text input och number input */
+input[type="text"],
+input[type="number"],
+select {
+    padding: 10px;
+    border-radius: 6px;
     border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
     font-size: 1rem;
-    transition: box-shadow 0.2s ease;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
 }
-.btn:hover {
-    box-shadow: 0 6px 16px #BF694D;
+
+
+/* --- Footer knappar --- */
+.createListFooter {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
 }
-.btn.cancel {
-    background-color: #4A674F;
+
+.btnCreateList {
+    background-color: #5b7961;
+    color: #eee2d3;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
 }
-.btn.cancel:hover {
-    box-shadow: 0 6px 16px #1e2b20;
+
+.btnCreateList:hover {
+    background-color: #4a634f;
 }
+
+/* Första sidans "tillbaka-knapp" */
+.btnCreateListHide {
+    visibility: hidden;
+}
+
+
+/* --- Rad med kort --- */
+.createListInput.universalRadioContainer {
+
+    flex-direction: row;
+    gap: 40px;
+    flex-wrap: nowrap; 
+    justify-content: center;
+}
+
+/* Container för varje kort */
+.createListInputSelectContainer {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+/* Kort styling */
+.universalRadioLabel {
+    background-color: #7db2c4; 
+    border-radius: 12px;
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.universalRadioTitle {
+    margin: 0;
+}
+
+/* Ikoner */
+.universalRadioIcon {
+    height: 40px;
+    width: auto;
+}
+
+/* Dölja original radio */
+.universalRadioInput {
+    display: none;
+}
+
+/* När radio är markerad */
+.universalRadioLabel input:checked + .checkListIconText,
+.universalRadioLabel input:checked ~ img {
+    font-weight: 700;
+}
+
+.universalRadioLabel:has(input:checked) {
+    background-color: #5a8290;
+    border-color: #3d5a67;
+}
+
+.universalRadioLabel:hover {
+    background-color: #5491a8;
+}
+

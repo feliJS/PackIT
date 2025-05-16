@@ -32,7 +32,16 @@ function openRegister() {
 function closeRegister() {
   document.getElementById("account-field").style.display = "none";
 }
+const cancelBtn = document.querySelector('.btn.cancel');
+const originalText = cancelBtn.textContent;
 
+cancelBtn.addEventListener('mouseenter', function() {
+    cancelBtn.textContent = originalText + ' :(';
+});
+
+cancelBtn.addEventListener('mouseleave', function() {
+    cancelBtn.textContent = originalText;
+});
 </script>
 
 </body>

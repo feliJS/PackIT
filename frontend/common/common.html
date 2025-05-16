@@ -6,43 +6,21 @@
 </head>
 <body>
 <div class="center">
-    <button class="open-button" onclick="openRegister()">Register</button>
-        <div class="account-popup" id="account-field">
+    <button class="open-button" id="open-btn">Register</button>
+    <div class="account-popup" id="account-field">
         <div class="account-container">
-          
             <div class="profile-pic"></div> <!-- Profilbild-div -->
             <h1>Create account!</h1>
-          <div class="inputs">
-            <input type=text>
-            <input type=password>
-
-            <button class="btn">Register!</button>
-            <button class="btn cancel" onclick="closeRegister()">Close</button>
-         </div>
+            <div class="inputs">
+                <input id="username" placeholder="Username" type="text">
+                <input id="password" placeholder="Password" type="password">
+                <button class="btn reg" id="reg">Register!</button>
+                <button class="btn cancel" id="cancel-btn">Close</button>
+            </div>
         </div>
     </div>
 </div>
 
-
-<script>
-function openRegister() {
-  document.getElementById("account-field").style.display = "block";
-}
-
-function closeRegister() {
-  document.getElementById("account-field").style.display = "none";
-}
-const cancelBtn = document.querySelector('.btn.cancel');
-const originalText = cancelBtn.textContent;
-
-cancelBtn.addEventListener('mouseenter', function() {
-    cancelBtn.textContent = originalText + ' :(';
-});
-
-cancelBtn.addEventListener('mouseleave', function() {
-    cancelBtn.textContent = originalText;
-});
-</script>
-
+<script type="module" src="common.js"></script>
 </body>
 </html>

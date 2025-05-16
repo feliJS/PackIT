@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="center">
+    <button class="open-button" onclick="openRegister()">Register</button>
+        <div class="account-popup" id="account-field">
+        <div class="account-container">
+            <h1>Create account!</h1>
+            <input type=text>
+            <input type=password>
+
+            <button class="btn">Login</button>
+            <button class="btn cancel" onclick="closeRegister()">Close</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function openRegister() {
+  document.getElementById("account-field").style.display = "block";
+}
+
+function closeRegister() {
+  document.getElementById("account-field").style.display = "none";
+}
+</script>
+
+</body>
+</html>

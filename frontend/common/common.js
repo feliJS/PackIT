@@ -1,4 +1,4 @@
-import { UserAPI } from '../../backend/api/users/client-class.js';
+import { UserAPI } from '/backend/api/users/client-class.js';
 const userApi = new UserAPI('http://localhost:8000');
 
 function openRegister() {

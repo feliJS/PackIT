@@ -64,3 +64,10 @@ body {
     background: #f1f1f1;
     transition: box-shadow 0.25s ease, transform 0.2s ease;
 }
+
+.account-container input:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 8px #BF694D;
+    transform: scale(1.03);
+}

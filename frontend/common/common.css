@@ -71,3 +71,40 @@ body {
     box-shadow: 0 0 8px #BF694D;
     transform: scale(1.03);
 }
+
+.account-container .btn {
+    background-color: #BF694D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btn {
+    background-color: #BF694D;
+    color: #fff;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: box-shadow 0.2s ease;
+}
+.btn:hover {
+    box-shadow: 0 6px 16px #BF694D;
+}
+.btn.cancel {
+    background-color: #4A674F;
+}
+.btn.cancel:hover {
+    box-shadow: 0 6px 16px #1e2b20;
+}

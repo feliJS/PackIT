@@ -1,13 +1,13 @@
 
 @font-face {
     font-family: "fredoka";
-    src: url(/frontend/Fonts/Fredoka-VariableFont_wdth\,wght.ttf);
+    src: url(/common/fonts/Fredoka-VariableFont_wdth\,wght.ttf);
 }
 
 body {
     margin: 0;
     font-family: "fredoka", sans-serif;
-    background-image: url(../images/background-pic.jpg);
+    background-image: url(/images/background-pic.jpg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

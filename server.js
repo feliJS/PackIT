@@ -1,18 +1,13 @@
 
 // Main server
 
-import { serveFile } from "jsr:@std/http";
+import { serveFile, serveDir } from "jsr:@std/http";
 
 async function serverHandler(request) {
 
     const reqUrl = new URL(request.url);
     const reqPathname = reqUrl.pathname;
     console.log("Begärrd path: " + reqPathname);
-
-
-    if (reqPathname === "/common/common.css") {
-        return await serveFile(request, "frontend/common/common.css");
-    }
 
 
     if (reqPathname.startsWith("/icons/")) {
@@ -35,15 +30,11 @@ async function serverHandler(request) {
     }
 
 
-    if (reqPathname.startsWith("/common/")) {
-        const filePath = `frontend${reqPathname}`;
-        try {
-            return await serveFile(request, filePath);
-        } catch {
-            return new Response("Not Found", { status: 404 });
-        }
+    if (reqUrl.pathname == "/common") {
+        return serveFile(request, "frontend/common/common.html");
+    } else if(reqUrl.pathname.startsWith("/common")) {
+        return serveDir(request, { fsRoot: "frontend" }); 
     }
-
 
     if (reqPathname.startsWith("/index")) {
         return await serveFile(request, "frontend/pagesIndex/index.html");
@@ -75,4 +66,4 @@ async function serverHandler(request) {
 
 }
 
-Deno.serve(serverHandler);
+Deno.serve({port: 4242},serverHandler);

@@ -1,7 +1,7 @@
 
 // Main server
 
-import { serveFile } from "jsr:@std/http";
+import { serveFile, serveDir } from "jsr:@std/http";
 
 async function serverHandler(request) {
 
@@ -10,69 +10,65 @@ async function serverHandler(request) {
     console.log("Begärrd path: " + reqPathname);
 
 
-    if (reqPathname === "/common/common.css") {
-        return await serveFile(request, "frontend/common/common.css");
+    if (reqPathname === "/assets/common.css") {
+        return await serveFile(request, "frontend/assets/common.css");
     }
 
 
-    if (reqPathname.startsWith("/icons/")) {
-        const filePath = `frontend${reqPathname}`;
-        try {
-            return await serveFile(request, filePath);
-        } catch {
-            return new Response("Not Found", { status: 404 });
-        }
+    if (reqPathname.startsWith("/assets/icons")) {
+        return await serveDir(request, {
+            fsRoot: "frontend/assets/icons",
+            urlRoot: "/assets/icons",
+        });
+    }
+
+    if (reqPathname.startsWith("/assets/common")) {
+        return await serveDir(request, {
+            fsRoot: "frontend/assets/common",
+            urlRoot: "/assets/common",
+        });
+    }    
+
+    if (reqPathname.startsWith("/assets/images")) {
+        return await serveDir(request, {
+            fsRoot: "frontend/assets/images",
+            urlRoot: "/assets/images",
+        });
     }
 
 
-    if (reqPathname.startsWith("/images/")) {
-        const filePath = `frontend${reqPathname}`;
-        try {
-            return await serveFile(request, filePath);
-        } catch {
-            return new Response("Not Found", { status: 404 });
-        }
-    }
-
-
-    if (reqPathname.startsWith("/common/")) {
-        const filePath = `frontend${reqPathname}`;
-        try {
-            return await serveFile(request, filePath);
-        } catch {
-            return new Response("Not Found", { status: 404 });
-        }
-    }
-
-
-    if (reqPathname.startsWith("/index")) {
-        return await serveFile(request, "frontend/pagesIndex/index.html");
-    }
-
-
-    if (reqPathname.startsWith("/profile")) {
-        return await serveFile(request, "frontend/pagesProfile/index.html");
-    }
-
-
-    if (reqPathname.startsWith("/create-list")) {
-        return await serveFile(request, "frontend/pagesCreateList/index.html");
+    if (reqPathname.startsWith("/assets/fonts")) {
+        return await serveDir(request, {
+            fsRoot: "frontend/assets/fonts",
+            urlRoot: "/assets/fonts",
+        });
     }
 
 
     if (reqPathname === "/" || reqPathname === "/home") {
-        return await serveFile(request, "frontend/pagesIndex/index.html");
+        return await serveFile(request, "frontend/pages/home/index.html");
+    }
+
+
+    if (reqPathname.startsWith("/create-list")) {
+        const step = reqPathname.split("/")[2] || "step1";
+        return await serveFile(request, `frontend/pages/create-list/${step}.html`);
+    }
+
+
+    if (reqPathname.startsWith("/profile")) {
+        return await serveFile(request, "frontend/pages/profile/index.html");
     }
 
 
     // Fallback
-    return new Response("The page could not be found", {
+    return new Response("Sidan hittades inte", {
         status: 404,
         headers: {
             "Content-Type": "text/plain",
         },
     });
-
+    
 }
 
 Deno.serve(serverHandler);

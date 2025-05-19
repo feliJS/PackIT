@@ -1,4 +1,3 @@
-
 // users-api.js
 import {
   getAllUsersFunc,
@@ -27,9 +26,13 @@ async function handler(req) {
         if (reqMethod !== "GET" && reqMethod !== "OPTIONS") {
         reqBody = await req.json();
     }
-
+    const allowedOrigins = [
+        "http://localhost:4242",
+        "http://localhost:3000"
+    ];
+    const requestOrigin = req.headers.get("Origin");
     const corsHeaders = {
-        "Access-Control-Allow-Origin": "http://localhost:4242",
+        "Access-Control-Allow-Origin": allowedOrigins.includes(requestOrigin) ? requestOrigin : "http://localhost:4242",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Credentials": "true",

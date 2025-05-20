@@ -1,69 +1,33 @@
-
-// Main server
-
+// server.ts
 import { serveFile, serveDir } from "jsr:@std/http";
 
-async function serverHandler(request) {
+const PORT = 4242;
 
-    const reqUrl = new URL(request.url);
-    const reqPathname = reqUrl.pathname;
-    console.log("Begärrd path: " + reqPathname);
+async function handler(request) {
+  const url  = new URL(request.url);
+  const path = url.pathname;
 
+  // HTML-end-points 
+  if (path === "/" || path === "/home") {
+    return serveFile(request, "frontend/pages/home/index.html");
+  }
+  if (path === "/create-list") {
+    return serveFile(request, "frontend/pages/create-list/index.html");
+  }
+  if (path === "/profile") {
+    return serveFile(request, "frontend/pages/profile/index.html");
+  }
 
-    if (reqPathname.startsWith("/icons/")) {
-        const filePath = `frontend${reqPathname}`;
-        try {
-            return await serveFile(request, filePath);
-        } catch {
-            return new Response("Not Found", { status: 404 });
-        }
-    }
-
-
-    if (reqPathname.startsWith("/images/")) {
-        const filePath = `frontend${reqPathname}`;
-        try {
-            return await serveFile(request, filePath);
-        } catch {
-            return new Response("Not Found", { status: 404 });
-        }
-    }
-
-
-    if (reqUrl.pathname == "/common") {
-        return serveFile(request, "frontend/common/common.html");
-    } else if(reqUrl.pathname.startsWith("/common")) {
-        return serveDir(request, { fsRoot: "frontend" }); 
-    }
-
-    if (reqPathname.startsWith("/index")) {
-        return await serveFile(request, "frontend/pagesIndex/index.html");
-    }
-
-
-    if (reqPathname.startsWith("/profile")) {
-        return await serveFile(request, "frontend/pagesProfile/index.html");
-    }
-
-
-    if (reqPathname.startsWith("/create-list")) {
-        return await serveFile(request, "frontend/pagesCreateList/index.html");
-    }
-
-
-    if (reqPathname === "/" || reqPathname === "/home") {
-        return await serveFile(request, "frontend/pagesIndex/index.html");
-    }
-
-
-    // Fallback
-    return new Response("The page could not be found", {
-        status: 404,
-        headers: {
-            "Content-Type": "text/plain",
-        },
-    });
+  /* Allt annat betraktas som statiska resurser (CSS, JS, bilder, ikoner …)
+         serveDir mappar URL-sökvägen direkt till motsvarande fil under
+         'frontend/'. Exempel:
+           - /common/common.css      → frontend/common/common.css
+           - /assets/images/foo.png  → frontend/assets/images/foo.png
+           - /pages/home/style.css   → frontend/pages/home/style.css
+  */
+  return serveDir(request, { fsRoot: "frontend", urlRoot: "" });
 
 }
 
-Deno.serve({port: 4242},serverHandler);
+Deno.serve({ port: PORT }, handler);
+console.log(`✅ Servern körs på http://localhost:${PORT}`);

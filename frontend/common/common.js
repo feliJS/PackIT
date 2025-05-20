@@ -60,4 +60,4 @@ registerBtn.addEventListener('click', function() {
     }).catch(err => {
         alert('Kunde inte skapa konto! ' + (err.message || err));
     });
-});
+});//l

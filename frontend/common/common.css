@@ -7,7 +7,7 @@
 body {
     margin: 0;
     font-family: "fredoka", sans-serif;
-    background-image: url(/images/background-pic.jpg);
+    background-image: url(../assets/images/background-pic.jpg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

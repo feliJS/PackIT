@@ -45,9 +45,9 @@ async function testGetAllUsers() {
     const opts = {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        //credentials: "include"
+        credentials: "include"
     }
-    const req = new Request(usersURL, opts);
+    const req = new Request("http://localhost:8000/users", opts);
     try {
         const response = await fetch(req);
         const data = await response.json();
@@ -58,8 +58,8 @@ async function testGetAllUsers() {
         return testPostUser(testUser);
     }
     catch (error) {
-        DOMobject.status = response.status;
-        DOMobject.meddelande = response.statusText;
+        // DOMobject.status = error.status;
+        // DOMobject.meddelande = error.statusText;
         console.log(error);
         return
     }
@@ -67,7 +67,7 @@ async function testGetAllUsers() {
 
 
 };
-testGetAllUsers();
+
 
 
 async function testPostUser(user, password) {
@@ -80,9 +80,10 @@ async function testPostUser(user, password) {
         headers: {
             "Content-Type": "application/json"
         },
+        credentials: "include",
         body: JSON.stringify(testUser)
     }
-    const req = new Request(usersURL, opts)
+    const req = new Request("http://localhost:8000/users", opts)
     try {
         const response = await fetch(req);
         const data = await response.json();
@@ -93,8 +94,8 @@ async function testPostUser(user, password) {
         return testLoginUser(testUser.name, testUser.password);
     }
     catch (error) {
-        DOMobject.status = response.status;
-        DOMobject.meddelande = response.statusText;
+        DOMobject.status = error.status;
+        DOMobject.meddelande = error.statusText;
         showRequestDone(DOMobject)
         return
     }
@@ -108,11 +109,12 @@ async function testLoginUser(user, password) {
     const opts = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ name: user, password: password })
     }
-    const req = new Request("http://localhost:8000/users/login");
+    const req = new Request("http://localhost:8000/users/login", opts);
     try {
-        const response = await fetch(req, opts);
+        const response = await fetch(req);
         DOMobject.status = response.status;
         DOMobject.meddelande = response.statusText;
         showRequestDone(DOMobject);
@@ -133,11 +135,12 @@ async function testLogoutUser(user, password) {
     const opts = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ name: user, password: password })
     }
-    const req = new Request("http://localhost:8000/users/logout");
+    const req = new Request("http://localhost:8000/users/logout", opts);
     try {
-        const response = await fetch(req, opts);
+        const response = await fetch(req);
         DOMobject.status = response.status;
         DOMobject.meddelande = response.statusText;
         showRequestDone(DOMobject);
@@ -156,15 +159,16 @@ async function testDeleteUser(id) {
         rubrik: "Logout New User",
         metod: "POST"
     }
-    const deleteURL = new URL(usersURL + `/users/${id}`);
+    const deleteURL = new URL(`http://localhost:8000/users/${id}`);
     const opts = {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
         //body: JSON.stringify({ name: user, password: password })
     }
-    const req = new Request(deleteURL)
+    const req = new Request(deleteURL, opts)
     try {
-        const response = await fetch(req, opts);
+        const response = await fetch(req);
         const data = await response.json();
         DOMobject.status = response.status;
         DOMobject.meddelande = response.statusText
@@ -175,3 +179,6 @@ async function testDeleteUser(id) {
 
 
 }
+
+testGetAllUsers();
+///HALLÅ

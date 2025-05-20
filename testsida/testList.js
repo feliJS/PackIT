@@ -63,7 +63,7 @@ async function testDeleteList() {
 }
 
 // DELETE (404) --> /users/:userId/:listId
-async function testDeleteList() {
+async function testDeleteListError() {
     const options = {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
@@ -75,6 +75,79 @@ async function testDeleteList() {
     logTest({
         rubrik: "List NOT Found",
         metod: "DELETE",
+        status: response.status,
+        message: resource.error
+    })
+}
+
+// POST (200) --> /users/:userId/:listId 
+// POST (400) --> /users/:userId/:listId 
+
+// PATCH (200) --> /users/:userId/:listId 
+// PATCH (404) --> /users/:userId/:listId 
+
+
+// POST (200) --> /users/:userId/:listId/item
+async function testPostItem () {
+    const options = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            itemName: "test item", 
+            itemQuantity: 1
+        })
+    }
+
+    const response = await fetch(`${baseUrl}/users/1/1/item`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Create New item",
+        metod: "POST",
+        status: response.status,
+        message: resource.message
+    })
+}
+
+// POST (400) --> /users/:userId/:listId/item
+async function testPostItemMissingAttribute () {
+    const options = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            itemName: null, 
+            itemQuantity: 1
+        })
+    }
+
+    const response = await fetch(`${baseUrl}/users/1/1/item`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Attribute Missing",
+        metod: "POST",
+        status: response.status,
+        message: resource.error
+    })
+}
+
+// POST (409) --> /users/:userId/:listId/item
+async function testPostItemAlreadyExists () {
+    const options = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            itemName: "Passport / ID", 
+            itemQuantity: 1
+        })
+    }
+
+    const response = await fetch(`${baseUrl}/users/1/1/item`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Item Already Exists",
+        metod: "POST",
         status: response.status,
         message: resource.error
     })

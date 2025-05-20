@@ -31,6 +31,18 @@ async function testGetListFound () {
     })
 }
 
+// GET (404) --> /users/:userId/:listId
+async function testGetListNotFound () {
+    const response = await fetch(`${baseUrl}/0/0`)
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "List Not Found",
+        metod: "GET",
+        status: response.status,
+        message: resource.error
+    })
+}
 
 
 

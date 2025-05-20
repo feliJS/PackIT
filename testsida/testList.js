@@ -16,3 +16,29 @@ function logTest ({ rubrik, metod, status, meddelande}) {
 
     reqLog.appendChild(row);
 }
+
+
+// GET (200) --> /users/:userId/:listId 
+async function testGetListFound () {
+    const response = await fetch(`${baseUrl}/1/1`);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Get List",
+        metod: "GET",
+        status: response.status,
+        message: resource.listId
+    })
+}
+
+
+
+
+/*
+logTest({
+        rubrik:
+        metod:
+        status:
+        message:
+    })
+*/

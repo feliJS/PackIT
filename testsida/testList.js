@@ -20,7 +20,7 @@ function logTest ({ rubrik, metod, status, meddelande}) {
 
 // GET (200) --> /users/:userId/:listId 
 async function testGetListFound () {
-    const response = await fetch(`${baseUrl}/1/1`);
+    const response = await fetch(`${baseUrl}/users/1/1`);
     const resource = await response.json();
 
     logTest({
@@ -33,12 +33,48 @@ async function testGetListFound () {
 
 // GET (404) --> /users/:userId/:listId
 async function testGetListNotFound () {
-    const response = await fetch(`${baseUrl}/0/0`)
+    const response = await fetch(`${baseUrl}/users/0/0`)
     const resource = await response.json();
 
     logTest({
         rubrik: "List Not Found",
         metod: "GET",
+        status: response.status,
+        message: resource.error
+    })
+}
+
+// DELETE (200) --> /users/:userId/:listId 
+async function testDeleteList() {
+    const options = {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"}
+    }
+
+    const response = await fetch(`${baseUrl}/users/1/1`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Delete List",
+        metod: "DELETE",
+        status: response.status,
+        message: resource.message
+    })
+}
+
+// DELETE (404) --> /users/:userId/:listId
+async function testDeleteList() {
+    const options = {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"}
+    }
+
+    const response = await fetch(`${baseUrl}/users/0/0`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "List NOT Found",
+        metod: "DELETE",
         status: response.status,
         message: resource.error
     })

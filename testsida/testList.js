@@ -80,14 +80,15 @@ async function testDeleteListError() {
     })
 }
 
-// POST (200) --> /users/:userId/:listId 
+// POST (201) --> /users/:userId/:listId 
 // POST (400) --> /users/:userId/:listId 
 
 // PATCH (200) --> /users/:userId/:listId 
 // PATCH (404) --> /users/:userId/:listId 
 
 
-// POST (200) --> /users/:userId/:listId/item
+
+// POST (201) --> /users/:userId/:listId/item
 async function testPostItem () {
     const options = {
         method: "POST",
@@ -109,6 +110,7 @@ async function testPostItem () {
     })
 }
 
+// ska vara med?
 // POST (400) --> /users/:userId/:listId/item
 async function testPostItemMissingAttribute () {
     const options = {
@@ -125,6 +127,29 @@ async function testPostItemMissingAttribute () {
 
     logTest({
         rubrik: "Attribute Missing",
+        metod: "POST",
+        status: response.status,
+        message: resource.error
+    })
+}
+
+
+// POST (404) --> /users/:userId/:listId/item
+async function testPostItemListIdNotFound () {
+    const options = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            itemName: "test item", 
+            itemQuantity: 1
+        })
+    }
+
+    const response = await fetch(`${baseUrl}/users/1/0/item`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "ListId Not Found",
         metod: "POST",
         status: response.status,
         message: resource.error

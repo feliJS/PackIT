@@ -1,0 +1,18 @@
+const baseUrl = "http://localhost:8000";
+const reqLog = document.getElementById("reqLog");
+
+function logTest ({ rubrik, metod, status, meddelande}) {
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const statusClass = status >= 200 && status < 300 ? "success" : "fail";
+
+    row.innerHTML = `
+        <div>${rubrik}</div>
+        <div>${metod}</div>
+        <div><span class="status ${statusClass}">${status}</span></div>
+        <div>${message}</div>
+    `;
+
+    reqLog.appendChild(row);
+}

@@ -56,7 +56,8 @@ header {
     color: black;
     text-shadow: none;
     font-size: 22px;
-}
+    width: 40px; /*så länge*/
+} 
 
 p {
     height: 20px;

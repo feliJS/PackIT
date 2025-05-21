@@ -1,5 +1,6 @@
 
-
+import { UserAPI } from '/common/client-class.js';
+const userApi = new UserAPI('http://localhost:8000');
 
 
 
@@ -22,42 +23,39 @@ function createLoginRegister() {
                 </div>
             </div>
     `;
+    
+    const cancelBtn = document.getElementById('cancel-btn');
+    const originalText = cancelBtn.textContent;
+
+    cancelBtn.addEventListener('mouseenter', function() {
+        cancelBtn.textContent = originalText + ' :(';
+    });
+
+    cancelBtn.addEventListener('mouseleave', function() {
+        cancelBtn.textContent = originalText;
+    });
+
+    cancelBtn.addEventListener('click', closeRegister);
+
+    const registerBtn = document.getElementById('reg');
+    registerBtn.addEventListener("click", function() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        userApi.newAccount(username, password).then(user => {
+            closeRegister();
+        }).catch(err => {
+            alert("Kunde inte skapa konto! " + (err.message || err));
+        });
+    });
 }
 
-
-import { UserAPI } from '/common/client-class.js';
-const userApi = new UserAPI('http://localhost:8000');
 
 function openRegister() {
     createLoginRegister()
 }
 
 function closeRegister() {
-   document.querySelector('.login-register').innerHTML = ""
+   document.querySelector(".login-register").innerHTML = ""
 }
 
-document.getElementById('create-acc-button').addEventListener('click', openRegister);
-
-const cancelBtn = document.getElementById('cancel-btn');
-const originalText = cancelBtn.textContent;
-
-cancelBtn.addEventListener('mouseenter', function() {
-    cancelBtn.textContent = originalText + ' :(';
-});
-
-cancelBtn.addEventListener('mouseleave', function() {
-    cancelBtn.textContent = originalText;
-});
-
-cancelBtn.addEventListener('click', closeRegister);
-
-const registerBtn = document.getElementById('reg');
-registerBtn.addEventListener('click', function() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    userApi.newAccount(username, password).then(user => {
-        closeRegister();
-    }).catch(err => {
-        alert('Kunde inte skapa konto! ' + (err.message || err));
-    });
-});
+document.getElementById("create-acc-button").addEventListener('click', openRegister);

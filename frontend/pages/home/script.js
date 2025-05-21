@@ -20,7 +20,7 @@ createListButton.addEventListener("click", function (e) {
         errorMsg.textContent = "You need to login or create an account before creating a list!";
     } else {
         errorMsg.textContent = "";
-        //här kommer sedan en "redirect till koden som kommer öppna frågorna
+        //här kommer sedan en "redirect" till koden som kommer öppna frågorna
     }
 });
 

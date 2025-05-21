@@ -1,15 +1,459 @@
 [
+
     {
-        "userId": 1,
+        "userId": 0,
         "listId": 1,
+        "listName": "Basic List",
         "listItems": [
             {
                 "itemId": 1,
+                "itemType": "clothes",
+                "itemName": "Socks",
+                "itemQuantity": 5
+            },
+            {
+                "itemId": 2,
+                "itemType": "clothes",
+                "itemName": "Underwear",
+                "itemQuantity": 5
+            },
+            {
+                "itemId": 3,
+                "itemType": "clothes",
+                "itemName": "Shirts",
+                "itemQuantity": 3
+            },
+            {
+                "itemId": 4,
+                "itemType": "clothes",
+                "itemName": "Pants",
+                "itemQuantity": 2
+            },
+            {
+                "itemId": 5,
+                "itemType": "clothes",
+                "itemName": "Sleepwear",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 6,
+                "itemType": "clothes",
+                "itemName": "Sweater",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 7,
+                "itemType": "hygiene",
+                "itemName": "Toothbrush",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 8,
+                "itemType": "hygiene",
+                "itemName": "Toothpaste",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 9,
+                "itemType": "hygiene",
+                "itemName": "Deodorant",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 10,
+                "itemType": "hygiene",
+                "itemName": "Shampoo",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 11,
+                "itemType": "hygiene",
+                "itemName": "Soap",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 12,
+                "itemType": "hygiene",
+                "itemName": "Hairbrush",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 13,
+                "itemType": "medication",
+                "itemName": "Painkillers",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 14,
+                "itemType": "medication",
+                "itemName": "Plasters",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 15,
+                "itemType": "medication",
+                "itemName": "Personal prescriptions",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 16,
+                "itemType": "other",
+                "itemName": "Passport",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 17,
+                "itemType": "other",
+                "itemName": "Traveldocuments",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 18,
+                "itemType": "other",
+                "itemName": "Phone",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 19,
+                "itemType": "other",
+                "itemName": "Charger",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 20,
+                "itemType": "other",
+                "itemName": "Headphones",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 21,
+                "itemType": "other",
+                "itemName": "Waterbottle",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 22,
+                "itemType": "other",
+                "itemName": "Wallet",
+                "itemQuantity": 1
+            }
+        ]
+    },
+
+
+    {
+        "userId": 0,
+        "listId": 2,
+        "listName": "Suntrip List",
+        "listItems": [
+            {
+                "itemId": 1,
+                "itemType": "clothes",
+                "itemName": "Swimwear",
+                "itemQuantity": 2
+            },
+            {
+                "itemId": 2,
+                "itemType": "clothes",
+                "itemName": "Flip-flops",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 3,
+                "itemType": "clothes",
+                "itemName": "Sun hat / Cap",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 4,
+                "itemType": "clothes",
+                "itemName": "Sarong or beach cover-up",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 5,
+                "itemType": "clothes",
+                "itemName": "Evening outfit",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 6,
+                "itemType": "hygiene",
+                "itemName": "Sunscreen",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 7,
+                "itemType": "hygiene",
+                "itemName": "After sun lotion",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 8,
+                "itemType": "hygiene",
+                "itemName": "SPF-lip balm",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 9,
+                "itemType": "medication",
+                "itemName": "Stomach medicine",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 10,
+                "itemType": "other",
+                "itemName": "Sunglasses",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 11,
+                "itemType": "other",
+                "itemName": "Beach bag",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 12,
+                "itemType": "other",
+                "itemName": "Beach towel",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 13,
+                "itemType": "other",
+                "itemName": "Portable fan",
+                "itemQuantity": 1
+            }
+        ]
+    },
+
+
+    {
+        "userId": 0,
+        "listId": 3,
+        "listName": "Business List",
+        "listItems": [
+            {
+                "itemId": 1,
+                "itemType": "clothes",
+                "itemName": "Blazer",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 2,
+                "itemType": "clothes",
+                "itemName": "Dress shoes",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 3,
+                "itemType": "clothes",
+                "itemName": "Belt",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 4,
+                "itemType": "clothes",
+                "itemName": "Formal clothes",
+                "itemQuantity": 2
+            },
+            {
+                "itemId": 5,
+                "itemType": "clothes",
+                "itemName": "Tie / Scarf",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 6,
+                "itemType": "hygiene",
+                "itemName": "Shaving kit",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 7,
+                "itemType": "hygiene",
+                "itemName": "Perfume",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 8,
+                "itemType": "hygiene",
+                "itemName": "Hand sanitizer",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 9,
+                "itemType": "hygiene",
+                "itemName": "Mouthwash",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 10,
+                "itemType": "hygiene",
+                "itemName": "Hair styling product",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 11,
+                "itemType": "medication",
+                "itemName": "Sleeping pills",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 12,
+                "itemType": "other",
+                "itemName": "Laptop + charger",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 13,
+                "itemType": "other",
+                "itemName": "USB stick",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 14,
+                "itemType": "other",
+                "itemName": "Notebook + pen",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 15,
+                "itemType": "other",
+                "itemName": "Business cards",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 16,
+                "itemType": "other",
+                "itemName": "Printed documents / presentations",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 17,
+                "itemType": "other",
+                "itemName": "Alarm clock",
+                "itemQuantity": 1
+            }
+        ]
+    },
+      
+    
+    {
+        "userId": 0,
+        "listId": 4,
+        "listName": "Wellness/activities List",
+        "listItems": [
+            {
+                "itemId": 1,
+                "itemType": "clothes",
+                "itemName": "Workout clothes",
+                "itemQuantity": 2
+            },
+            {
+                "itemId": 2,
+                "itemType": "clothes",
+                "itemName": "Training shoes",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 3,
+                "itemType": "clothes",
+                "itemName": "Raincoat / Windbreaker",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 4,
+                "itemType": "clothes",
+                "itemName": "Sweatband / Headband",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 5,
+                "itemType": "hygiene",
+                "itemName": "Face masks",
+                "itemQuantity": 2
+            },
+            {
+                "itemId": 6,
+                "itemType": "hygiene",
+                "itemName": "Hair treatment",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 7,
+                "itemType": "hygiene",
+                "itemName": "Spa slippers",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 8,
+                "itemType": "medication",
+                "itemName": "Electrolyte tablets",
+                "itemQuantity": 1
+            },
+        
+            {
+                "itemId": 9,
+                "itemType": "other",
+                "itemName": "Small backpack",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 10,
+                "itemType": "other",
+                "itemName": "Insect repellent",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 11,
+                "itemType": "other",
+                "itemName": "Flashlight / Headlamp",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 12,
+                "itemType": "other",
+                "itemName": "Book",
+                "itemQuantity": 1
+            },
+            {
+                "itemId": 13,
+                "itemType": "other",
+                "itemName": "Sleep mask",
+                "itemQuantity": 1
+            }
+        ]
+    },
+
+
+
+
+
+
+    {
+        "userId": 1,
+        "listId": 10,
+        "listItems": [
+            {
+                "itemId": 1,
+                "itemType": "other",
                 "itemName": "Passport / ID",
                 "itemQuantity": 1
             },
             {
                 "itemId": 2,
+                "itemType": "clothes",
                 "itemName": "Socks",
                 "itemQuantity": 7
             }
@@ -17,20 +461,23 @@
     },
     {
         "userId": 1,
-        "listId": 2,
+        "listId": 11,
         "listItems": [
             {
                 "itemId": 1,
+                "itemType": "medication",
                 "itemName": "Medications",
                 "itemQuantity": 1
             },
             {
                 "itemId": 2,
+                "itemType": "other",
                 "itemName": "Phone Charger",
                 "itemQuantity": 1
             },
             {
                 "itemId": 3,
+                "itemType": "other",
                 "itemName": "Headphones",
                 "itemQuantity": 1
             }

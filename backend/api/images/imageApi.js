@@ -1,5 +1,22 @@
-function handler(req) {
-    
+async function handler(req) {
+  const reqUrl = new URL(req.url);
+  const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+  };
+
+  if(req.method == "POST" && reqUrl.pathname == "/randomimage") {
+    let body = await req.json();
+    const images = readImages();
+    if(images[body.content]) {
+      let contentImages = images[body.content];
+      let random = await getRandomImage(body.content);
+      if(random == null) {
+        random = contentImages[Math.floor(Math.random() * contentImages.length)]
+      }
+    }
+  }
 }
 
 const DB_PATH = "../../databaser/images.json";
@@ -16,12 +33,13 @@ async function writeImages(images) {
 const ACCESS_KEY = ""; // ← Ersätt med din riktiga API-nyckel
 let currentImageUrl = ""; // Sparad bild-URL
 
-async function getRandomImage() {
-  const response = await fetch(`https://api.unsplash.com/photos/random?query=animal&content_filter=high&client_id=${ACCESS_KEY}`);
+async function getRandomImage(content) {
+  const response = await fetch(`https://api.unsplash.com/photos/random?query=${content}&content_filter=high&client_id=${ACCESS_KEY}`);
   if(response.status == 200) {
     const data = await response.json();
     return data.urls.small;
   }
+  return null;
 }
 
-Deno.serve({ port: 4200 })
+Deno.serve({ port: 4200 }, handler);

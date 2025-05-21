@@ -1,1 +1,9 @@
-{}
+{
+    "ratelimit": {
+        "remaining": 50,
+        "lastChecked": 0
+    },
+    "images": {
+        "animal": []
+    }
+}

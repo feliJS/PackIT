@@ -34,10 +34,15 @@ const ACCESS_KEY = ""; // ← Ersätt med din riktiga API-nyckel
 let currentImageUrl = ""; // Sparad bild-URL
 
 async function getRandomImage(content) {
-  const response = await fetch(`https://api.unsplash.com/photos/random?query=${content}&content_filter=high&client_id=${ACCESS_KEY}`);
-  if(response.status == 200) {
-    const data = await response.json();
-    return data.urls.small;
+  let images = readImages();
+  let ratelimit = images.ratelimit;
+  if(ratelimit.remaining >= 25) {
+    const response = await fetch(`https://api.unsplash.com/photos/random?query=${content}&content_filter=high&client_id=${ACCESS_KEY}`);
+    unsplashRatelimit = response.headers.get("X-Ratelimit-Remaining");
+    if(response.status == 200) {
+      const data = await response.json();
+      return data.urls.small;
+    }
   }
   return null;
 }

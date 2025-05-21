@@ -1,3 +1,5 @@
+
+//register & login
 import { UserAPI } from '/common/client-class.js';
 const userApi = new UserAPI('http://localhost:8000');
 
@@ -48,6 +50,7 @@ function createRegister() {
             const password = document.getElementById("password").value;
             userApi.newAccount(username, password).then(user => {
                 close();
+                window.location.reload(true); //inte det bästa sättet att ladda om.. kolla gärna på bättre!
             }).catch(err => {
                 alert("Kunde inte skapa konto! " + (err.message || err));
             });
@@ -66,6 +69,7 @@ function createLogin() {
             const password = document.getElementById("password").value;
             userApi.loginUser(username, password).then(user => {
                 close();
+                window.location.reload(true);
             }).catch(err => {
                 alert("Kunde ej logga in! " + (err.message || err));
             });

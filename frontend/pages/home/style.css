@@ -68,6 +68,10 @@ p {
     margin: 0;
 }
 
+#error-create-list{
+    color: red;
+}
+
 
 /* Huvudinnehåll sida 1: */
 #create-list-div {

@@ -36,14 +36,14 @@ export async function createUserFunc(reqBody, responseHeaders) {
   }
 
   const newUser = {
-    id: Date.now(),          // enkelt unikt id
+    id: Date.now(),
     name: reqBody.name,
-    password: reqBody.password
+    password: reqBody.password,
   };
-  
+
   const headersWithCookie = {
     ...responseHeaders,
-    "Set-Cookie": `session_id=${newUser.id}`,
+    "Set-Cookie": `session_id=${newUser.id}; Path=/`,
   };
 
   users.push(newUser);
@@ -51,7 +51,7 @@ export async function createUserFunc(reqBody, responseHeaders) {
 
   return new Response(JSON.stringify(newUser), {
     status: 201,
-    headers: headersWithCookie
+    headers: headersWithCookie,
   });
 }
 
@@ -98,7 +98,6 @@ export async function updateUserFunc(
   }
 
   if (reqBody.name !== undefined) user.name = reqBody.name;
-  // Lägg till fler fält här vid behov (ex pfp)
 
   await writeUsers(users);
   return new Response(JSON.stringify({ message: "Update OK" }), {
@@ -162,7 +161,7 @@ export async function loginFunc(reqBody, responseHeaders) {
 
   const headersWithCookie = {
     ...responseHeaders,
-    "Set-Cookie": `session_id=${user.id}`,
+    "Set-Cookie": `session_id=${user.id}; Path=/`,
   };
 
   const publicUser = { id: user.id, name: user.name };
@@ -176,7 +175,7 @@ export async function loginFunc(reqBody, responseHeaders) {
 export function logoutFunc(responseHeaders) {
   const headersWithCookie = {
     ...responseHeaders,
-    "Set-Cookie": "session_id=;",
+    "Set-Cookie": "session_id=; Path=/; Max-Age=0",
   };
 
   return new Response(JSON.stringify({ message: "Logged out successfully" }), {

@@ -38,8 +38,12 @@ export async function createUserFunc(reqBody, responseHeaders) {
   const newUser = {
     id: Date.now(),          // enkelt unikt id
     name: reqBody.name,
-    password: reqBody.password,
-    lists: [],
+    password: reqBody.password
+  };
+  
+  const headersWithCookie = {
+    ...responseHeaders,
+    "Set-Cookie": `session_id=${newUser.id}`,
   };
 
   users.push(newUser);
@@ -47,7 +51,7 @@ export async function createUserFunc(reqBody, responseHeaders) {
 
   return new Response(JSON.stringify(newUser), {
     status: 201,
-    headers: { ...responseHeaders },
+    headers: headersWithCookie
   });
 }
 

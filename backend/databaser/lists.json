@@ -3,6 +3,7 @@
     {
         "userId": 0,
         "listId": 1,
+        "listName": "Basic List",
         "listItems": [
             {
                 "itemId": 1,
@@ -146,6 +147,7 @@
     {
         "userId": 0,
         "listId": 2,
+        "listName": "Suntrip List",
         "listItems": [
             {
                 "itemId": 1,
@@ -234,6 +236,7 @@
     {
         "userId": 0,
         "listId": 3,
+        "listName": "Business List",
         "listItems": [
             {
                 "itemId": 1,
@@ -347,6 +350,7 @@
     {
         "userId": 0,
         "listId": 4,
+        "listName": "Wellness/activities List",
         "listItems": [
             {
                 "itemId": 1,

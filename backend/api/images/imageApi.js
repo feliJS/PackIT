@@ -6,18 +6,23 @@ async function handler(req) {
       "Access-Control-Allow-Headers": "Content-Type",
   };
 
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 200, headers: corsHeaders });
+  }
+
   if(req.method == "POST" && reqUrl.pathname == "/randomimage") {
     let body = await req.json();
-    const imagesDB = readImages();
+    const imagesDB = await readImages();
     if(!imagesDB.images[body.content]) imagesDB.images[body.content] = []; // lägg till om ej finns
-    let random = await getRandomImage(body.content);
-    if(random == null) {
-      random = imagesDB.images[body.content][Math.floor(Math.random() * imagesDB.images[body.content].length)];
+    let randomImage = await getRandomImage(body.content);
+    imagesDB.ratelimit = randomImage.ratelimit;
+    if(randomImage.url == null) {
+      randomImage.url = imagesDB.images[body.content][Math.floor(Math.random() * imagesDB.images[body.content].length)];
     } else {
-      imagesDB.images[body.content].push(random);
-      writeImages(imagesDB);
+      imagesDB.images[body.content].push(randomImage.url);
     }
-    return new Response(random, { headers: corsHeaders });
+    await writeImages(imagesDB);
+    return new Response(randomImage.url, { headers: corsHeaders });
   }
 }
 
@@ -32,22 +37,32 @@ async function writeImages(images) {
   await Deno.writeTextFile(DB_PATH, JSON.stringify(images, null, 2));
 }
 
-const ACCESS_KEY = ""; // ← Ersätt med din riktiga API-nyckel
+let ACCESS_KEY = "";
+(async () => {
+  ACCESS_KEY = JSON.parse(await Deno.readTextFile("../../../apiKeys.json"))[0]["API_UNSPLASH"];
+})()
 
 async function getRandomImage(content) {
-  let images = readImages();
-  let timeDiff = Date.now() - images.ratelimit.lastChecked;
-  if(images.ratelimit.remaining >= 25 || timeDiff >= 1000*60*60) {
+  let result = {
+    "ratelimit": {
+      "remaining": 50,
+      "lastChecked": 0
+    },
+    "url": null
+  };
+  let images = await readImages();
+  result.ratelimit = images.ratelimit;
+  let timeDiff = Date.now() - result.ratelimit.lastChecked;
+  if(result.ratelimit.remaining >= 25 || timeDiff >= 1000*60*60) {
     const response = await fetch(`https://api.unsplash.com/photos/random?query=${content}&content_filter=high&client_id=${ACCESS_KEY}`);
-    images.ratelimit.remaining = response.headers.get("X-Ratelimit-Remaining");
-    images.ratelimit.lastChecked = Date.now();
-    writeImages(images);
+    result.ratelimit.remaining = response.headers.get("X-Ratelimit-Remaining");
+    result.ratelimit.lastChecked = Date.now();
     if(response.status == 200) {
       const data = await response.json();
-      return data.urls.small;
+      result.url = data.urls.small;
     }
   }
-  return null;
+  return result;
 }
 
 Deno.serve({ port: 4200 }, handler);

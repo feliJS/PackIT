@@ -18,7 +18,6 @@ body {
 
 /* The popup hidden first  */
 .account-popup {
-    display: none;
     position: fixed;
     z-index: 9;
     inset: 0;
@@ -37,6 +36,9 @@ body {
     border-radius: 16px;
     box-shadow: 0 8px 24px #1e2b20;
     text-align: center;
+}
+.account-container h1{
+    color: black;
 }
 
 .account-container #create-text{

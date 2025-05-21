@@ -8,16 +8,16 @@ async function handler(req) {
 
   if(req.method == "POST" && reqUrl.pathname == "/randomimage") {
     let body = await req.json();
-    const images = readImages();
-    if(images[body.content]) {
-      let contentImages = images[body.content];
-      let random = await getRandomImage(body.content);
-      if(random == null) {
-        random = contentImages[Math.floor(Math.random() * contentImages.length)];
-      } else {
-        
-      }
+    const imagesDB = readImages();
+    if(!imagesDB.images[body.content]) imagesDB.images[body.content] = []; // lägg till om ej finns
+    let random = await getRandomImage(body.content);
+    if(random == null) {
+      random = imagesDB.images[body.content][Math.floor(Math.random() * imagesDB.images[body.content].length)];
+    } else {
+      imagesDB.images[body.content].push(random);
+      writeImages(imagesDB);
     }
+    return new Response(random, { headers: corsHeaders });
   }
 }
 
@@ -33,7 +33,6 @@ async function writeImages(images) {
 }
 
 const ACCESS_KEY = ""; // ← Ersätt med din riktiga API-nyckel
-let currentImageUrl = ""; // Sparad bild-URL
 
 async function getRandomImage(content) {
   let images = readImages();

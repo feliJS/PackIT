@@ -37,6 +37,9 @@ body {
     box-shadow: 0 8px 24px #1e2b20;
     text-align: center;
 }
+.account-container h1{
+    color: black;
+}
 
 .account-container #create-text{
     color: #BF694D;

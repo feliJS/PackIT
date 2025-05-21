@@ -1,10 +1,20 @@
 
 // --- LISTS ---
+import {
+    UserListManager,
+    List,
+    loadListsFromFile
+
+} from "class.js";
 
 
-// (GET)
-export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders) {
-    const userLists = 
+const listData = await loadListsFromFile();
+const manager = new UserListManager(listData);
+
+// (GET) har ändrat
+export async function getListFunc(urlUserId, urlListId, responseHeaders) {
+    const userLists = manager.getListsForUser(urlUserId);
+    const foundList = userLists.find(list => list.id === urlListId);
 
     if (foundList) {
         return new Response(JSON.stringify(foundList), {
@@ -18,21 +28,18 @@ export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders)
         headers: { ...responseHeaders }
     });
 }
+// ----- Här behövs en getAllUserList-funktion
 
-// (DELETE)
-export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeaders) {
-    const listInx = listDB.findIndex(currList => currList.userId == urlUserId && currList.listId == urlListId);
+// (DELETE) Har ändrat
+export async function deleteListFunc(urlUserId, urlListId, responseHeaders) {
+    const deleted = manager.deleteListForUser(urlUserId, urlListId);
 
-    if (listInx === -1) {
+    if (!deleted) {
         return new Response(JSON.stringify({ error: "List not found" }), {
             status: 404,
             headers: { ...responseHeaders }
         });
     }
-
-    const deletedList = listDB.splice(listInx, 1);
-
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
 
     return new Response(JSON.stringify({ message: "Delete OK", deletedList }), {
         status: 200,
@@ -41,20 +48,15 @@ export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeade
 }
 
 // (POST)
-export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
-    let maxId = 0;
-    for (const list of listDB) {
-        if (list.listId > maxId) {
-            maxId = list.listId;
-        }
-    }
-    const newListId = maxId + 1;
+export async function createListFunc(urlUserId, reqBody, responseHeaders) {
+    const { name, items } = reqBody;
+    const newList = createListForUser(urlUserId, reqBody,)
 
-    const newList = {
-        userId: Number(urlUserId),
-        listId: newListId,
-        listItems: reqBody.listItems || []
-    };
+    // const newList = {
+    //     userId: Number(urlUserId),
+    //     listId: newListId,
+    //     listItems: reqBody.listItems || []
+    // };
 
     listDB.push(newList);
 

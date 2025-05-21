@@ -14,7 +14,7 @@ async function handler(req) {
     const reqMethod = req.method;
     const reqUrl = new URL(req.url);
 
-    const listData = await Deno.readTextFileSync("../../databaser/lists.json");
+    const listData = await Deno.readTextFileSync("newLists.json");
     const listDB = JSON.parse(listData);
 
     const headersCORS = {
@@ -79,7 +79,7 @@ async function handler(req) {
     }
 
     if (reqMethod === "GET" && matchedAddItemParams) {
-        return getAllItemsFunc(urlUserId, urlListId, listDB, responseHeaders); 
+        return getAllItemsFunc(urlUserId, urlListId, listDB, responseHeaders);
     }
 
     if (reqMethod === "GET" && matchedHandleItemParams) {

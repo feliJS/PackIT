@@ -13,7 +13,9 @@ async function handler(req) {
       let contentImages = images[body.content];
       let random = await getRandomImage(body.content);
       if(random == null) {
-        random = contentImages[Math.floor(Math.random() * contentImages.length)]
+        random = contentImages[Math.floor(Math.random() * contentImages.length)];
+      } else {
+        
       }
     }
   }
@@ -35,10 +37,12 @@ let currentImageUrl = ""; // Sparad bild-URL
 
 async function getRandomImage(content) {
   let images = readImages();
-  let ratelimit = images.ratelimit;
-  if(ratelimit.remaining >= 25) {
+  let timeDiff = Date.now() - images.ratelimit.lastChecked;
+  if(images.ratelimit.remaining >= 25 || timeDiff >= 1000*60*60) {
     const response = await fetch(`https://api.unsplash.com/photos/random?query=${content}&content_filter=high&client_id=${ACCESS_KEY}`);
-    unsplashRatelimit = response.headers.get("X-Ratelimit-Remaining");
+    images.ratelimit.remaining = response.headers.get("X-Ratelimit-Remaining");
+    images.ratelimit.lastChecked = Date.now();
+    writeImages(images);
     if(response.status == 200) {
       const data = await response.json();
       return data.urls.small;

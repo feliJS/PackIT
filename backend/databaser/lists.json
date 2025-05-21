@@ -5,11 +5,13 @@
         "listItems": [
             {
                 "itemId": 1,
+                "itemType": "other",
                 "itemName": "Passport / ID",
                 "itemQuantity": 1
             },
             {
                 "itemId": 2,
+                "itemType": "clothes",
                 "itemName": "Socks",
                 "itemQuantity": 7
             }
@@ -21,16 +23,19 @@
         "listItems": [
             {
                 "itemId": 1,
+                "itemType": "medication",
                 "itemName": "Medications",
                 "itemQuantity": 1
             },
             {
                 "itemId": 2,
+                "itemType": "other",
                 "itemName": "Phone Charger",
                 "itemQuantity": 1
             },
             {
                 "itemId": 3,
+                "itemType": "other",
                 "itemName": "Headphones",
                 "itemQuantity": 1
             }

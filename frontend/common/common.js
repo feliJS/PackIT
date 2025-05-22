@@ -2,6 +2,20 @@
 import { UserAPI } from '/common/client-class.js';
 const userApi = new UserAPI('http://localhost:8000');
 
+const imageApiBase = "http://localhost:4200";
+let cachedAvatarUrl = null; 
+
+async function fetchRandomAvatar() {
+    // content kan vara vad du vill söka på i Unsplash – t.ex. "avatar"
+    const res = await fetch(`${imageApiBase}/randomimage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: "animal" })
+    });
+    // imageAPI returnerar bara URL:en som ren text
+    return await res.text();
+}
+
 function createAccountPopup(containerSelector, btnId, btnText, onBtnClick, showProfilePic) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
@@ -40,7 +54,11 @@ function createAccountPopup(containerSelector, btnId, btnText, onBtnClick, showP
     actionBtn.addEventListener("click", onBtnClick);
 }
 
-function createRegister() {
+async function createRegister() {
+    // URLn till bilden-
+    const avatarUrl = await fetchRandomAvatar();
+
+    //Bygg popupen 
     createAccountPopup(
         '.register-box',
         'reg',
@@ -48,15 +66,26 @@ function createRegister() {
         () => {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            userApi.newAccount(username, password).then(user => {
-                close();
-                window.location.reload(true);
-            }).catch(err => {
-                alert("Kunde inte skapa konto! " + (err.message || err));
-            });
+            // Skicka med avatarUrl som pfp
+            userApi.newAccount(username, password, avatarUrl)
+                .then(user => {
+                    close();
+                    window.location.reload(true);
+                })
+                .catch(err => {
+                    alert("Kunde inte skapa konto! " + (err.message || err));
+                });
         },
-        true 
+        true          // showProfilePic = true
     );
+
+    //Sätt bakgrunds-bilden i .profile-pic-diven
+    const picDiv = document.querySelector('.profile-pic');
+    if (picDiv) {
+        picDiv.style.backgroundImage = `url(${avatarUrl})`;
+        picDiv.style.backgroundSize = "cover";
+        picDiv.style.backgroundPosition = "center";
+    }
 }
 
 function createLogin() {

@@ -11,14 +11,14 @@ export class UserAPI {
         return await res.json();
     }
     //create new account
-    async newAccount(name, password) {
+    async newAccount(name, password, pfp) {
         const res = await fetch(`${this.baseUrl}/users`, {
             method: "POST",
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ name: name, password: password })
+            body: JSON.stringify({ name: name, password: password, pfp: pfp })
         });
         return await res.json();
     }

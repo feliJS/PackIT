@@ -2,6 +2,20 @@
 import { UserAPI } from '/common/client-class.js';
 const userApi = new UserAPI('http://localhost:8000');
 
+const imageApiBase = "http://localhost:4200";
+let cachedAvatarUrl = null; 
+
+async function fetchRandomAvatar() {
+    // content kan vara vad du vill söka på i Unsplash – t.ex. "avatar"
+    const res = await fetch(`${imageApiBase}/randomimage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: "animal" })
+    });
+    // imageAPI returnerar bara URL:en som ren text
+    return await res.text();
+}
+
 function createAccountPopup(containerSelector, btnId, btnText, onBtnClick, showProfilePic) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
@@ -39,8 +53,13 @@ function createAccountPopup(containerSelector, btnId, btnText, onBtnClick, showP
     const actionBtn = document.getElementById(btnId);
     actionBtn.addEventListener("click", onBtnClick);
 }
+async function createRegister() {
+    // Hämta endast en ny bild om vi inte redan har en
+    if (!cachedAvatarUrl) {
+        cachedAvatarUrl = await fetchRandomAvatar();
+    }
 
-function createRegister() {
+    // Bygg popupen
     createAccountPopup(
         '.register-box',
         'reg',
@@ -48,16 +67,27 @@ function createRegister() {
         () => {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            userApi.newAccount(username, password).then(user => {
-                close();
-                window.location.reload(true);
-            }).catch(err => {
-                alert("Kunde inte skapa konto! " + (err.message || err));
-            });
+            userApi.newAccount(username, password, cachedAvatarUrl)
+                .then(user => {
+                    close();
+                    window.location.reload(true);
+                })
+                .catch(err => {
+                    alert("Kunde inte skapa konto! " + (err.message || err));
+                });
         },
-        true 
+        true
     );
+
+    // Visa bilden
+    const picDiv = document.querySelector('.profile-pic');
+    if (picDiv) {
+        picDiv.style.backgroundImage = `url(${cachedAvatarUrl})`;
+        picDiv.style.backgroundSize = "cover";
+        picDiv.style.backgroundPosition = "center";
+    }
 }
+
 
 function createLogin() {
     createAccountPopup(

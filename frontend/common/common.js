@@ -53,12 +53,13 @@ function createAccountPopup(containerSelector, btnId, btnText, onBtnClick, showP
     const actionBtn = document.getElementById(btnId);
     actionBtn.addEventListener("click", onBtnClick);
 }
-
 async function createRegister() {
-    // URLn till bilden-
-    const avatarUrl = await fetchRandomAvatar();
+    // Hämta endast en ny bild om vi inte redan har en
+    if (!cachedAvatarUrl) {
+        cachedAvatarUrl = await fetchRandomAvatar();
+    }
 
-    //Bygg popupen 
+    // Bygg popupen
     createAccountPopup(
         '.register-box',
         'reg',
@@ -66,8 +67,7 @@ async function createRegister() {
         () => {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            // Skicka med avatarUrl som pfp
-            userApi.newAccount(username, password, avatarUrl)
+            userApi.newAccount(username, password, cachedAvatarUrl)
                 .then(user => {
                     close();
                     window.location.reload(true);
@@ -76,17 +76,18 @@ async function createRegister() {
                     alert("Kunde inte skapa konto! " + (err.message || err));
                 });
         },
-        true          // showProfilePic = true
+        true
     );
 
-    //Sätt bakgrunds-bilden i .profile-pic-diven
+    // Visa bilden
     const picDiv = document.querySelector('.profile-pic');
     if (picDiv) {
-        picDiv.style.backgroundImage = `url(${avatarUrl})`;
+        picDiv.style.backgroundImage = `url(${cachedAvatarUrl})`;
         picDiv.style.backgroundSize = "cover";
         picDiv.style.backgroundPosition = "center";
     }
 }
+
 
 function createLogin() {
     createAccountPopup(

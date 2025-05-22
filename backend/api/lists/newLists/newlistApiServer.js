@@ -5,7 +5,7 @@ import {
     loadListsFromFile,
     saveListsToFile
 
-} from "class.js";
+} from "./class.js";
 
 
 const listData = await loadListsFromFile();
@@ -28,7 +28,7 @@ export async function getListFunc(urlUserId, urlListId, responseHeaders) {
         headers: { ...responseHeaders }
     });
 }
-export async function getAllListsbyUser(urlUserId, responseHeaders) {
+export async function getAllListsByUserFunc(urlUserId, responseHeaders) {
     const userLists = manager.getListsForUser(urlUserId);
     if (!userLists) {
         return new Response(JSON.stringify({ error: "No lists found" }), {
@@ -73,7 +73,36 @@ export async function createListFunc(urlUserId, reqBody, responseHeaders) {
         headers: { ...responseHeaders }
     });
 }
+// (PUT) ??
+export async function renameListFunc(urlUserId, urlListId, reqBody, responseHeaders) {
+    const { newTitle } = reqBody;
+    if (!newTitle || typeof newTitle !== "string") {
+        return new Response(JSON.stringify({ error: "Invalid title" }), {
+            status: 400,
+            headers: { ...responseHeaders }
+        });
+    }
+    const result = manager.renameList(urlUserId, urlListId, newTitle);
+    if (result === true) {
+        await saveListsToFile(manager.toJSON());
+        return new Response(JSON.stringify({ message: "List renamed" }), {
+            status: 200,
+            headers: { ...responseHeaders }
+        });
+    }
 
+    if (result === "title-exists") {
+        return new Response(JSON.stringify({ error: "Title already in use" }), {
+            status: 409,
+            headers: { ...responseHeaders }
+        });
+    }
+
+    return new Response(JSON.stringify({ error: "List not found" }), {
+        status: 404,
+        headers: { ...responseHeaders }
+    });
+}
 
 
 // --- ITEMS ---
@@ -126,7 +155,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, responseHeaders
 
     if (!success) {
         return new Response(JSON.stringify({ message: "List not found" }), {
-            status: 201,
+            status: 404,
             headers: { ...responseHeaders }
         });
     }
@@ -155,7 +184,7 @@ export async function getAllItemsFunc(urlUserId, urlListId, responseHeaders) {
     });
 }
 
-// (GET) har ändrat, oklart vad den ska användas till
+// (GET) har ändrat
 export async function getItemFunc(urlUserId, urlListId, urlItemId, responseHeaders) {
     const userLists = manager.getListsForUser(urlUserId);
     const foundList = userLists.find(list => list.listId === urlListId);
@@ -235,32 +264,3 @@ export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, r
     }
 }
 
-export async function renameListFunc(urlUserId, urlListId, reqBody, responseHeaders) {
-    const { newTitle } = reqBody;
-    if (!newTitle || typeof newTitle !== "string") {
-        return new Response(JSON.stringify({ error: "Invalid title" }), {
-            status: 400,
-            headers: { ...responseHeaders }
-        });
-    }
-    const result = manager.renameListFunc(urlUserId, urlListId, newTitle);
-    if (result === true) {
-        await saveListsToFile(manager.toJSON());
-        return new Response(JSON.stringify({ message: "List renamed" }), {
-            status: 200,
-            headers: { ...responseHeaders }
-        });
-    }
-
-    if (result === "title-exists") {
-        return new Response(JSON.stringify({ error: "Title already in use" }), {
-            status: 409,
-            headers: { ...responseHeaders }
-        });
-    }
-
-    return new Response(JSON.stringify({ error: "List not found" }), {
-        status: 404,
-        headers: { ...responseHeaders }
-    });
-}

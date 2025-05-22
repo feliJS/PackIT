@@ -7,7 +7,7 @@ import {
     updateItemFunc,
     createListFunc,
     getAllItemsFunc
-} from "./listServices.js";
+} from "./newlistApiServer.js";
 
 async function handler(req) {
     const reqBody = await req.json();

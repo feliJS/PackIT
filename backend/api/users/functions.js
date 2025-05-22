@@ -39,6 +39,7 @@ export async function createUserFunc(reqBody, responseHeaders) {
     id: Date.now(),
     name: reqBody.name,
     password: reqBody.password,
+    pfp: reqBody.pfp
   };
 
   const headersWithCookie = {
@@ -164,7 +165,7 @@ export async function loginFunc(reqBody, responseHeaders) {
     "Set-Cookie": `session_id=${user.id}; Path=/`,
   };
 
-  const publicUser = { id: user.id, name: user.name };
+  const publicUser = { id: user.id, name: user.name, pfp: user.pfp };
   return new Response(JSON.stringify(publicUser), {
     status: 200,
     headers: headersWithCookie,

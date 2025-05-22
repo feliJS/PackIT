@@ -2,8 +2,8 @@
 // --- LISTS ---
 import {
     UserListManager,
-    List,
-    loadListsFromFile
+    loadListsFromFile,
+    saveListsToFile
 
 } from "class.js";
 
@@ -28,32 +28,45 @@ export async function getListFunc(urlUserId, urlListId, responseHeaders) {
         headers: { ...responseHeaders }
     });
 }
-// ----- Här behövs en getAllUserList-funktion
+export async function getAllListsbyUser(urlUserId, responseHeaders) {
+    const userLists = manager.getListsForUser(urlUserId);
+    if (!userLists) {
+        return new Response(JSON.stringify({ error: "No lists found" }), {
+            status: 404,
+            headers: { ...responseHeaders }
+        })
+    }
+    return new Response(JSON.stringify(userLists), {
+        status: 200,
+        headers: { ...responseHeaders }
+    })
+}
 
 // (DELETE) Har ändrat
 export async function deleteListFunc(urlUserId, urlListId, responseHeaders) {
-    const deleted = manager.deleteListForUser(urlUserId, urlListId);
+    const deletedList = manager.deleteListForUser(urlUserId, urlListId);
 
-    if (!deleted) {
+    if (!deletedList) {
         return new Response(JSON.stringify({ error: "List not found" }), {
             status: 404,
             headers: { ...responseHeaders }
         });
     }
-
+    await saveListsToFile(manager.toJSON());
     return new Response(JSON.stringify({ message: "Delete OK", deletedList }), {
         status: 200,
         headers: { ...responseHeaders }
     });
 }
 
-// (POST)
+// (POST) har ändrat
 export async function createListFunc(urlUserId, reqBody, responseHeaders) {
     const { title, items } = reqBody;
     //Här vet jag inte om jag ska bygga in något typ if (!name) och if (!items)
     // name kan ju bli nåt default "NewList1" eller nåt...
 
-    const newList = createListForUser(urlUserId, items, title);
+    const newList = manager.createListForUser(urlUserId, items, title);
+    await saveListsToFile(manager.toJSON());
 
     return new Response(JSON.stringify({ message: "List created", list: newList }), {
         status: 201,
@@ -65,9 +78,9 @@ export async function createListFunc(urlUserId, reqBody, responseHeaders) {
 
 // --- ITEMS ---
 
-// (POST) 
+// (POST) har ändrat
 // den här funktionen kan behöva kollas igenom.
-export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, responseHeaders) {
+export async function addItemFunc(reqBody, urlUserId, urlListId, responseHeaders) {
     const userLists = manager.getListsForUser(urlUserId);
     const foundList = userLists.find(list => list.id === urlListId);
 
@@ -117,7 +130,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
             headers: { ...responseHeaders }
         });
     }
-
+    await saveListsToFile(manager.toJSON());
     return new Response(JSON.stringify({ message: "Item added successfully" }), {
         status: 201,
         headers: { ...responseHeaders }
@@ -125,9 +138,9 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
 }
 
 // (GET) Alla items i en lista
-export async function getAllItemsFunc(urlUserId, urlListId, listDB, responseHeaders) {
-    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
-
+export async function getAllItemsFunc(urlUserId, urlListId, responseHeaders) {
+    const userLists = manager.getListsForUser(urlUserId);
+    const foundList = userLists.find(list => list.listId === urlListId);
     if (!foundList) {
         return new Response(JSON.stringify({ error: "List not found" }), {
             status: 404,
@@ -135,15 +148,17 @@ export async function getAllItemsFunc(urlUserId, urlListId, listDB, responseHead
         });
     }
 
+
     return new Response(JSON.stringify(foundList.listItems), {
         status: 200,
         headers: { ...responseHeaders }
     });
 }
 
-// (GET)
-export async function getItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
-    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
+// (GET) har ändrat, oklart vad den ska användas till
+export async function getItemFunc(urlUserId, urlListId, urlItemId, responseHeaders) {
+    const userLists = manager.getListsForUser(urlUserId);
+    const foundList = userLists.find(list => list.listId === urlListId);
 
     if (!foundList) {
         return new Response(JSON.stringify({ error: "List not found" }), {
@@ -168,75 +183,56 @@ export async function getItemFunc(urlUserId, urlListId, urlItemId, listDB, respo
 }
 
 // (DELETE)
-export async function deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
-    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
-
-    if (!foundList) {
+export async function deleteItemFunc(urlUserId, urlListId, urlItemId, responseHeaders) {
+    const result = manager.deleteItemFromList(urlUserId, urlListId, urlItemId);
+    if (result === "List not found") {
         return new Response(JSON.stringify({ error: "List not found" }), {
             status: 404,
             headers: { ...responseHeaders }
         });
     }
 
-    let itemIndex = -1;
-    for (let i = 0; i < foundList.listItems.length; i++) {
-        if (foundList.listItems[i].itemId == urlItemId) {
-            itemIndex = i;
-            break;
-        }
-    }
-
-    if (itemIndex === -1) {
+    if (result === "Item not found") {
         return new Response(JSON.stringify({ error: "Item not found" }), {
             status: 404,
             headers: { ...responseHeaders }
         });
     }
+    if (result === true) {
+        await saveListsToFile(manager.toJSON());
+        return new Response(JSON.stringify({ message: "Item deleted successfully" }), {
+            status: 200,
+            headers: { ...responseHeaders }
+        });
 
-    foundList.listItems.splice(itemIndex, 1);
+    }
 
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
-
-    return new Response(JSON.stringify({ message: "Item deleted successfully" }), {
-        status: 200,
-        headers: { ...responseHeaders }
-    });
 }
 
 // (PUT)
-export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
-    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
+export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, responseHeaders) {
+    const result = manager.updateItemInList(urlUserId, urlListId, urlItemId, reqBody);
 
-    if (!foundList) {
+    if (result === "List not found") {
         return new Response(JSON.stringify({ error: "List not found" }), {
             status: 404,
             headers: { ...responseHeaders }
         });
     }
 
-    const foundItem = foundList.listItems.find(currItem => currItem.itemId == urlItemId);
-
-    if (!foundItem) {
+    if (result === "Item not found") {
         return new Response(JSON.stringify({ error: "Item not found" }), {
             status: 409,
             headers: { ...responseHeaders }
         });
     }
-
-    if (reqBody.itemName !== undefined) {
-        foundItem.itemName = reqBody.itemName;
+    if (result === true) {
+        await saveListsToFile(manager.toJSON());
+        return new Response(JSON.stringify({ message: "Item updated successfully" }), {
+            status: 200,
+            headers: { ...responseHeaders }
+        });
     }
-
-    if (reqBody.itemQuantity !== undefined) {
-        foundItem.itemQuantity = reqBody.itemQuantity;
-    }
-
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
-
-    return new Response(JSON.stringify({ message: "Item updated successfully" }), {
-        status: 200,
-        headers: { ...responseHeaders }
-    });
 }
 
 export async function renameListFunc(urlUserId, urlListId, reqBody, responseHeaders) {
@@ -249,6 +245,7 @@ export async function renameListFunc(urlUserId, urlListId, reqBody, responseHead
     }
     const result = manager.renameListFunc(urlUserId, urlListId, newTitle);
     if (result === true) {
+        await saveListsToFile(manager.toJSON());
         return new Response(JSON.stringify({ message: "List renamed" }), {
             status: 200,
             headers: { ...responseHeaders }

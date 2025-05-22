@@ -29,7 +29,6 @@ export class UserListManager {
         const listIndex = this.listsByUser[userId].length;
         const newList = new List(userId, items, listIndex, title);
         this.listsByUser[userId].push(newList);
-        saveListsToFile(this.listsByUser);
         return newList;
     }
 
@@ -54,33 +53,35 @@ export class UserListManager {
         }
         const titleExists = userLists.some(l => l.title === newTitle);
         if (titleExists) return "title-exists";
+
         let foundList = userLists.find(list => list.listId === listId);
+        foundList.listName = newTitle;
+        return true;
 
     }
 
     deleteListForUser(userId, listId) {
         const userLists = this.listsByUser[userId];
         if (!userLists) return false;
-
-        const index = userLists.findIndex(list => list.id === listId);
+        const list = userLists.find(list => list.listId === listId)
+        const index = userLists.findIndex(list => list.listId === listId);
         if (index === -1) return false;
 
         userLists.splice(index, 1);
-        saveListsToFile(this.listsByUser);
-        return true;
+        return list;
     }
 
     getListsForUser(userId) {
         return this.listsByUser[userId] || [];
     }
 
-    getListById(listId) {
-        for (const lists of Object.values(this.listsByUser)) {
-            const match = lists.find(list => list.id === listId);
-            if (match) return match;
-        }
-        return null;
-    }
+    // getListById(listId) {
+    //     for (const lists of Object.values(this.listsByUser)) {
+    //         const match = lists.find(list => list.id === listId);
+    //         if (match) return match;
+    //     }
+    //     return null;
+    // }
 
 
     toJSON() {
@@ -91,12 +92,56 @@ export class UserListManager {
         if (!userLists) {
             return false
         }
-        const list = userLists.find(list => list.id === listId);
+        const list = userLists.find(list => list.listId === listId);
         if (!list) {
             return false
         }
         list.listItems.push(item);
-        saveListsToFile(this.listsByUser);
+        return true;
+    }
+    deleteItemFromList(userId, listId, item) {
+        const userLists = this.listsByUser(userId);
+        if (!userLists) {
+            return "List not found"
+        }
+        const foundList = userLists.find(list => list.listId === listId);
+        if (!foundList) {
+            return "List not found";
+        }
+
+        let itemIndex = -1;
+        for (let i = 0; i < foundList.listItems.length; i++) {
+            if (foundList.listItems[i].itemId == item.itemId) {
+                itemIndex = i;
+                break;
+            }
+        }
+        if (itemIndex === -1) {
+            return "Item not found"
+        }
+
+        foundList.listItems.splice(itemIndex, 1);
+        return true;
+    }
+    updateItemInList(userId, listId, itemId, updatedFields) {
+        const userLists = this.listsByUser[userId];
+        if (!userLists) return "List not found";
+
+        const list = userLists.find(list => list.listId === listId);
+        if (!list) return "List not found";
+
+        const item = list.items.find(item => item.itemId == itemId);
+        if (!item) return "Item not found";
+
+        // Uppdatera tillåtna fält
+        if (updatedFields.itemName !== undefined) {
+            item.itemName = updatedFields.itemName;
+        }
+
+        if (updatedFields.itemQuantity !== undefined) {
+            item.itemQuantity = updatedFields.itemQuantity;
+        }
+
         return true;
     }
 

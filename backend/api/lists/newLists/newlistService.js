@@ -62,36 +62,36 @@ async function handler(req) {
 
     // --- List routes ---
     if (reqMethod === "GET" && matchedListRouteParams) {
-        return getListFunc(urlUserId, urlListId, listDB, responseHeaders);
+        return getListFunc(urlUserId, urlListId, responseHeaders);
     }
 
     if (reqMethod === "DELETE" && matchedListRouteParams) {
-        return deleteListFunc(urlUserId, urlListId, listDB, responseHeaders);
+        return deleteListFunc(urlUserId, urlListId, responseHeaders);
     }
 
     if (reqMethod === "POST" && matchedCreateListParams) {
-        return await createListFunc(urlUserId, reqBody, listDB, responseHeaders);
+        return await createListFunc(urlUserId, reqBody, responseHeaders);
     }
 
     // --- Item routes ---
     if (reqMethod === "POST" && matchedAddItemParams) {
-        return addItemFunc(reqBody, urlUserId, urlListId, listDB, responseHeaders);
+        return addItemFunc(reqBody, urlUserId, urlListId, responseHeaders);
     }
 
     if (reqMethod === "GET" && matchedAddItemParams) {
-        return getAllItemsFunc(urlUserId, urlListId, listDB, responseHeaders);
+        return getAllItemsFunc(urlUserId, urlListId, responseHeaders);
     }
 
     if (reqMethod === "GET" && matchedHandleItemParams) {
-        return getItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders);
+        return getItemFunc(urlUserId, urlListId, urlItemId, responseHeaders);
     }
 
     if (reqMethod === "DELETE" && matchedHandleItemParams) {
-        return deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders);
+        return deleteItemFunc(urlUserId, urlListId, urlItemId, responseHeaders);
     }
 
     if (reqMethod === "PUT" && matchedHandleItemParams) {
-        return updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, listDB, responseHeaders);
+        return updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, responseHeaders);
     }
 
     // Fallback

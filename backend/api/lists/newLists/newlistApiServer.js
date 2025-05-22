@@ -49,18 +49,11 @@ export async function deleteListFunc(urlUserId, urlListId, responseHeaders) {
 
 // (POST)
 export async function createListFunc(urlUserId, reqBody, responseHeaders) {
-    const { name, items } = reqBody;
-    const newList = createListForUser(urlUserId, reqBody,)
+    const { title, items } = reqBody;
+    //Här vet jag inte om jag ska bygga in något typ if (!name) och if (!items)
+    // name kan ju bli nåt default "NewList1" eller nåt...
 
-    // const newList = {
-    //     userId: Number(urlUserId),
-    //     listId: newListId,
-    //     listItems: reqBody.listItems || []
-    // };
-
-    listDB.push(newList);
-
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
+    const newList = createListForUser(urlUserId, items, title);
 
     return new Response(JSON.stringify({ message: "List created", list: newList }), {
         status: 201,
@@ -72,9 +65,11 @@ export async function createListFunc(urlUserId, reqBody, responseHeaders) {
 
 // --- ITEMS ---
 
-// (POST)
+// (POST) 
+// den här funktionen kan behöva kollas igenom.
 export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, responseHeaders) {
-    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
+    const userLists = manager.getListsForUser(urlUserId);
+    const foundList = userLists.find(list => list.id === urlListId);
 
     if (!foundList) {
         return new Response(JSON.stringify({ error: "List not found" }), {
@@ -114,9 +109,14 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
         itemQuantity: reqBody.itemQuantity
     };
 
-    foundList.listItems.push(newItem);
+    const success = manager.addItemToList(urlUserId, urlListId, newItem);
 
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
+    if (!success) {
+        return new Response(JSON.stringify({ message: "List not found" }), {
+            status: 201,
+            headers: { ...responseHeaders }
+        });
+    }
 
     return new Response(JSON.stringify({ message: "Item added successfully" }), {
         status: 201,
@@ -235,6 +235,35 @@ export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, l
 
     return new Response(JSON.stringify({ message: "Item updated successfully" }), {
         status: 200,
+        headers: { ...responseHeaders }
+    });
+}
+
+export async function renameListFunc(urlUserId, urlListId, reqBody, responseHeaders) {
+    const { newTitle } = reqBody;
+    if (!newTitle || typeof newTitle !== "string") {
+        return new Response(JSON.stringify({ error: "Invalid title" }), {
+            status: 400,
+            headers: { ...responseHeaders }
+        });
+    }
+    const result = manager.renameListFunc(urlUserId, urlListId, newTitle);
+    if (result === true) {
+        return new Response(JSON.stringify({ message: "List renamed" }), {
+            status: 200,
+            headers: { ...responseHeaders }
+        });
+    }
+
+    if (result === "title-exists") {
+        return new Response(JSON.stringify({ error: "Title already in use" }), {
+            status: 409,
+            headers: { ...responseHeaders }
+        });
+    }
+
+    return new Response(JSON.stringify({ error: "List not found" }), {
+        status: 404,
         headers: { ...responseHeaders }
     });
 }

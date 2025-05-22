@@ -1,25 +1,29 @@
 export class List {
-    constructor(userId, items = [], listIndex = 0, name) {
+    constructor(userId, items = [], listIndex = 0, title) {
         this.userId = userId;
-        this.items = items;
-        this.id = `${userId}-${listIndex}`;
-        this.name = name;
+        this.listItems = items;
+        this.listId = `${userId}-${listIndex}`;
+        this.listName = title;
     }
     addItem(item) {
-        this.items.push(item);
+        this.listItems.push(item);
     }
     removeItem(index) {
-        this.items.splice(index, 1);
+        this.listItems.splice(index, 1);
     }
+
 }
 
 export class UserListManager {
     constructor(listsByUser = {}) {
         this.listsByUser = listsByUser;
     }
-    createListForUser(userId, title, items = []) {
+    createListForUser(userId, items = [], title = "") {
         if (!this.listsByUser[userId]) {
             this.listsByUser[userId] = [];
+        }
+        if (!title || title.trim() === "") {
+            title = this.generateTitle(userId)
         }
 
         const listIndex = this.listsByUser[userId].length;
@@ -27,6 +31,31 @@ export class UserListManager {
         this.listsByUser[userId].push(newList);
         saveListsToFile(this.listsByUser);
         return newList;
+    }
+
+    generateTitle(userId) {
+        const existingTitles = getListsForUser(userId).map(list => listName);
+
+        let counter = 1;
+        let newTitle;
+
+        do {
+            newTitle = `New List${counter}`;
+            counter++;
+        } while (existingTitles.includes(newTitle));
+
+        return newTitle;
+    }
+
+    renameList(userId, listId, newTitle) {
+        const userLists = this.getListsForUser(userId);
+        if (!userLists) {
+            return false;
+        }
+        const titleExists = userLists.some(l => l.title === newTitle);
+        if (titleExists) return "title-exists";
+        let foundList = userLists.find(list => list.listId === listId);
+
     }
 
     deleteListForUser(userId, listId) {
@@ -66,8 +95,8 @@ export class UserListManager {
         if (!list) {
             return false
         }
-        list.items.push(item);
-        saveListsToFile(this.listsByUser); // uppdatera filen direkt
+        list.listItems.push(item);
+        saveListsToFile(this.listsByUser);
         return true;
     }
 

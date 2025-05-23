@@ -1,69 +1,55 @@
-import renderHome from "./pages/home/homeDOM.js";
-import renderCreateList from "./pages/create-list/createListDOM.js";
-import renderProfile from "./pages/profile/profileDOM.js";
 
-function loadCSS(currentPath) {
-    const existingCSS = document.querySelector(`link[href="${currentPath}"]`);
-    if (existingCSS) return;
+console.log("I routeer")
 
-    const newLink = document.createElement("link");
-    newLink.rel = "stylesheet";
-    newLink.href = currentPath;
-    document.head.appendChild(newLink);
+import renderHome from "../js/homeView.js";
+/* import renderCreateList from "../js/createlistView.js";
+import renderProfile from "../js/profileView.js";
+ */
+
+console.log("I routeer")
+function loadCSS(href) {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
 }
 
-function clearMain() {
-    const existingMain = document.querySelector("main");
-    if (existingMain) {
-        existingMain.remove();
-    }
-    const newMain = document.createElement("main");
-    document.getElementById("app").appendChild(newMain);
-    return newMain;
+function hideAllViews() {
+    document.querySelectorAll(".home-box, .createlist-box, .profile-box").forEach((currElem) => {
+        currElem.style.display = "none";
+        currElem.innerHTML = "";
+    });
 }
 
-export function renderCurrentRoute() {
-    const path = window.location.pathname;
-    const root = document.getElementById("app");
-    root.innerHTML = "";
-    let main;
+export function navigateTo(view) {
 
-    switch (path) {
-        case "/":
-        case "/home":
-            loadCSS("/pages/home/style.css");
-            main = clearMain();
-            main.appendChild(renderHome());
+    hideAllViews();
+
+    switch (view) {
+        case "home":
+            loadCSS("/css/home.css");
+            document.querySelector(".home-box").style.display = "inline-block";
+            renderHome(); 
             break;
 
-        case "/create-list":
-            loadCSS("/pages/create-list/style.css");
-            main = clearMain();
-            main.appendChild(renderCreateList());
+/*         case "create-list":
+            loadCSS("/frontend/css/createlist.css");
+            document.querySelector(".createlist-box").style.display = "block";
+            renderCreateList();
             break;
 
-        case "/profile":
-            loadCSS("/pages/profile/profile.css");
-            loadCSS("/common/common.css");
-            main = clearMain();
-            main.appendChild(renderProfile());
-            break;
+        case "profile":
+            loadCSS("/frontend/css/profile.css");
+            document.querySelector(".profile-box").style.display = "block";
+            renderProfile();
+            break; */
 
         default:
-            root.innerHTML = "<h1>404 - Page not found</h1>";
+            document.querySelector("main").innerHTML = "<h1>404 - Vy hittades inte</h1>";
     }
 }
 
-function handleLinkClick(event) {
-    const target = event.target.closest("a[data-link]");
-    if (target) {
-        event.preventDefault();
-        const url = target.getAttribute("href");
-        history.pushState(null, null, url);
-        renderCurrentRoute();
-    }
-}
-
-document.addEventListener("click", handleLinkClick);
-window.addEventListener("popstate", renderCurrentRoute);
-window.addEventListener("DOMContentLoaded", renderCurrentRoute);
+window.addEventListener("DOMContentLoaded", () => {
+    navigateTo("home");
+});

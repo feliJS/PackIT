@@ -1,6 +1,8 @@
 import {
     getListFunc,
+    getAllListsByUserFunc,
     deleteListFunc,
+    renameListFunc,
     addItemFunc,
     getItemFunc,
     deleteItemFunc,
@@ -10,15 +12,30 @@ import {
 } from "./newlistApiServer.js";
 
 async function handler(req) {
-    const reqBody = await req.json();
+    // let reqBody = {};
+    // if (req.method !== "GET" && req.method !== "OPTIONS") {
+    //     try {
+    //         reqBody = await req.json();
+    //     } catch (err) {
+    //         console.warn("⚠️ Misslyckades läsa JSON:", err.message);
+    //         reqBody = {};
+    //     }
+    // }
     const reqMethod = req.method;
     const reqUrl = new URL(req.url);
 
     const listData = await Deno.readTextFileSync("newLists.json");
     const listDB = JSON.parse(listData);
 
+    const allowedOrigins = [
+        "http://localhost:4242",
+        "http://localhost:3000"
+    ];
+
+    const requestOrigin = req.headers.get("Origin") || "";
+
     const headersCORS = {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": allowedOrigins.includes(requestOrigin) ? requestOrigin : "http://localhost:4242",
         "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
     };
@@ -53,16 +70,39 @@ async function handler(req) {
         urlUserId = matchedCreateListParams.pathname.groups.userId;
     }
 
-    if (reqMethod === "OPTIONS") {
+    // if (reqMethod === "OPTIONS") {
+    //     return new Response(null, {
+    //         status: 200,
+    //         headers: { ...headersCORS },
+    //     });
+    // }
+    if (req.method === "OPTIONS") {
         return new Response(null, {
             status: 200,
-            headers: { ...headersCORS },
+            headers: {
+                ...headersCORS,
+                "Access-Control-Allow-Credentials": "true"
+            }
         });
     }
 
     // --- List routes ---
-    if (reqMethod === "GET" && matchedListRouteParams) {
-        return getListFunc(urlUserId, urlListId, responseHeaders);
+    // if (reqMethod === "GET" && matchedListRouteParams) {
+    //     console.log("Den kom?")
+    //     return getListFunc(urlUserId, urlListId, responseHeaders);
+    // }
+
+    if (req.method === "GET" && req.url.includes("/users/0/1")) {
+        return new Response(JSON.stringify({ message: "hej från servern" }), {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:4242",
+                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Credentials": "true"
+            }
+        });
     }
 
     if (reqMethod === "DELETE" && matchedListRouteParams) {

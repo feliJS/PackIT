@@ -1,9 +1,9 @@
 export class List {
     constructor(userId, items = [], listIndex = 0, title) {
         this.userId = userId;
-        this.listItems = items;
         this.listId = `${userId}-${listIndex}`;
         this.listName = title;
+        this.listItems = items;
     }
     addItem(item) {
         this.listItems.push(item);
@@ -151,7 +151,7 @@ export class UserListManager {
 
 export async function loadListsFromFile() {
     try {
-        const data = await Deno.readTextFile("lists.json");
+        const data = await Deno.readTextFile("newLists.json");
         return JSON.parse(data);
     } catch {
         return {};
@@ -160,5 +160,5 @@ export async function loadListsFromFile() {
 
 export async function saveListsToFile(listsData) {
     const jsonString = JSON.stringify(listsData, null, 2); // null gör att alla nycklar kommer med, 2 skapar läsbarhet
-    await Deno.writeTextFile("lists.json", jsonString);
+    await Deno.writeTextFile("newLists.json", jsonString);
 }

@@ -80,7 +80,7 @@ async function testDeleteListError() {
     })
 }
 
-// POST (201) --> /users/:userId/:listId 
+// POST (201) --> /users/:userId/:listId (listId bör ej existera om man skapar en ny?)
 // POST (400) --> /users/:userId/:listId 
 
 // PATCH (200) --> /users/:userId/:listId 
@@ -178,6 +178,16 @@ async function testPostItemAlreadyExists () {
     })
 }
 
+
+// GET (200) --> /users/:userId/:listId/:itemId
+async function testGetAllItems () {
+    const response = await fetch(`${baseUrl}/users/1/1/itemId`);
+    const resource = await response.json();
+
+
+}
+
+// GET (404) --> /users/:userId/:listId/:itemId
 
 
 /*

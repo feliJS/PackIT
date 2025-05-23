@@ -1,6 +1,6 @@
 import { usersHandler } from "./users/users-api.js";
-import { listHandler } from "./lists/listService.js";
-import { imageHandler } from "./images/imageApi.js";
+//import { listHandler } from "./lists/listService.js";
+import { imageHandler } from "./unsplash/imageApi.js";
 
 function handler(req) {
     let url = new URL(req.url);
@@ -8,7 +8,7 @@ function handler(req) {
         return usersHandler(req);
         // listHandler(req);
     }
-    if(url.pathname.startsWith("/image")) {
+    if(url.pathname.startsWith("/unsplash")) {
         return imageHandler(req);
     }
 }

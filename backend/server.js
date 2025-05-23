@@ -9,15 +9,15 @@ async function handler(request) {
 
   // HTML-end-points 
   if (path === "/" || path === "/home") {
-    return serveFile(request, "frontend/pages/home/index.html");
+    return serveFile(request, "../index.html");
   }
   if (path === "/create-list") {
-    return serveFile(request, "frontend/pages/create-list/index.html");
+    return serveFile(request, "../frontend/pages/create-list/index.html");
   }
   if (path === "/profile") {
-    return serveFile(request, "frontend/pages/profile/index.html");
+    return serveFile(request, "../frontend/pages/profile/index.html");
   }
-  return serveDir(request, { fsRoot: "frontend", urlRoot: "" });
+  return serveDir(request, { fsRoot: "../frontend", urlRoot: "" });
 
 }
 

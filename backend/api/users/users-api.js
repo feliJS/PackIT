@@ -9,7 +9,7 @@ import {
   logoutFunc,
 } from "./functions.js";
 
-async function handler(req) {
+export async function usersHandler(req) {
     const reqUrl = new URL(req.url);
     const reqMethod = req.method;
     let cookieHeader = req.headers.get("Cookie");
@@ -28,7 +28,8 @@ async function handler(req) {
     }
     const allowedOrigins = [
         "http://localhost:4242",
-        "http://localhost:3000"
+        "http://localhost:3000",
+        "http://localhost:8000"
     ];
     const requestOrigin = req.headers.get("Origin");
     const corsHeaders = {
@@ -98,5 +99,3 @@ async function handler(req) {
         headers: responseHeaders,
     });
 }
-
-Deno.serve(handler);

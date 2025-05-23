@@ -1,4 +1,4 @@
-async function handler(req) {
+export async function imageHandler(req) {
   const reqUrl = new URL(req.url);
   const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
@@ -10,7 +10,7 @@ async function handler(req) {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
 
-  if(req.method == "POST" && reqUrl.pathname == "/randomimage") {
+  if(req.method == "POST" && reqUrl.pathname == "/image/randomimage") {
     let body = await req.json();
     const imagesDB = await readImages();
     if(!imagesDB.images[body.content]) imagesDB.images[body.content] = []; // lägg till om ej finns
@@ -26,7 +26,7 @@ async function handler(req) {
   }
 }
 
-const DB_PATH = "../../databaser/images.json";
+const DB_PATH = "../databaser/images.json";
 
 async function readImages() {
   const data = await Deno.readTextFile(DB_PATH);
@@ -39,7 +39,7 @@ async function writeImages(images) {
 
 let ACCESS_KEY = "";
 (async () => {
-  ACCESS_KEY = JSON.parse(await Deno.readTextFile("../../../apiKeys.json"))[0]["API_UNSPLASH"];
+  ACCESS_KEY = JSON.parse(await Deno.readTextFile("../../apiKeys.json"))[0]["API_UNSPLASH"];
 })()
 
 async function getRandomImage(content) {
@@ -64,5 +64,3 @@ async function getRandomImage(content) {
   }
   return result;
 }
-
-Deno.serve({ port: 4200 }, handler);

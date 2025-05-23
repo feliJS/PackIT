@@ -31,7 +31,7 @@ export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeade
 
     const deletedList = listDB.splice(listInx, 1);
 
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
+    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
 
     return new Response(JSON.stringify({ message: "Delete OK", deletedList }), {
         status: 200,
@@ -57,7 +57,7 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
 
     listDB.push(newList);
 
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
+    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
 
     return new Response(JSON.stringify({ message: "List created", list: newList }), {
         status: 201,
@@ -113,7 +113,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
 
     foundList.listItems.push(newItem);
 
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
+    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
 
     return new Response(JSON.stringify({ message: "Item added successfully" }), {
         status: 201,
@@ -192,7 +192,7 @@ export async function deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, re
 
     foundList.listItems.splice(itemIndex, 1);
 
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
+    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
 
     return new Response(JSON.stringify({ message: "Item deleted successfully" }), {
         status: 200,
@@ -228,7 +228,7 @@ export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, l
         foundItem.itemQuantity = reqBody.itemQuantity;
     }
 
-    await Deno.writeTextFile("../../databaser/lists.json", JSON.stringify(listDB));
+    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
 
     return new Response(JSON.stringify({ message: "Item updated successfully" }), {
         status: 200,

@@ -1,4 +1,4 @@
-const DB_PATH = "../../databaser/users.json";
+const DB_PATH = "../databaser/users.json";
 
 async function readUsers() {
   const data = await Deno.readTextFile(DB_PATH);

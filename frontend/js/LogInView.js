@@ -130,7 +130,6 @@ document.getElementById("log-in-button").addEventListener('click', openLogin);
 
 // script.js till index.html home!!!
 import { UserAPI } from '/common/client-class.js';
-const userApi = new UserAPI('http://localhost:8000');
 
 function getCookie(name) { //hittar rätt cookie
     return document.cookie

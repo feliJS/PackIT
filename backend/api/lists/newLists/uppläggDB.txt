@@ -1,0 +1,78 @@
+/// Förslag på upplägg samling av användarlistor i databasen.
+
+Kombo av Jennifers listsystem och att samla personliga listor.
+
+42 & 45 är påhittade användarID:n
+listornas id:n bygger på användares id:n och antal listor den användaren har
+alltså `${userId}-${listIndex}`
+
+
+{
+    "42": [
+        {
+            "userId": 42,
+            "listId": "42-0",
+            "listName": "Basic List",
+            "listItems": [
+                {
+                    "itemId": 1,
+                    "itemType": "other",
+                    "itemName": "Passport/ID",
+                    "itemQuantity": 1
+                }
+                {
+                    "itemId": 2,
+                    "itemType": "clothes",
+                    "itemName": "Socks",
+                    "itemQuantity": 7
+                }
+            ]
+        }
+        {
+            "userId": 42,
+            "listId: "42-1",
+            "listName": "Mallorca -25",
+            "listItems": [
+                {
+                    "itemId": 1,
+                    "itemType": "other",
+                    "itemName": "Passport/ID",
+                    "itemQuantity": 1
+                }
+                {
+                    "itemId": 2,
+                    "itemType": "clothes",
+                    "itemName": "Swimwear",
+                    "itemQuantity": 2
+                }
+            ]
+        }
+    ],
+    "45": [
+        {
+            "userId": 45,
+            "listId": "45-0",
+            "listName": "Basic List",
+            "listItems": [
+                {
+                    "itemId": 1,
+                    "itemType": "other",
+                    "itemName": "Passport/ID",
+                    "itemQuantity": 1
+                }
+                {
+                    "itemId": 2,
+                    "itemType": "clothes",
+                    "itemName": "Socks",
+                    "itemQuantity": 7
+                },
+                {
+                    "itemId": 3,
+                    "itemType": "medication",
+                    "itemName": "Personal prescriptions",
+                    "itemQuantity": 1
+                }
+            ]
+        }
+    ]
+}

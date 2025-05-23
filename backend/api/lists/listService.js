@@ -7,14 +7,14 @@ import {
     updateItemFunc,
     createListFunc,
     getAllItemsFunc
-} from "./listServices.js";
+} from "./listApiServer.js";
 
-async function handler(req) {
+export async function listHandler(req) {
     const reqBody = await req.json();
     const reqMethod = req.method;
     const reqUrl = new URL(req.url);
 
-    const listData = await Deno.readTextFileSync("../../databaser/lists.json");
+    const listData = await Deno.readTextFileSync("../databaser/lists.json");
     const listDB = JSON.parse(listData);
 
     const headersCORS = {
@@ -100,5 +100,3 @@ async function handler(req) {
         headers: { ...responseHeaders },
     });
 }
-
-Deno.serve(handler);

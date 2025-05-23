@@ -2,7 +2,7 @@
 import { UserAPI } from '/common/client-class.js';
 const userApi = new UserAPI('http://localhost:8000');
 
-const imageApiBase = "http://localhost:4200";
+const imageApiBase = "http://localhost:8000/image";
 let cachedAvatarUrl = null; 
 
 async function fetchRandomAvatar() {

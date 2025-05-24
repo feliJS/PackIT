@@ -1,0 +1,168 @@
+/* --- Modul  --- */
+.createListModule {
+    background-color: #6fa9bb;
+    /* Turkos */
+    border-radius: 12px;
+    padding: 30px 40px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+
+/* --- Rubriker --- */
+.createListHeaderContainer h1,
+.createListHeaderContainer h3 {
+    margin: 0;
+    text-align: center;
+}
+
+.createListHeaderContainer h1 {
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.createListHeaderContainer h3 {
+    font-size: 1.8rem;
+}
+
+
+/* --- Input containers --- */
+.createListInput {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.createListPurpose {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.createListInputContainer {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.createListInputContainerDuration {
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.createListInputContainer p {
+    margin: 0 0 5px 0;
+    font-weight: 600;
+}
+
+/* Text input och number input */
+input[type="text"],
+input[type="number"],
+select {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+}
+
+
+/* --- Footer knappar --- */
+.createListFooter {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.btnCreateList {
+    background-color: #5b7961;
+    color: #eee2d3;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btnCreateList:hover {
+    background-color: #4a634f;
+}
+
+/* Första sidans "tillbaka-knapp" */
+.btnCreateListHide {
+    visibility: hidden;
+}
+
+
+/* --- Rad med kort --- */
+.createListInput.universalRadioContainer {
+
+    flex-direction: row;
+    gap: 40px;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+/* Container för varje kort */
+.createListInputSelectContainer {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+/* Kort styling */
+.universalRadioLabel {
+    background-color: #7db2c4;
+    border-radius: 12px;
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.universalRadioTitle {
+    margin: 0;
+}
+
+/* Ikoner */
+.universalRadioIcon {
+    height: 40px;
+    width: auto;
+}
+
+/* Dölja original radio */
+.universalRadioInput {
+    display: none;
+}
+
+/* När radio är markerad */
+.universalRadioLabel input:checked+.checkListIconText,
+.universalRadioLabel input:checked~img {
+    font-weight: 700;
+}
+
+.universalRadioLabel:has(input:checked) {
+    background-color: #5a8290;
+    border-color: #3d5a67;
+}
+
+.universalRadioLabel:hover {
+    background-color: #5491a8;
+}

@@ -1,0 +1,100 @@
+:root {
+    --color-primary: #34495E;
+    /* Huvudsakliga färgen: knappar, länkar, logga, aktiva element */
+    --color-primary-light: #6FA9BB;
+    --color-primary-dark: #2c3e50;
+    --color-secondary: #4a674f;
+    /* komplement till primary: andra knappar eller andra detaljer */
+    --color-accent: #f59e0b;
+    --color-beige: #EEE2D3;
+    /* Fångar uppmärksamhet */
+    --color-background: #ffffff;
+    --color-surface: #f9fafb;
+    --color-border: #DFE6E9;
+    --color-text-default: #555555;
+    --color-text-muted: #7F8C8D;
+
+    --font-size-xs: 12px;
+    --font-size-s: 14px;
+    --font-size-base: 16px;
+    --font-size-l: 20px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 36px;
+    --font-size-3xl: 48px;
+
+    --font-weight-base: 400;
+    --font-weight-semibold: 700;
+    --font-weight-bold: 1500;
+
+    --spacing-xs: 8px;
+    --spacing-s: 16px;
+    --spacing-m: 24px;
+    --spacing-l: 32px;
+    --spacing-xl: 40px;
+    --spacing-2xl: 60px;
+
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 16px;
+
+    --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-m: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-l: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+.home-box {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.create-list-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.login-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.h1-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-beige);
+}
+
+.p-text {
+    font-size: var(--font-size-l);
+    color: var(--color-beige);
+}
+
+.create-list-button {
+    padding: var(--spacing-m) var(--spacing-xl);
+    background-color: var(--color-accent);
+    color: var(--color-primary);
+    border-radius: var(--radius-l);
+}
+
+.log-create-acc-buttons {
+    padding: var(--spacing-s) var(--spacing-l);
+    border-radius: var(--radius-l);
+}
+
+.login-button {
+    background-color: var(--color-secondary);
+    color: var(--color-beige);
+}
+
+.create-button {
+    background-color: var(--color-primary-light);
+    color: var(--color-beige);
+}

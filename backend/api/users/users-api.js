@@ -7,7 +7,7 @@ import {
   deleteUserFunc,
   loginFunc,
   logoutFunc,
-} from "./functions.js";
+} from "./usersFunctions.js";
 
 export async function usersHandler(req) {
     const reqUrl = new URL(req.url);

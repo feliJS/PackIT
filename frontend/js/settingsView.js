@@ -20,23 +20,10 @@ function createPanelHTML () {
 }
 
 toggleBtn.addEventListener('click', () => {
-    if (container.innerHTML.trim() === '') {
-    container.innerHTML = createPanelHTML();
-    requestAnimationFrame(() => {
-        document.getElementById('settingsPanel').classList.add('active');
-    });
-    } else {
-    // Animera ut och ta bort
     const panel = document.getElementById('settingsPanel');
     if (panel) {
-        panel.classList.remove('active');
-        panel.addEventListener(
-        'transitionend',
-        () => {
-            container.innerHTML = '';
-        },
-        { once: true }
-        );
-    }
+        container.innerHTML = '';
+    } else {
+        container.innerHTML = createPanelHTML();
     }
 });

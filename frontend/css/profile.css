@@ -166,16 +166,13 @@
 .settings-panel {
     position: fixed;
     top: 26%;
-    right: -380px; 
+    right: 20px; 
     width: 350px;
     background: #d9d9d9;
     border-radius: 20px 0 0 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     z-index: 9999;
-}
-.settings-panel.active {
-    right: 20px;
 }
 
 .settings-header {

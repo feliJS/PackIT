@@ -620,7 +620,7 @@ function createItem(item) {
     });
     
     const removeBtn = document.createElement("div");
-    removeBtn.classList.add("removeBtn");
+    removeBtn.classList.add("textBtn");
     removeBtn.textContent = "Remove";
     itemDiv.appendChild(removeBtn);
     
@@ -644,19 +644,54 @@ function editList (list) {
         let box = document.createElement("div");
         box.classList.add("type");
         box.id = `${type}`;
+
         let p = document.createElement("p");
         p.textContent = type[0].toUpperCase() + type.slice(1) + ":";
         box.appendChild(p);
+
+        const itemsContainer = document.createElement("div");
+        itemsContainer.classList.add("itemContainer");
+        box.appendChild(itemsContainer);
+        
+        const inputDiv = document.createElement("div");
+        inputDiv.classList.add("itemDiv");
+        inputDiv.style.marginTop = "8px";
+        const img = document.createElement("img");
+        img.src = "frontend/assets/Icons/plus.png";
+        img.style.height = "8px";
+        img.style.width = "8px";
+        img.style.paddingLeft = "8px";
+        inputDiv.appendChild(img);
+
+        const input = document.createElement("input");
+        input.classList.add("addItemInput");
+        input.placeholder = "Add item";
+        inputDiv.appendChild(input);
+
+        const addItemBtn = document.createElement("div");
+        addItemBtn.textContent = "Add item";
+        addItemBtn.classList.add("textBtn")
+        addItemBtn.style.width = "60px";
+        addItemBtn.style.gridColumn = "span 2";
+        inputDiv.appendChild(addItemBtn);
+
+        box.appendChild(inputDiv);
+
+        containers[type] = {
+            box: box,
+            itemsContainer: itemsContainer,
+            input: input
+        };
         itemBox.appendChild(box);
-        containers[type] = box;
+
     }
-    console.log(containers);
+
     for (let item of list[0].listItems){
         const container = containers[item.itemType]
         if(container) {
             let itemDiv = createItem(item);
      
-            container.appendChild(itemDiv);
+            container.itemsContainer.appendChild(itemDiv);
         }
         
     }
@@ -664,3 +699,6 @@ function editList (list) {
     handleListView.appendChild(listContainer);
     
 }
+
+
+

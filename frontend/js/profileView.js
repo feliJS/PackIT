@@ -512,6 +512,8 @@ const allListsContainer = document.createElement("div");
 allListsContainer.classList.add("allListsContainer");
 profileViewDOM.appendChild(profileContainer);
 profileViewDOM.appendChild(allListsContainer);
+const handleListView = document.getElementById("handleListView");
+
 
 
 
@@ -532,7 +534,11 @@ function loadLists(userID, listDB) {
         editImg.src = "frontend/assets/icons/editPng.png";
         editImg.style.height = "16px";
         editImg.classList.add("edit");
-        
+        editImg.addEventListener("click", function (e) {
+            let testList = listData.filter(list => list.listId == 1);
+            console.log(testList);
+            editList(testList)
+        })
 
         listHead.appendChild(listName);
         listHead.appendChild(editImg);
@@ -561,13 +567,36 @@ profileContainer.appendChild(createButton);
 loadLists(userID, listData);
 
 function editList (list) {
-    profileViewDOM.style.display = "none";
-    const editDiv = document.createElement("div");
-    editDiv.classList.add("editView");
-    document.querySelector("body").appendChild(editDiv);
+    handleListView.classList.add("active");
+    let listContainer = document.createElement("div");
+    listContainer.id = "editList";
+    let listName = list[0].listName;
+    let p = document.createElement("p");
+    p.textContent = `${listName}`;
+    listContainer.appendChild(p);
+    let itemBox = document.createElement("div");
+    itemBox.id ="inner";
+    let types = [... new Set(list[0].listItems.map(item => item.itemType))];
+    let containers = {};
+    for (let type of types) {
+        let box = document.createElement("div");
+        box.classList.add("type");
+        box.id = `${type}`;
+        let p = document.createElement("p");
+        p.textContent = type[0].toUpperCase() + type.slice(1);
+        box.appendChild(p);
+        itemBox.appendChild(box);
+        containers[type] = box;
+    }
+    console.log(containers);
+    for (let item of list[0].listItems){
+        const container = containers[item.itemType]
+        if(container) {
+            let itemDiv = createItem(item);
+     
+            container.appendChild(itemDiv);
+        }
+        
     
 }
 
-document.getElementById("edit").addEventListener("click", function (e) {
-
-})

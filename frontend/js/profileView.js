@@ -698,6 +698,42 @@ function editList (list) {
     listContainer.appendChild(itemBox);
     handleListView.appendChild(listContainer);
     
+    /// ABOUT
+    const aboutBox = document.createElement("div");
+    aboutBox.id = "aboutBox";
+    
+    const label = document.createElement("div");
+    label.id = "aboutLabel";
+    label.textContent = "ABOUT";
+    aboutBox.appendChild(label);
+
+    const weatherCard = document.createElement("div");
+    weatherCard.classList.add("aboutCard", "weather");
+    //här hämta info om vädret
+    weatherCard.innerHTML = `
+        <div>Weather</div>
+        <div><span style="font-weight: normal;">17°</span> Sunny</div>
+        `;
+    aboutBox.appendChild(weatherCard);
+
+    const timeCard = document.createElement("div");
+    timeCard.classList.add("aboutCard");
+    //här lokal tid?
+    timeCard.innerHTML = `
+        <div>Local time</div>
+        <div><span style="font-size: 2rem;">8:30</span></div>
+        `;
+    aboutBox.appendChild(timeCard);
+
+    const bagCard = document.createElement("div");
+    bagCard.classList.add("aboutCard", "bag");
+    bagCard.innerHTML =`
+        <div>Recommended bag:</div>
+        <div>Cabin Bag</div>
+        `;
+    aboutBox.appendChild(bagCard);
+
+    handleListView.appendChild(aboutBox);
 }
 
 

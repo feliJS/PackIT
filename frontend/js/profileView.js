@@ -504,8 +504,7 @@ const listData = [ {
     }
 ];
 
-
-const profileViewDOM = document.getElementById("profileBox");
+const profileViewDOM = document.getElementById("profileView");
 const profileContainer = document.createElement("div");
 profileContainer.classList.add("profileHead")
 const allListsContainer = document.createElement("div");
@@ -513,7 +512,6 @@ allListsContainer.classList.add("allListsContainer");
 profileViewDOM.appendChild(profileContainer);
 profileViewDOM.appendChild(allListsContainer);
 const handleListView = document.getElementById("handleListView");
-
 
 
 
@@ -533,12 +531,13 @@ function loadLists(userID, listDB) {
         let editImg = document.createElement("img");
         editImg.src = "frontend/assets/icons/editPng.png";
         editImg.style.height = "16px";
-        editImg.classList.add("edit");
+        editImg.id = "edit";
         editImg.addEventListener("click", function (e) {
             let testList = listData.filter(list => list.listId == 1);
             console.log(testList);
             editList(testList)
         })
+        
 
         listHead.appendChild(listName);
         listHead.appendChild(editImg);
@@ -582,10 +581,10 @@ function createItem(item) {
 
     const quantDiv = document.createElement("div");
     quantDiv.style.display = "grid";
-    quantDiv.style.gridTemplateColumns = "10px 1fr";
+    quantDiv.style.gridTemplateColumns = "16px 1fr 1fr";
 
     quantDiv.style.alignItems = "center";
-    quantDiv.style.gap = "8px";
+    quantDiv.style.gap = "4px";
     const quant = document.createElement("p");
     quant.style.margin = "0";
     quant.textContent = item.itemQuantity;
@@ -601,12 +600,33 @@ function createItem(item) {
     quantDiv.appendChild(addBtn);
     itemDiv.appendChild(quantDiv);
     addBtn.addEventListener("click", () => {
-    item.itemQuantity++;
-    quant.textContent = item.itemQuantity;
-});
+        item.itemQuantity++;
+        quant.textContent = item.itemQuantity;
+    });
 
+    const reduceBtn = document.createElement("div");
+    reduceBtn.id = "reduceBtn";
+    const minPng = document.createElement("img");
+    minPng.src = "frontend/assets/icons/minus.png";
+    minPng.style.width = "8px";
+    reduceBtn.appendChild(minPng);
+    quantDiv.appendChild(reduceBtn);
+    reduceBtn.addEventListener("click", () => {
+        if (item.itemQuantity > 0) {
+        item.itemQuantity--;
+        quant.textContent = item.itemQuantity;
+        }
+        
+    });
+    
+    const removeBtn = document.createElement("div");
+    removeBtn.classList.add("removeBtn");
+    removeBtn.textContent = "Remove";
+    itemDiv.appendChild(removeBtn);
+    
     return itemDiv;
 }
+
 
 function editList (list) {
     handleListView.classList.add("active");
@@ -625,7 +645,7 @@ function editList (list) {
         box.classList.add("type");
         box.id = `${type}`;
         let p = document.createElement("p");
-        p.textContent = type[0].toUpperCase() + type.slice(1);
+        p.textContent = type[0].toUpperCase() + type.slice(1) + ":";
         box.appendChild(p);
         itemBox.appendChild(box);
         containers[type] = box;
@@ -639,6 +659,8 @@ function editList (list) {
             container.appendChild(itemDiv);
         }
         
+    }
+    listContainer.appendChild(itemBox);
+    handleListView.appendChild(listContainer);
     
 }
-

@@ -246,6 +246,15 @@ button:hover {
     cursor: pointer;
     box-shadow: 0.5px 0.5px 1px rgba(128, 128, 128, 0.68);
 }
+#reduceBtn {
+    border-radius: 50%;
+    border: 1px solid #cc7d5f;
+    height: 15px;
+    width: 15px;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
 
 .removeBtn {
     font-size: 14px;

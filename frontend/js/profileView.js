@@ -566,6 +566,48 @@ profileContainer.appendChild(createButton);
 
 loadLists(userID, listData);
 
+function createItem(item) {
+    let itemDiv = document.createElement("div");
+    itemDiv.classList.add("itemDiv");
+
+    const check = document.createElement("input")
+    check.setAttribute("type","checkbox");
+    check.classList.add("checkbox");
+    itemDiv.appendChild(check)
+
+    const p = document.createElement("p");
+    p.textContent = item.itemName;
+    p.style.margin = "1px";
+    itemDiv.appendChild(p);
+
+    const quantDiv = document.createElement("div");
+    quantDiv.style.display = "grid";
+    quantDiv.style.gridTemplateColumns = "10px 1fr";
+
+    quantDiv.style.alignItems = "center";
+    quantDiv.style.gap = "8px";
+    const quant = document.createElement("p");
+    quant.style.margin = "0";
+    quant.textContent = item.itemQuantity;
+    quantDiv.appendChild(quant);
+
+    const addBtn = document.createElement("div");
+    addBtn.id = "addBtn";
+    const png = document.createElement("img");
+    png.src = "frontend/assets/Icons/plus.png";
+    png.style.height = "8px";
+    png.style.width = "8px";
+    addBtn.appendChild(png);
+    quantDiv.appendChild(addBtn);
+    itemDiv.appendChild(quantDiv);
+    addBtn.addEventListener("click", () => {
+    item.itemQuantity++;
+    quant.textContent = item.itemQuantity;
+});
+
+    return itemDiv;
+}
+
 function editList (list) {
     handleListView.classList.add("active");
     let listContainer = document.createElement("div");

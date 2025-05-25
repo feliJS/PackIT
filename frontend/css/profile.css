@@ -1,146 +1,260 @@
-
-.profileName {
-    font-weight: bold;
-    font-size: 2rem;
+@font-face {
+    font-family: "fredoka";
+    src: url("frontend/assets/fonts/Fredoka-VariableFont_wdth\,wght.ttf");
 }
 
-.mainProfile {
-    padding: 20px;
-    flex: 1;
-    overflow-y: auto;
-}
+body {
+    margin: 0;
+    font-family: "fredoka";
+    background-image: url(frontend/assets/images/background-pic.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 
-
-.allListsContainerProfile {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+}
+
+
+/* Header: */ 
+header {
+    margin: 0;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    
+    align-items: center;
+    padding: 15px;
+
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* så att den ligger över allt annat */
+}
+
+#header-left {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    padding-left: 10px;
+}
+
+#header-right {
+    display: flex;
+    gap: 24px;
+    margin-right: 30px;
+}
+
+.header-img {
+    height: 32px;
+}
+
+#logo {
+    color: black;
+    text-shadow: none;
+    font-size: 22px;
+    height: 32px; /*så länge*/
+} 
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    
+    z-index: -1;
+}
+
+#profileView {
+    margin-top:100px;
+    width: 1200px;
+    min-height: 600px; /* Vet inte riktigt */
+    background-color: #EEE2D3;
+    border-radius: 12px;
+}
+
+.profileHead {
+    height: 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.nameDiv {
+    margin-left: 40px;
+    justify-self: baseline;
+}
+
+
+
+/* LISTOR */
+.allListsContainer {
+    margin: 0 auto;
+    padding-bottom:24px;
+    width:1048px;
+    gap: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: center;
+    justify-items:center;
     overflow-y: auto;
     max-height: 100%;
-    padding-bottom: 20px;
+    
 }
 
-/* -- KORTEN -- */
-.eachListContainerProfile {
+.listContainer {
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    width: 340px;
+    width: 240px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     max-height: 300px;
     overflow: scroll;
 }
-
-.eachListTopRow {
+.listHead {
+    padding: 0 16px;
+    background-color:#CC7D5F;
     display: flex;
     justify-content: space-between;
-    gap: 12px;
-}
-
-.eachListContentContainer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.eachListH3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #34495e;
-}
-
-.listItemsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow: hidden;
-    padding-right: 6px;
-    max-height: 350px;
-}
-
-/* VARJE ENSKILT ITEM */
-.eachListItemContainer {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    background-color: #ecf0f1;
-    padding: 8px 10px;
-    border-radius: 8px;
-    gap: 8px;
+    
+}
+.listHead h3 {
+    font-weight: 500;
 }
 
-.listItemName {
-    flex: 2;
-    color: #7f8c8d;
-    margin: 0;
-}
-
-.listItemQuantity {
-    color: #7f8c8d;
-    flex: 1;
-    text-align: center;
-    margin: 0;
-}
-
-.listItemCheckbox {
-    transform: scale(1.2);
-    flex-shrink: 0;
-}
-
-/* DELETE ICON FÖR VARJE ITEM */
-.deleteIconListItem {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-/* --- INSTÄLLNINGS-MENYN --- */
-.eachListSettings {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-}
-
-.settings-icon {
-    cursor: pointer;
-    display: inline-block;
-}
-
-.settings-icon img {
-    width: 24px;
-}
-
-/* INSTÄLLNINGAR VID *toggle* */
-.settings-options {
-    display: none;
-    flex-direction: column;
-    gap: 6px;
-    background-color: #f1f1f1;
-    border-radius: 8px;
-    padding: 8px;
-    margin-top: 4px;
-}
-
-.settings-toggle:checked+.settings-icon+.settings-options {
-    display: flex;
-}
-
-.settings-options button {
-    background-color: #dfe6e9;
+button {
+    font-family: "fredoka";
+    border-radius: 5px;
     border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+    justify-self: center;
 }
 
-.settings-options button:hover {
-    background-color: #b2bec3;
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 6px 12px rgba(0,0,0,0.3);
 }
+
+
+#create-list-button {
+    margin-right: 40px;
+    justify-self: last baseline;
+    font-size: 16px;
+    background-color: #cc7d5f;
+    width: 150px;
+    height: 50px;
+}
+
+
+#handleListView {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background-color: #EEE2D3;
+  overflow: scroll;
+  z-index: 9;
+  display: none;
+}
+
+/* När den ska visas */
+#handleListView.active {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+#editList {
+    margin: 150px auto;
+    width: 700px;
+    min-height: 500px;
+    overflow: scroll;
+    background-color: #cc7e5f31;
+    border-radius: 12px;
+    padding:20px;
+
+}
+
+#inner {
+    background-color: #EEE2D3;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-bottom: 16px;
+}
+.itemDiv {
+    color: #1e2b1e;
+    display: grid;
+    grid-template-columns: 1fr 150px 1fr 1fr 1fr;
+    width: 150px;
+    gap: 10px;
+    align-items: center;
+}
+
+.type {
+    padding-left: 8px;
+
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #1e2b1e;
+  border-radius: 4px;
+  background-color: #EEE2D3; /* ocheckad bakgrund */
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox:checked {
+  background-color: #CC7D5F; /* grön när den är ibockad */
+}
+
+.checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  width: 4px;
+  height: 8px;
+  border: solid #f1f1f1;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+#addBtn {
+    border-radius: 50%;
+    background-color: #cc7d5f;
+    height: 16px;
+    width: 16px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+#addBtn:hover {
+    cursor: pointer;
+    box-shadow: 0.5px 0.5px 1px rgba(128, 128, 128, 0.68);
+}
+
+.removeBtn {
+    font-size: 14px;
+    padding: 2px;
+    color: #CC7D5F;
+}
+
+.removeBtn:hover {
+    cursor: pointer;
+    text-shadow:0.5px 0.5px 1px rgba(128, 128, 128, 0.433);
+}
+

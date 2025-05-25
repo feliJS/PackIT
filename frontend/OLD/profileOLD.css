@@ -1,0 +1,146 @@
+
+.profileName {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.mainProfile {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+
+.allListsContainerProfile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    overflow-y: auto;
+    max-height: 100%;
+    padding-bottom: 20px;
+}
+
+/* -- KORTEN -- */
+.eachListContainerProfile {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    overflow: scroll;
+}
+
+.eachListTopRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.eachListContentContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.eachListH3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #34495e;
+}
+
+.listItemsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    padding-right: 6px;
+    max-height: 350px;
+}
+
+/* VARJE ENSKILT ITEM */
+.eachListItemContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ecf0f1;
+    padding: 8px 10px;
+    border-radius: 8px;
+    gap: 8px;
+}
+
+.listItemName {
+    flex: 2;
+    color: #7f8c8d;
+    margin: 0;
+}
+
+.listItemQuantity {
+    color: #7f8c8d;
+    flex: 1;
+    text-align: center;
+    margin: 0;
+}
+
+.listItemCheckbox {
+    transform: scale(1.2);
+    flex-shrink: 0;
+}
+
+/* DELETE ICON FÖR VARJE ITEM */
+.deleteIconListItem {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* --- INSTÄLLNINGS-MENYN --- */
+.eachListSettings {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.settings-icon {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.settings-icon img {
+    width: 24px;
+}
+
+/* INSTÄLLNINGAR VID *toggle* */
+.settings-options {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 4px;
+}
+
+.settings-toggle:checked+.settings-icon+.settings-options {
+    display: flex;
+}
+
+.settings-options button {
+    background-color: #dfe6e9;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.settings-options button:hover {
+    background-color: #b2bec3;
+}

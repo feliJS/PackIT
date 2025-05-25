@@ -256,14 +256,22 @@ button:hover {
     justify-content: center;
 }
 
-.removeBtn {
+.textBtn {
     font-size: 14px;
     padding: 2px;
     color: #CC7D5F;
 }
 
-.removeBtn:hover {
+.textBtn:hover {
     cursor: pointer;
     text-shadow:0.5px 0.5px 1px rgba(128, 128, 128, 0.433);
 }
 
+.addItemInput {
+    font-family: "fredoka";
+    margin-left: 8px;
+    border:1px solid #CC7D5F;
+    border-radius: 2px;
+    background-color: #f1f1f1;
+    
+}

@@ -1,11 +1,48 @@
 
-import {List} from "./list-class.js";
-
 const DB_PATH = "../databaser/lists.json";
 
 function saveDB(listDB) {
     return Deno.writeTextFile(DB_PATH, JSON.stringify(listDB));
 }
+
+
+// /users/:userId/lists
+// (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
+export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
+    
+    const { listName, template } = reqBody;  // listName = stad som user valt, template = typ av resa user har valt (måstre hämta ut i req som inputs..)
+
+    // Hämta användarens basic-list
+    const userBasicList = listDB.find(l =>
+    l.userId === Number(userId) &&
+    l.listName.toLowerCase() === "basic list"
+    );
+  
+    // Hämtar lista utifrån det listName som skickats med i req-bodyn (aka inputen om vilken typ av resa användaren ska göra)
+    const typeTemplate = listDB.find(l =>
+    l.userId === 0 &&
+    l.listName.toLowerCase() === template.toLowerCase()
+    );
+
+    // Skapa ny list-objekt
+    const newListId = Math.max(...listDB.map(l => l.listId)) + 1;
+
+    const newList = {
+        userId: Number(userId),
+        listId: newListId,
+        listName: listName, // <-- stadens namn
+        listItems: [...userBasicList.listItems, ...typeTemplate.listItems]
+    };
+
+    listDB.push(newList);
+    await saveDB(listDB);
+
+    return new Response(JSON.stringify({ message: "List created", list: newList }), {
+        status: 201,
+        headers: { ...responseHeaders }
+    });
+}
+
 
 // (GET)
 export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders) {
@@ -46,24 +83,6 @@ export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeade
 }
 
 
-// (POST) SKA FUNKA
-export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
-    
-    const newList = List.createNewList(urlUserId, listDB);
-    
-    if (Array.isArray(reqBody.listItems)) {
-        newList.listItems = reqBody.listItems;
-    }
-
-    listDB.push(newList);
-
-    await saveDB(listDB);
-
-    return new Response(JSON.stringify({ message: "List created", list: newList }), {
-        status: 201,
-        headers: { ...responseHeaders }
-    });
-}
 
 
 
@@ -113,7 +132,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
 
     foundList.listItems.push(newItem);
 
-    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
+    await saveDB(listDB);
 
     return new Response(JSON.stringify({ message: "Item added successfully" }), {
         status: 201,
@@ -192,7 +211,7 @@ export async function deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, re
 
     foundList.listItems.splice(itemIndex, 1);
 
-    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
+    await saveDB(listDB);
 
     return new Response(JSON.stringify({ message: "Item deleted successfully" }), {
         status: 200,
@@ -228,7 +247,7 @@ export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, l
         foundItem.itemQuantity = reqBody.itemQuantity;
     }
 
-    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
+    await saveDB(listDB);
 
     return new Response(JSON.stringify({ message: "Item updated successfully" }), {
         status: 200,

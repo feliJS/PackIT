@@ -43,8 +43,19 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
     });
 }
 
+// (GET) - hämta alla listor för en userId (behövs till profilsidan för att displaya alla listor)
+export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {
+    const userLists = listDB.filter(list => list.userId == urlUserId);
+  
+    return new Response(JSON.stringify(userLists), {
+      status: 200,
+      headers: { ...responseHeaders }
+    });
+  }
 
-// (GET)
+
+// /users/:userId/lists/:listId
+// (GET) - hämta en lista
 export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders) {
     const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
 
@@ -61,7 +72,7 @@ export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders)
     });
 }
 
-// (DELETE)
+// (DELETE) - radera en lista
 export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeaders) {
     const listInx = listDB.findIndex(currList => currList.userId == urlUserId && currList.listId == urlListId);
 
@@ -88,7 +99,8 @@ export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeade
 
 // --- ITEMS ---
 
-// (POST)
+// /users/:userId/lists/:listId/items
+// (POST) - lägg till ett item
 export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, responseHeaders) {
     const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
 
@@ -140,7 +152,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
     });
 }
 
-// (GET) Alla items i en lista
+// (GET) Alla items i en lista (används för att displaya listan)
 export async function getAllItemsFunc(urlUserId, urlListId, listDB, responseHeaders) {
     const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
 
@@ -157,7 +169,8 @@ export async function getAllItemsFunc(urlUserId, urlListId, listDB, responseHead
     });
 }
 
-// (GET)
+
+// (GET) - ONÖDIG?? vi har inget ställe där endast en item displayas?
 export async function getItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
     const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
 
@@ -183,42 +196,8 @@ export async function getItemFunc(urlUserId, urlListId, urlItemId, listDB, respo
     });
 }
 
-// (DELETE)
-export async function deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
-    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
 
-    if (!foundList) {
-        return new Response(JSON.stringify({ error: "List not found" }), {
-            status: 404,
-            headers: { ...responseHeaders }
-        });
-    }
-
-    let itemIndex = -1;
-    for (let i = 0; i < foundList.listItems.length; i++) {
-        if (foundList.listItems[i].itemId == urlItemId) {
-            itemIndex = i;
-            break;
-        }
-    }
-
-    if (itemIndex === -1) {
-        return new Response(JSON.stringify({ error: "Item not found" }), {
-            status: 404,
-            headers: { ...responseHeaders }
-        });
-    }
-
-    foundList.listItems.splice(itemIndex, 1);
-
-    await saveDB(listDB);
-
-    return new Response(JSON.stringify({ message: "Item deleted successfully" }), {
-        status: 200,
-        headers: { ...responseHeaders }
-    });
-}
-
+// /users/:userId/lists/:listId/items/:itemId
 // (PUT)
 export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
     const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
@@ -250,6 +229,43 @@ export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, l
     await saveDB(listDB);
 
     return new Response(JSON.stringify({ message: "Item updated successfully" }), {
+        status: 200,
+        headers: { ...responseHeaders }
+    });
+}
+
+
+// (DELETE) - radera ett item
+export async function deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
+    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
+
+    if (!foundList) {
+        return new Response(JSON.stringify({ error: "List not found" }), {
+            status: 404,
+            headers: { ...responseHeaders }
+        });
+    }
+
+    let itemIndex = -1;
+    for (let i = 0; i < foundList.listItems.length; i++) {
+        if (foundList.listItems[i].itemId == urlItemId) {
+            itemIndex = i;
+            break;
+        }
+    }
+
+    if (itemIndex === -1) {
+        return new Response(JSON.stringify({ error: "Item not found" }), {
+            status: 409,
+            headers: { ...responseHeaders }
+        });
+    }
+
+    foundList.listItems.splice(itemIndex, 1);
+
+    await saveDB(listDB);
+
+    return new Response(JSON.stringify({ message: "Item deleted successfully" }), {
         status: 200,
         headers: { ...responseHeaders }
     });

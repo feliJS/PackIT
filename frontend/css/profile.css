@@ -160,6 +160,15 @@ button:hover {
     height: 50px;
 }
 
+#doneBtn {
+    margin-left: 40px;
+    justify-self: last baseline;
+    font-size: 14px;
+    background-color: #4A634F;
+    width: 80px;
+    height: 40px;
+}
+
 
 #handleListView {
     position: fixed;
@@ -170,6 +179,7 @@ button:hover {
     background-color: #EEE2D3;
     z-index: 9;
     display: none;
+    overflow: scroll;
 }
 
 /* När den ska visas */
@@ -179,6 +189,8 @@ button:hover {
     gap: 60px;
 }
 #editList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     margin: 150px 0 auto auto;
     width: 700px;
     min-height: 500px;
@@ -189,6 +201,7 @@ button:hover {
 }
 
 #inner {
+    grid-column: span 2;
     background-color: #EEE2D3;
     border-radius: 12px;
     display: grid;

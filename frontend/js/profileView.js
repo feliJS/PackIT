@@ -623,6 +623,10 @@ function createItem(item) {
     removeBtn.classList.add("textBtn");
     removeBtn.textContent = "Remove";
     itemDiv.appendChild(removeBtn);
+
+    removeBtn.addEventListener("click", () => {
+        itemDiv.remove();
+    })
     
     return itemDiv;
 }
@@ -636,6 +640,16 @@ function editList (list) {
     let p = document.createElement("p");
     p.textContent = `${listName}`;
     listContainer.appendChild(p);
+
+    let doneBtn = document.createElement("button");
+    doneBtn.textContent = "Done";
+    doneBtn.id = "doneBtn";
+    listContainer.appendChild(doneBtn);
+
+    doneBtn.addEventListener("click", () => {
+        handleListView.classList.remove("active");
+    })
+
     let itemBox = document.createElement("div");
     itemBox.id ="inner";
     let types = [... new Set(list[0].listItems.map(item => item.itemType))];
@@ -674,6 +688,24 @@ function editList (list) {
         addItemBtn.style.width = "60px";
         addItemBtn.style.gridColumn = "span 2";
         inputDiv.appendChild(addItemBtn);
+        
+        ///ADDITEM-LYSSNARE
+        addItemBtn.addEventListener("click", () => {
+            const itemName = input.value.trim();
+            if (!itemName) { return };
+            input.value = "";
+            const itemType = type;
+
+            const newItem = {
+                itemType: itemType,
+                itemName: itemName,
+                itemQuantity: 1
+            };
+            console.log(`Skapa item:`, newItem);
+
+            const itemDiv = createItem(newItem);
+            containers[itemType].itemsContainer.appendChild(itemDiv);
+        })
 
         box.appendChild(inputDiv);
 
@@ -697,7 +729,7 @@ function editList (list) {
     }
     listContainer.appendChild(itemBox);
     handleListView.appendChild(listContainer);
-    
+
     /// ABOUT
     const aboutBox = document.createElement("div");
     aboutBox.id = "aboutBox";

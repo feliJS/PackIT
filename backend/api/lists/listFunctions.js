@@ -1,5 +1,11 @@
 
-// --- LISTS ---
+import {List} from "./list-class.js";
+
+const DB_PATH = "../databaser/lists.json";
+
+function saveDB(listDB) {
+    return Deno.writeTextFile(DB_PATH, JSON.stringify(listDB));
+}
 
 // (GET)
 export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders) {
@@ -31,7 +37,7 @@ export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeade
 
     const deletedList = listDB.splice(listInx, 1);
 
-    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
+    await saveDB(listDB);
 
     return new Response(JSON.stringify({ message: "Delete OK", deletedList }), {
         status: 200,
@@ -39,25 +45,19 @@ export async function deleteListFunc(urlUserId, urlListId, listDB, responseHeade
     });
 }
 
-// (POST)
+
+// (POST) SKA FUNKA
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
-    let maxId = 0;
-    for (const list of listDB) {
-        if (list.listId > maxId) {
-            maxId = list.listId;
-        }
-    }
-    const newListId = maxId + 1;
     
-    const newList = {
-        userId: Number(urlUserId),
-        listId: newListId,
-        listItems: reqBody.listItems || []
-    };
+    const newList = List.createNewList(urlUserId, listDB);
+    
+    if (Array.isArray(reqBody.listItems)) {
+        newList.listItems = reqBody.listItems;
+    }
 
     listDB.push(newList);
 
-    await Deno.writeTextFile("../databaser/lists.json", JSON.stringify(listDB));
+    await saveDB(listDB);
 
     return new Response(JSON.stringify({ message: "List created", list: newList }), {
         status: 201,

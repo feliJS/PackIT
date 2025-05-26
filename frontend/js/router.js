@@ -1,12 +1,14 @@
 
-console.log("I routeer")
 
 import renderHome from "../js/homeView.js";
-/* import renderCreateList from "../js/createlistView.js";
-import renderProfile from "../js/profileView.js";
- */
+import renderCreateList from "../js/createlistView.js";
 
-console.log("I routeer")
+/* 
+import renderProfile from "../js/profileView.js";
+import renderLoginRegister from "../js/logInView.js"; 
+*/
+
+
 function loadCSS(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const link = document.createElement("link");
@@ -16,37 +18,56 @@ function loadCSS(href) {
 }
 
 function hideAllViews() {
-    document.querySelectorAll(".home-box, .createlist-box, .profile-box").forEach((currElem) => {
+    document.querySelectorAll(".home-box, .create-list-box, .profile-box").forEach((currElem) => {
         currElem.style.display = "none";
         currElem.innerHTML = "";
     });
 }
 
+function removeCSS(href) {
+    const link = document.querySelector(`link[href="${href}"]`);
+    if (link) link.remove();
+}
+
+
 export function navigateTo(view) {
 
     hideAllViews();
+    removeCSS("/css/home.css");
+    removeCSS("/css/create-list.css");
+
 
     switch (view) {
         case "home":
             loadCSS("/css/home.css");
             document.querySelector(".home-box").style.display = "inline-block";
-            renderHome(); 
+            renderHome();
             break;
 
-/*         case "create-list":
-            loadCSS("/frontend/css/createlist.css");
-            document.querySelector(".createlist-box").style.display = "block";
+        case "create-list":
+            loadCSS("/css/create-list.css");
+            document.querySelector(".create-list-box").style.display = "inline-block";
             renderCreateList();
             break;
 
+        /*   
         case "profile":
-            loadCSS("/frontend/css/profile.css");
-            document.querySelector(".profile-box").style.display = "block";
-            renderProfile();
-            break; */
+           loadCSS("/frontend/css/profile.css");
+           document.querySelector(".profile-box").style.display = "inline-block";
+           renderProfile();
+           break; 
+        
+        case "loginRegister":
+           loadCSS("/frontend/css/loginRegister.css");
+           document.querySelector(".login-register-box").style.display = "inline-block";
+           renderLoginRegister();
+           break; 
+        */
 
         default:
-            document.querySelector("main").innerHTML = "<h1>404 - Vy hittades inte</h1>";
+            loadCSS("/css/home.css");
+            document.querySelector(".home-box").style.display = "inline-block";
+            renderHome();
     }
 }
 

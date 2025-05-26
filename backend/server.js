@@ -1,25 +1,26 @@
-// server.ts
-import { serveFile, serveDir } from "jsr:@std/http";
+
+// server.js
+
+import { serveFile, serveDir } from "jsr:@std/http/file-server";
 
 const PORT = 4242;
 
 async function handler(request) {
-  const url  = new URL(request.url);
+  const url = new URL(request.url);
   const path = url.pathname;
+  console.log(`copyServer: [${request.method}] ${path}`);
 
-  // HTML-end-points 
   if (path === "/" || path === "/home") {
-    return serveFile(request, "../index.html");
+    const response = await serveFile(request, "../copyIndex.html");
+    response.headers.set("content-type", "text/html");
+    return response;
   }
-  if (path === "/create-list") {
-    return serveFile(request, "../frontend/pages/create-list/index.html");
-  }
-  if (path === "/profile") {
-    return serveFile(request, "../frontend/pages/profile/index.html");
-  }
-  return serveDir(request, { fsRoot: "../frontend", urlRoot: "" });
 
+  const fileResponse = await serveDir(request, {
+    fsRoot: "../frontend",
+  });
+  
+  return fileResponse;
 }
 
 Deno.serve({ port: PORT }, handler);
-

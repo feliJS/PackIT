@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Start</title>
 
-  <!-- Sid-specifik CSS -->
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="/css/common.css" />
-  <link rel="stylesheet" href="/css/registerlogin.css" />
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Start (copy)</title>
 
-<body>
-  <div class="register-box"></div>
-    <div class="login-box"></div>
-  <header>
-    <div id="header-left">
-      <img id="logo" src="/assets/images/logo-PackIT.png" alt="PackIT logo" />
-    </div>
+        <link rel="stylesheet" href="/css/common.css">
 
-    <div id="header-right">
-      <img class="header-img" src="/assets/icons/plus.png"  alt="Add new list" />
-      <img class="header-img" src="/assets/icons/user2.png" alt="User profile" />
-    </div>
-  </header>
+    </head>
 
-  <div id="create-list-div">
-    <h1>CREATE YOUR PACKING LIST</h1>
-    <p>Don't know what to pack for your next trip? Click the button and get started!</p>
-    <button id="create-list-button">Create List</button>
-    <p id="error-create-list"></p>
-  </div>
+    <body class="body">
 
-  <div id="log-in-div">
-    <p>Log In to see your lists</p>
-    <div id="log-in-button-div">
-      <button class="log-create-acc-buttons" id="log-in-button">Log In</button>
-      <button class="log-create-acc-buttons" id="create-acc-button">Create Account</button>
-    </div>
-  </div>
+        <header class="header">
 
-  <!-- Gemensam JavaScript-modul -->
-  <script type="module" src="/js/LogInView.js"></script>
-</body>
+            <div class="header-container-left">
+                <img class="header-container-left-logo" src="/assets/images/logo-PackIT.png" alt="PackIT" />
+            </div>
+
+            <div class="header-container-right">
+                <img class="header-container-right-img" src="/assets/icons/addIcon.png" alt="Add new list" />
+                <img class="header-container-right-img" src="/assets/icons/user2.png" alt="User profile" />
+            </div>
+
+        </header>
+
+        <main id="app">
+
+            <div class="app-box home-box"></div>
+
+            <div class="app-box register-box"></div>
+
+            <div class="app-box login-box"></div>
+
+            <div class="app-box create-list-box"></div>
+
+            <div class="app-box profile-box"></div>
+
+        </main>
+
+
+        <footer class="footer">Digital Design and Development III - Malmö University</footer>
+
+        <script type="module" src="/js/router.js"></script>
+        <!-- <script type="module" src="/js/LogInView.js"></script> -->
+
+    </body>
+
 </html>

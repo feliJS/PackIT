@@ -9,25 +9,25 @@
                 "itemId": 1,
                 "itemType": "clothes",
                 "itemName": "Socks",
-                "itemQuantity": 5
+                "itemQuantity": 1
             },
             {
                 "itemId": 2,
                 "itemType": "clothes",
                 "itemName": "Underwear",
-                "itemQuantity": 5
+                "itemQuantity": 1
             },
             {
                 "itemId": 3,
                 "itemType": "clothes",
                 "itemName": "Shirts",
-                "itemQuantity": 3
+                "itemQuantity": 1
             },
             {
                 "itemId": 4,
                 "itemType": "clothes",
                 "itemName": "Pants",
-                "itemQuantity": 2
+                "itemQuantity": 1
             },
             {
                 "itemId": 5,
@@ -153,7 +153,7 @@
                 "itemId": 1,
                 "itemType": "clothes",
                 "itemName": "Swimwear",
-                "itemQuantity": 2
+                "itemQuantity": 1
             },
             {
                 "itemId": 2,
@@ -260,7 +260,7 @@
                 "itemId": 4,
                 "itemType": "clothes",
                 "itemName": "Formal clothes",
-                "itemQuantity": 2
+                "itemQuantity": 1
             },
             {
                 "itemId": 5,
@@ -356,7 +356,7 @@
                 "itemId": 1,
                 "itemType": "clothes",
                 "itemName": "Workout clothes",
-                "itemQuantity": 2
+                "itemQuantity": 1
             },
             {
                 "itemId": 2,
@@ -381,7 +381,7 @@
                 "itemId": 5,
                 "itemType": "hygiene",
                 "itemName": "Face masks",
-                "itemQuantity": 2
+                "itemQuantity": 1
             },
             {
                 "itemId": 6,
@@ -456,7 +456,7 @@
                 "itemId": 2,
                 "itemType": "clothes",
                 "itemName": "Socks",
-                "itemQuantity": 7
+                "itemQuantity": 1
             }
         ]
     },
@@ -504,7 +504,7 @@
                 "itemId": 2,
                 "itemType": "clothes",
                 "itemName": "Socks",
-                "itemQuantity": 7
+                "itemQuantity": 1
             }
         ]
     },

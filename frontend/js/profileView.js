@@ -1,4 +1,4 @@
-import { UserAPI } from '/common/client-class.js';
+import { UserAPI } from '/client/users-client.js';
 const userApi = new UserAPI('http://localhost:8000');
 
 function getCookie(name) { //hittar rätt cookie

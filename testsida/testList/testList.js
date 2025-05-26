@@ -17,6 +17,36 @@ function logTest ({ rubrik, metod, status, meddelande}) {
     reqLog.appendChild(row);
 }
 
+// POST (201) --> /users/:userId/lists    ------- UPD I API template = purpose (1-3) + listName = CITY?
+async function testCreateList () {
+    const options = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            listName: "Taghazout",
+            purpose: 2
+        })
+    }
+
+    const response = await fetch(`${baseUrl}/users/10/lists`);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Create List",
+        metod: "POST",
+        status: response.status,
+        message: resource
+    })
+
+    console.log("testCreateList:", resource);
+    
+}
+
+testCreateList();
+
+
+// GET (200) --> /users/:userId/lists
+
 
 // GET (200) --> /users/:userId/lists/:listId 
 async function testGetListFound () {

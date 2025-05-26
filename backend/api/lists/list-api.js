@@ -89,10 +89,6 @@ export async function listHandler(req) {
         return getAllItemsFunc(urlUserId, urlListId, listDB, responseHeaders); 
     }
 
-    if (reqMethod === "GET" && matchedHandleItemParams) {
-        return getItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders);
-    }
-
     if (reqMethod === "DELETE" && matchedHandleItemParams) {
         return deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders);
     }

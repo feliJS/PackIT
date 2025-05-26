@@ -2,10 +2,10 @@
 
 import renderHome from "../js/homeView.js";
 import renderCreateList from "../js/createlistView.js";
-
+import renderLoginRegister from "/js/logInView.js"; 
 /* 
 import renderProfile from "../js/profileView.js";
-import renderLoginRegister from "../js/logInView.js"; 
+
 */
 
 
@@ -56,13 +56,13 @@ export function navigateTo(view) {
            document.querySelector(".profile-box").style.display = "inline-block";
            renderProfile();
            break; 
-        
-        case "loginRegister":
-           loadCSS("/frontend/css/loginRegister.css");
-           document.querySelector(".login-register-box").style.display = "inline-block";
+        */
+        case "login":
+           loadCSS("/css/registerlogin.css");
+           document.querySelector(".register-box").style.display = "inline-block";
+           document.querySelector(".login-box").style.display = "inline-block";
            renderLoginRegister();
            break; 
-        */
 
         default:
             loadCSS("/css/home.css");

@@ -18,9 +18,9 @@ function logTest ({ rubrik, metod, status, meddelande}) {
 }
 
 
-// GET (200) --> /users/:userId/:listId 
+// GET (200) --> /users/:userId/lists/:listId 
 async function testGetListFound () {
-    const response = await fetch(`${baseUrl}/users/1/1`);
+    const response = await fetch(`${baseUrl}/users/1/lists/1`);
     const resource = await response.json();
 
     logTest({
@@ -29,11 +29,13 @@ async function testGetListFound () {
         status: response.status,
         message: resource.listId
     })
+
+    console.log("testGetListFound:", resource);
 }
 
-// GET (404) --> /users/:userId/:listId
+// GET (404) --> /users/:userId/lists/:listId
 async function testGetListNotFound () {
-    const response = await fetch(`${baseUrl}/users/0/0`)
+    const response = await fetch(`${baseUrl}/users/1000/lists/0`)
     const resource = await response.json();
 
     logTest({
@@ -42,16 +44,19 @@ async function testGetListNotFound () {
         status: response.status,
         message: resource.error
     })
+
+    console.log("testGetListNotFound:", response.status);
+    
 }
 
-// DELETE (200) --> /users/:userId/:listId 
+// DELETE (200) --> /users/:userId/lists/:listId 
 async function testDeleteList() {
     const options = {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
     }
 
-    const response = await fetch(`${baseUrl}/users/1/1`, options);
+    const response = await fetch(`${baseUrl}/users/1/lists/1`, options);
     const resource = await response.json();
 
     logTest({
@@ -60,16 +65,19 @@ async function testDeleteList() {
         status: response.status,
         message: resource.message
     })
+
+    console.log("testDeleteList:", resource);
+    
 }
 
-// DELETE (404) --> /users/:userId/:listId
+// DELETE (404) --> /users/:userId/lists/:listId
 async function testDeleteListError() {
     const options = {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
     }
 
-    const response = await fetch(`${baseUrl}/users/0/0`, options);
+    const response = await fetch(`${baseUrl}/users/1000/1`, options);
     const resource = await response.json();
 
     logTest({
@@ -78,6 +86,9 @@ async function testDeleteListError() {
         status: response.status,
         message: resource.error
     })
+
+    console.log("testDeleteListError:", response.status);
+    
 }
 
 // POST (201) --> /users/:userId/:listId (listId bör ej existera om man skapar en ny?)
@@ -87,7 +98,7 @@ async function testDeleteListError() {
 // PATCH (404) --> /users/:userId/:listId 
 
 
-
+/*
 // POST (201) --> /users/:userId/:listId/item
 async function testPostItem () {
     const options = {
@@ -189,6 +200,7 @@ async function testGetAllItems () {
 
 // GET (404) --> /users/:userId/:listId/:itemId
 
+*/
 
 /*
 logTest({

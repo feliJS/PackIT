@@ -28,7 +28,7 @@ async function testCreateList () {
         })
     }
 
-    const response = await fetch(`${baseUrl}/users/10/lists`);
+    const response = await fetch(`${baseUrl}/users/10/lists`, options);
     const resource = await response.json();
 
     logTest({
@@ -46,6 +46,21 @@ testCreateList();
 
 
 // GET (200) --> /users/:userId/lists
+async function testGetAllLists () {
+    const response = await fetch(`${baseUrl}/users/1/lists`);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Get All Lists",
+        metod: "GET",
+        status: response.status,
+        message: resource
+    })
+
+    console.log("testGetAllLists:", resource);
+}
+
+testGetAllLists();
 
 
 // GET (200) --> /users/:userId/lists/:listId 

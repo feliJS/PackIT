@@ -25,7 +25,7 @@ export async function usersHandler(req) {
     }
 
     let reqBody = {};
-        if (reqMethod !== "GET" && reqMethod !== "OPTIONS") {
+    if (reqMethod !== "GET" && reqMethod !== "OPTIONS") {
         reqBody = await req.json();
     }
     const allowedOrigins = [
@@ -52,11 +52,15 @@ export async function usersHandler(req) {
 
     const rootUsersPattern = new URLPattern({ pathname: "/users" });
     const userIdPattern = new URLPattern({ pathname: "/users/:userId" });
+    const userAddPattern = new URLPattern({ pathname: "/users/add" });
+    const userSearchPattern = new URLPattern({ pathname: "/users/search"});
     const loginPattern = new URLPattern({ pathname: "/users/login" });
     const logoutPattern = new URLPattern({ pathname: "/users/logout" });
 
     const rootMatch = rootUsersPattern.exec(reqUrl);
     const userIdMatch = userIdPattern.exec(reqUrl);
+    const userAddMatch = userAddPattern.test(reqUrl)
+    const userSearchMatch = userSearchPattern.test(reqUrl)
     const isLogin = loginPattern.test(reqUrl);
     const isLogout = logoutPattern.test(reqUrl);
 
@@ -83,6 +87,18 @@ export async function usersHandler(req) {
 
         if (reqMethod === "DELETE") {
             return deleteUserFunc(urlUserId, sessionId, responseHeaders);
+        }
+    }
+
+    if(userAddMatch){
+        if (reqMethod === "POST") {
+            return addUser(reqBody.id, sessionId, responseHeaders);
+        }
+    }
+
+    if(userSearchMatch){
+        if (reqMethod === "POST") {
+            return searchUser(reqBody.username, sessionId, responseHeaders);
         }
     }
 

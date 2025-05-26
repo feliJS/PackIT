@@ -76,6 +76,9 @@
     "id": 1748265198014,
     "name": "Icebear",
     "password": "1234",
-    "pfp": "https://images.unsplash.com/photo-1609167839803-2563add6329e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgyNjUxNzh8&ixlib=rb-4.1.0&q=80&w=400"
+    "pfp": "https://images.unsplash.com/photo-1609167839803-2563add6329e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgyNjUxNzh8&ixlib=rb-4.1.0&q=80&w=400",
+    "friends": [
+      
+    ]
   }
 ]

@@ -56,6 +56,35 @@ export async function createUserFunc(reqBody, responseHeaders) {
   });
 }
 
+
+// (POST) /users/add
+export async function addUser(userToAddId, sessionId, responseHeaders) {
+  if (!userToAddId) {
+    return new Response(JSON.stringify({ error: "Missing fields" }), {
+      status: 400,
+      headers: { ...responseHeaders },
+    });
+  }
+
+  const users = await readUsers();
+  let sessionUser = users.find((u) => u.id == sessionId);
+  if (sessionUser.friends.includes(userToAddId)) {
+    return new Response(JSON.stringify({ error: "User already froiend" }), {
+      status: 409,
+      headers: { ...responseHeaders },
+    });
+  }
+  sessionUser.friends.push(userToAddId);
+  await writeUsers(users);
+
+  return new Response("User friended!", {
+    status: 200,
+    headers: responseHeaders,
+  });
+}
+
+// (POST) /users/friends
+
 // (GET)  /users/:id
 export async function getUserFunc(urlUserId, responseHeaders) {
   const users = await readUsers();

@@ -1,5 +1,5 @@
 import { usersHandler } from "./users/users-api.js";
-import { listHandler } from "./lists/listService.js";
+import { listHandler } from "./lists/list-api.js";
 import { imageHandler } from "./unsplash/imageApi.js";
 
 function handler(req) {

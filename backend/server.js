@@ -11,7 +11,7 @@ async function handler(request) {
   console.log(`copyServer: [${request.method}] ${path}`);
 
   if (path === "/" || path === "/home") {
-    const response = await serveFile(request, "../copyIndex.html");
+    const response = await serveFile(request, "../index.html");
     response.headers.set("content-type", "text/html");
     return response;
   }

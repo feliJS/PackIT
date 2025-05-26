@@ -1,6 +1,4 @@
-
-import { UserAPI } from "/common/client-class.js";
-
+import { UserAPI } from "/client/users-client.js";
 const userApi = new UserAPI("http://localhost:8000");
 
 // (returnerar null om ej hittad)

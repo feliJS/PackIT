@@ -17,6 +17,7 @@ function logTest ({ rubrik, metod, status, meddelande}) {
     reqLog.appendChild(row);
 }
 
+
 // POST (201) --> /users/:userId/lists    ------- UPD I API template = purpose (1-3) + listName = CITY?
 async function testCreateList () {
     const options = {
@@ -72,15 +73,18 @@ async function testGetListFound () {
         rubrik: "Get List",
         metod: "GET",
         status: response.status,
-        message: resource.listId
+        message: resource
     })
 
     console.log("testGetListFound:", resource);
 }
 
+testGetListFound();
+
+
 // GET (404) --> /users/:userId/lists/:listId
 async function testGetListNotFound () {
-    const response = await fetch(`${baseUrl}/users/1000/lists/0`)
+    const response = await fetch(`${baseUrl}/users/400/lists/0`)
     const resource = await response.json();
 
     logTest({
@@ -94,8 +98,11 @@ async function testGetListNotFound () {
     
 }
 
+testGetListNotFound();
+
+
 // DELETE (200) --> /users/:userId/lists/:listId 
-async function testDeleteList() {
+async function testDeleteListOK() {
     const options = {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
@@ -115,6 +122,9 @@ async function testDeleteList() {
     
 }
 
+testDeleteListOK();
+
+
 // DELETE (404) --> /users/:userId/lists/:listId
 async function testDeleteListError() {
     const options = {
@@ -122,25 +132,21 @@ async function testDeleteListError() {
         headers: {"Content-Type": "application/json"}
     }
 
-    const response = await fetch(`${baseUrl}/users/1000/1`, options);
+    const response = await fetch(`${baseUrl}/users/400/1`, options);
     const resource = await response.json();
 
     logTest({
-        rubrik: "List NOT Found",
+        rubrik: "List Not Found",
         metod: "DELETE",
         status: response.status,
         message: resource.error
     })
 
     console.log("testDeleteListError:", response.status);
-    
 }
 
-// POST (201) --> /users/:userId/:listId (listId bör ej existera om man skapar en ny?)
-// POST (400) --> /users/:userId/:listId 
+testDeleteListError();
 
-// PATCH (200) --> /users/:userId/:listId 
-// PATCH (404) --> /users/:userId/:listId 
 
 
 /*

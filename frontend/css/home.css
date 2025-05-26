@@ -98,3 +98,14 @@
     background-color: var(--color-primary-light);
     color: var(--color-beige);
 }
+
+button:hover {
+    cursor: pointer;
+}
+
+/* Om användaren ej är inloggad */
+button.create-list-btn-disabled {
+    background-color: var(--color-accent);
+    opacity: 0.6;
+    cursor: not-allowed;
+}

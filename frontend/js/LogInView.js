@@ -3,7 +3,6 @@ import { UserAPI } from '/client/users-client.js';
 import { navigateTo } from "./router.js";
 const userApi = new UserAPI('http://localhost:8000');
 
-export default function renderLoginRegister(){
     const imageApiBase = "http://localhost:8000/image";
     let cachedAvatarUrl = null; 
 
@@ -110,11 +109,11 @@ export default function renderLoginRegister(){
         );
     }
 
-    function openRegister() {
+    export function openRegister() {
         createRegister();
     }
 
-    function openLogin() {
+    export function openLogin() {
         createLogin();
     }
 
@@ -125,7 +124,4 @@ export default function renderLoginRegister(){
         if (loginBox) loginBox.innerHTML = "";
     }
 
-    document.getElementById("create-acc-button").addEventListener('click', openRegister);
-    document.getElementById("log-in-button").addEventListener('click', openLogin);
 
-}

@@ -30,11 +30,11 @@ export default function renderHome() {
     navigateTo("create-list");
   });
 
-  homeDiv.querySelector(".log-in-button")?.addEventListener("click", () => {
+  homeDiv.querySelector(".login-button")?.addEventListener("click", () => {
     navigateTo("login");
   });
 
-  homeDiv.querySelector(".create-acc-button")?.addEventListener("click", () => {
+  homeDiv.querySelector(".create-button")?.addEventListener("click", () => {
     navigateTo("register");
   });
 }

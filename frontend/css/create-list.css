@@ -1,0 +1,202 @@
+@font-face {
+    font-family: "fredoka";
+    src: url(/assets/fonts/static/Fredoka-Regular.ttf);
+}
+
+:root {
+    --color-primary: #34495E;
+    /* Huvudsakliga färgen: knappar, länkar, logga, aktiva element */
+    --color-primary-light: #6FA9BB;
+    --color-primary-dark: #2c3e50;
+    --color-secondary: #4a674f;
+    /* komplement till primary: andra knappar eller andra detaljer */
+    --color-accent: #f59e0b;
+    /* Fångar uppmärksamhet */
+    --color-background: #ffffff;
+    --color-surface: #f9fafb;
+    --color-border: #DFE6E9;
+    --color-text-default: #555555;
+    --color-text-muted: #7F8C8D;
+
+    --font-size-xs: 12px;
+    --font-size-s: 14px;
+    --font-size-base: 16px;
+    --font-size-l: 20px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 36px;
+    --font-size-3xl: 48px;
+
+    --font-weight-base: 400;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --spacing-xs: 8px;
+    --spacing-s: 16px;
+    --spacing-m: 24px;
+    --spacing-l: 32px;
+    --spacing-xl: 40px;
+    --spacing-2xl: 60px;
+    --spacing-4xl: 100px;
+
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 16px;
+
+    --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-m: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-l: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+/* --- Modul  --- */
+.create-list-module {
+    background-color: var(--color-primary-light);
+    /* Turkos */
+    border-radius: var(--radius-m);
+    padding: var(--spacing-xl) var(--spacing-2xl);
+    min-width: 700px;
+    min-height: 600px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-l);
+}
+
+/* --- Rubriker --- */
+.create-list-module-h1,
+.create-list-module-h3 {
+    color: var(--color-background);
+    margin: 0;
+    text-align: center;
+}
+
+.create-list-module-h1 {
+    font-size: var(--font-size-xl)
+}
+
+.create-list-module-h3 {
+
+    font-size: var(--font-size-2xl)
+}
+
+/* --- Input containers --- */
+
+.create-list-header-container {
+color: var(--color-surface);}
+
+.create-list-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-s);
+}
+
+.create-list-btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-list-input-container-step-2 {
+    display: flex;
+    flex-direction: row;
+}
+
+.create-list-input-container-step-3,
+.create-list-input-container-step-4 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: var(--spacing-s);
+}
+
+
+
+
+.create-list-module-user-input {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+}
+
+.create-list-purpose-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.create-list-module-user-input-step-2 {
+    width: var(--spacing-4xl);
+    height: 40px;
+    font-size: var(--spacing-s);
+}
+
+/* .create-list-module-user-input-month, .create-list-module-user-input-day {
+padding: var(--spacing-xs) var(--spacing-m);
+} */
+
+.create-list-purpose-options-wellness-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* --- Knappar --- */
+.create-list-btn {
+    background-color: var(--color-secondary);
+    color: var(--color-surface);
+    border: none;
+    border-radius: var(--radius-m);
+    padding: var(--spacing-s) var(--spacing-m);
+    cursor: pointer;
+    font-weight: var(--font-weight-bold);
+    transition: background-color 0.3s ease;
+}
+
+.create-list-btn-next,
+.create-list-btn-create {
+    background-color: #5b7961;
+}
+
+.create-list-btn-next:hover,
+.create-list-btn-create:hover {
+    background-color: #4a634f;
+}
+
+.create-list-btn-back {
+    background-color: #ccc;
+    color: #333;
+}
+
+.create-list-purpose-h4-wellness {
+    margin: 0;
+}
+
+.create-list-purpose-h4-wellness-fist {
+    margin-top: var(--spacing-xs);
+}
+
+.create-list-purpose-h4-wellness-last {
+    margin-bottom: var(--spacing-s);
+}
+
+.create-list-btn-hide {
+    visibility: hidden;
+}
+
+.create-list-btn-back:hover {
+    background-color: #bbb;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    cursor: pointer;
+}

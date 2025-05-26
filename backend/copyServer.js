@@ -14,20 +14,10 @@ async function handler(request) {
     return response;
   }
 
-
   const fileResponse = await serveDir(request, {
     fsRoot: "../frontend",
   });
   
-
-  if (fileResponse.status === 200 && path.endsWith(".js")) {
-    fileResponse.headers.set("content-type", "application/javascript");
-  }
-
-  if (path.endsWith(".js")) {
-    fileResponse.headers.set("content-type", "application/javascript");
-  }
-
   return fileResponse;
 }
 

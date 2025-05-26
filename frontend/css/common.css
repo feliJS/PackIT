@@ -97,10 +97,11 @@
 
     display: flex;
     justify-content: center;
-
-/*     background-color: var(--color-background);
+    align-items: center;
+    /*     background-color: var(--color-background);
  */
 }
+
 
 .footer {
     font-size: var(--font-size-s);

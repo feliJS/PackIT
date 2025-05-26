@@ -1,12 +1,13 @@
 
-console.log("I router 2")
 
 import renderHome from "../js/homeView.js";
- import renderCreateList from "../js/createlistView.js";
+import renderCreateList from "../js/createlistView.js";
 
-/* import renderProfile from "../js/profileView.js"; */
+/* 
+import renderProfile from "../js/profileView.js";
+import renderLoginRegister from "../js/logInView.js"; 
+*/
 
-console.log("I router 9")
 
 function loadCSS(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
@@ -26,16 +27,14 @@ function hideAllViews() {
 function removeCSS(href) {
     const link = document.querySelector(`link[href="${href}"]`);
     if (link) link.remove();
-  }
-  
+}
+
 
 export function navigateTo(view) {
 
     hideAllViews();
-
     removeCSS("/css/home.css");
     removeCSS("/css/create-list.css");
-
 
 
     switch (view) {
@@ -56,6 +55,12 @@ export function navigateTo(view) {
            loadCSS("/frontend/css/profile.css");
            document.querySelector(".profile-box").style.display = "inline-block";
            renderProfile();
+           break; 
+        
+        case "loginRegister":
+           loadCSS("/frontend/css/loginRegister.css");
+           document.querySelector(".login-register-box").style.display = "inline-block";
+           renderLoginRegister();
            break; 
         */
 

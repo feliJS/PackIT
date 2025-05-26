@@ -1,12 +1,10 @@
 
+/* router.js */
 
 import renderHome from "../js/homeView.js";
 import renderCreateList from "../js/createlistView.js";
-
-/* 
+import { openRegister, openLogin } from "/js/LogInView.js";
 import renderProfile from "../js/profileView.js";
-import renderLoginRegister from "../js/logInView.js"; 
-*/
 
 
 function loadCSS(href) {
@@ -35,9 +33,10 @@ export function navigateTo(view) {
     hideAllViews();
     removeCSS("/css/home.css");
     removeCSS("/css/create-list.css");
+    removeCSS("/css/registerlogin.css");
+    removeCSS("/css/profile.css");
 
-
-    switch (view) {
+    switch (view, data = {}) {
         case "home":
             loadCSS("/css/home.css");
             document.querySelector(".home-box").style.display = "inline-block";
@@ -50,19 +49,24 @@ export function navigateTo(view) {
             renderCreateList();
             break;
 
-        /*   
         case "profile":
            loadCSS("/frontend/css/profile.css");
            document.querySelector(".profile-box").style.display = "inline-block";
-           renderProfile();
+           /* --- tripData, weatherData --- */
+           renderProfile(data.tripDataObj, data.weatherDataObj);
            break; 
-        
-        case "loginRegister":
-           loadCSS("/frontend/css/loginRegister.css");
-           document.querySelector(".login-register-box").style.display = "inline-block";
-           renderLoginRegister();
+
+        case "login":
+           loadCSS("/css/registerlogin.css");
+           document.querySelector(".login-box").style.display = "inline-block";
+           openLogin();
            break; 
-        */
+
+        case "register":
+           loadCSS("/css/registerlogin.css");
+           document.querySelector(".register-box").style.display = "inline-block";
+           openRegister();
+           break; 
 
         default:
             loadCSS("/css/home.css");

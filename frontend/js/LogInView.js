@@ -1,170 +1,156 @@
-//register & login
-import { UserAPI } from '/client/users-client.js';
-const userApi = new UserAPI('http://localhost:8000');
+import { UserAPI } from "/client/users-client.js";
+import { navigateTo } from "./router.js";
+
+const userApi = new UserAPI("http://localhost:8000");
 
 const imageApiBase = "http://localhost:8000/image";
-let cachedAvatarUrl = null; 
+let cachedAvatarUrl = null;
+
+function showError(containerSelector, msg) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+  const errEl = container.querySelector(".error-msg");
+  if (errEl) {
+    errEl.textContent = msg;
+    errEl.style.display = "block";
+  }
+}
+
+function hideError(containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+  const errEl = container.querySelector(".error-msg");
+  if (errEl) {
+    errEl.textContent = "";
+    errEl.style.display = "none";
+  }
+}
 
 async function fetchRandomAvatar() {
-    // content kan vara vad du vill söka på i Unsplash – t.ex. "avatar"
-    const res = await fetch(`${imageApiBase}/randomimage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: "animal" })
-    });
-    // imageAPI returnerar bara URL:en som ren text
-    return await res.text();
+  const res = await fetch(`${imageApiBase}/randomimage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: "animal" }),
+  });
+  return await res.text();
 }
 
-function createAccountPopup(containerSelector, btnId, btnText, onBtnClick, showProfilePic) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
+function createAccountPopup(
+  containerSelector,
+  btnId,
+  btnText,
+  onBtnClick,
+  showProfilePic,
+) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
 
-    // Lägg bara till profile-pic om showProfilePic är true
-    const profilePicHTML = showProfilePic ? '<div class="profile-pic"></div>' : '';
+  const profilePicHTML = showProfilePic
+    ? '<div class="profile-pic"></div>'
+    : "";
 
-    container.innerHTML = `
-        <div class="account-popup" id="account-field">
-            <div class="account-container">
-                ${profilePicHTML}
-                <div class="inputs">
-                    <input id="username" placeholder="Username" type="text">
-                    <input id="password" placeholder="Password" type="password">
-                    <button class="btn" id="${btnId}">${btnText}</button>
-                    <button class="btn cancel" id="cancel-btn">Close</button>
-                </div>
-            </div>
+  container.innerHTML = `
+    <div class="account-popup" id="account-field">
+      <div class="account-container">
+        ${profilePicHTML}
+        <div class="inputs">
+          <input id="username" placeholder="Username" type="text" />
+          <input id="password" placeholder="Password" type="password" />
+          <p class="error-msg" style="display: none"></p>
+          <button class="btn" id="${btnId}">${btnText}</button>
+          <button class="btn cancel" id="cancel-btn">Close</button>
         </div>
-    `;
+      </div>
+    </div>
+  `;
 
-    const cancelBtn = document.getElementById('cancel-btn');
-    const originalText = cancelBtn.textContent;
+  // Dölj gamla felmeddelanden om popupen öppnas igen
+  hideError(containerSelector);
 
-    cancelBtn.addEventListener('mouseenter', () => {
-        cancelBtn.textContent = originalText + ' :(';
-    });
+  const cancelBtn = document.getElementById("cancel-btn");
+  const originalText = cancelBtn.textContent;
 
-    cancelBtn.addEventListener('mouseleave', () => {
-        cancelBtn.textContent = originalText;
-    });
+  cancelBtn.addEventListener("mouseenter", () => {
+    cancelBtn.textContent = originalText + " :(";
+  });
 
-    cancelBtn.addEventListener('click', close);
+  cancelBtn.addEventListener("mouseleave", () => {
+    cancelBtn.textContent = originalText;
+  });
 
-    const actionBtn = document.getElementById(btnId);
-    actionBtn.addEventListener("click", onBtnClick);
+  cancelBtn.addEventListener("click", close);
+
+  const actionBtn = document.getElementById(btnId);
+  actionBtn.addEventListener("click", onBtnClick);
 }
+
 async function createRegister() {
-    // Hämta endast en ny bild om vi inte redan har en
-    if (!cachedAvatarUrl) {
-        cachedAvatarUrl = await fetchRandomAvatar();
-    }
+  if (!cachedAvatarUrl) {
+    cachedAvatarUrl = await fetchRandomAvatar();
+  }
 
-    // Bygg popupen
-    createAccountPopup(
-        '.register-box',
-        'reg',
-        'Register!',
-        () => {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            userApi.newAccount(username, password, cachedAvatarUrl)
-                .then(user => {
-                    close();
-                    window.location.reload(true);
-                })
-                .catch(err => {
-                    alert("Kunde inte skapa konto! " + (err.message || err));
-                });
-        },
-        true
-    );
+  createAccountPopup(
+    ".register-box",
+    "reg",
+    "Register!",
+    async () => {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      try {
+        await userApi.newAccount(username, password, cachedAvatarUrl);
+        close();
+      } catch (err) {
+        let errorMsg = "Kunde inte skapa konto!";
+        if (err?.error) errorMsg = err.error;
+        else if (err?.message) errorMsg = err.message;
+        showError(".register-box", errorMsg);
+      }
+    },
+    true,
+  );
 
-    // Visa bilden
-    const picDiv = document.querySelector('.profile-pic');
-    if (picDiv) {
-        picDiv.style.backgroundImage = `url(${cachedAvatarUrl})`;
-        picDiv.style.backgroundSize = "cover";
-        picDiv.style.backgroundPosition = "center";
-    }
+  const picDiv = document.querySelector(".profile-pic");
+  if (picDiv) {
+    picDiv.style.backgroundImage = `url(${cachedAvatarUrl})`;
+    picDiv.style.backgroundSize = "cover";
+    picDiv.style.backgroundPosition = "center";
+  }
 }
-
 
 function createLogin() {
-    createAccountPopup(
-        '.login-box',
-        'log',
-        'Login!',
-        () => {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            userApi.loginUser(username, password).then(user => {
-                close();
-                window.location.reload(true);
-            }).catch(err => {
-                alert("Kunde ej logga in! " + (err.message || err));
-            });
-        },
-        false 
-    );
+  createAccountPopup(
+    ".login-box",
+    "log",
+    "Login!",
+    async () => {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      try {
+        await userApi.loginUser(username, password);
+        close();
+      } catch (err) {
+        let errorMsg = "Kunde inte logga in!";
+        if (err?.error) errorMsg = err.error;
+        else if (err?.message) errorMsg = err.message;
+        showError(".login-box", errorMsg);
+      }
+    },
+    false,
+  );
 }
 
-function openRegister() {
-    createRegister();
+export function openRegister() {
+  createRegister();
 }
 
-function openLogin() {
-    createLogin();
+export function openLogin() {
+  createLogin();
 }
 
 function close() {
-    const regBox = document.querySelector(".register-box");
-    if (regBox) regBox.innerHTML = "";
-    const loginBox = document.querySelector(".login-box");
-    if (loginBox) loginBox.innerHTML = "";
-}
-
-document.getElementById("create-acc-button").addEventListener('click', openRegister);
-document.getElementById("log-in-button").addEventListener('click', openLogin);
-
-
-
-// script.js till index.html home!!!
-
-function getCookie(name) { //hittar rätt cookie
-    return document.cookie
-        .split('; ')
-        .find(cookie => cookie.startsWith(name + "="))
-        ?.split('=')[1] || null;
-}
-
-const sessionId = getCookie("session_id");
-
-const loginDiv = document.getElementById("log-in-div");
-const createListButton = document.getElementById("create-list-button");
-const errorMsg = document.getElementById("error-create-list");
-const header = document.querySelector("#create-list-div h1");
-
-createListButton.addEventListener("click", function (e) {
-    if (!sessionId) {
-        errorMsg.textContent = "You need to login or create an account before creating a list!";
-    } else {
-        errorMsg.textContent = "";
-        //här kommer sedan en "redirect" till koden som kommer öppna frågorna
-    }
-});
-
-if (sessionId) {
-    const loginDiv = document.getElementById("log-in-div");
-    if (loginDiv) {
-        loginDiv.style.visibility = 'hidden';
-    }
-    userApi.getSpecificUser(sessionId).then(user => {
-                header.textContent = `Welcome, ${user.name}!`;
-            })
-        }
-else{
-    if (loginDiv) {
-        loginDiv.style.visibility = 'visible';
-        header.textContent = "CREATE YOUR PACKING LIST";
-    }
+  navigateTo("home");
+  const regBox = document.querySelector(".register-box");
+  if (regBox) regBox.innerHTML = "";
+  const loginBox = document.querySelector(".login-box");
+  if (loginBox) loginBox.innerHTML = "";
 }

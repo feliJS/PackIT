@@ -1,8 +1,16 @@
-console.log("i createlistViiew")
+/* createlistView.js */
+
 import { navigateTo } from "./router.js";
 import { getWeatherDataFunc } from "/client/weater-client.js";
 
-export default function renderCreateList(tripData) {
+/* function getCookie(name) {
+    return document.cookie
+        .split('; ')
+        .find(cookie => cookie.startsWith(name + "="))
+        ?.split('=')[1] || null;
+} */
+
+export default function renderCreateList() {
 
     const tripDataObj = {
         city: "",
@@ -12,20 +20,36 @@ export default function renderCreateList(tripData) {
         duration: "",
         purpose: 1,
         vehicle: 2,
-        userId: 77775443 // *** VALIDERA O HÄMTA USER
+        /*      AKTIVERRA NÄR LOGIN FUNGERAR ***
+        userId: getCookie("session_id") 
+        */
+        userId: 1748265198014
     };
+
+    const weatherDataObj = {
+        country: "",
+        temperature: 22,
+        language: "",
+        localtime: "",
+        timezone_id: "",  // TA VÄRLDSDEL FÖR AVG. TEMP. NATT/DAG
+        weather_descriptions: "",
+        uv_index: "",
+        is_day: ""  // OM NEJ SÅ SÄTT DEF. ÖKAD TEMP? ^^
+    }
 
     const createlistDiv = document.querySelector(".create-list-box");
 
     if (!createlistDiv) {
-        console.error("Elementet .createlist-box hittades inte!");
+        console.error("Elementet .createlist-box finns ej i HTML");
         return;
     }
 
     let currentStep = 1;
     goToStep(currentStep);
 
+    // (Varje "step" anges som parameter i funktionsanrop)
     function goToStep(step) {
+
         currentStep = step;
         createlistDiv.innerHTML = "";
 
@@ -44,10 +68,13 @@ export default function renderCreateList(tripData) {
                 break;
         }
     }
+}
 
-    function renderStep1() {
-        const newDiv = document.createElement("div");
-        newDiv.innerHTML = `
+
+/* ---  STEP 1 --- */
+function renderStep1() {
+    const newDiv = document.createElement("div");
+    newDiv.innerHTML = `
         <div class="create-list-module">
 
             <div class="create-list-header-container create-list-header-container-step-1">
@@ -68,27 +95,32 @@ export default function renderCreateList(tripData) {
         </div>
         `;
 
-        newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
-            tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
-            tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
 
-            if (!tripDataObj.city || !tripDataObj.country) {
-                alert("Please enter both city and country");
-                return;
-            }
+    /* --- EVENTLISTENERS (BTN) --- */
+    newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
+        tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
+        tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
 
-            // Anropa väderapi funktion
-            const weather = await submitDestination(tripDataObj.city);
-            goToStep(2);
-        });
+        if (!tripDataObj.city || !tripDataObj.country) {
+            alert("Please enter both city and country");
+            return;
+        }
 
-        return newDiv;
-    }
+        goToStep(2);
+    });
 
-    function renderStep2() {
-        const newDiv = document.createElement("div");
 
-        newDiv.innerHTML = `
+    /* --- create-list-box (APPENDCHILD) --- */
+    return newDiv;
+}
+
+
+
+/* ---  STEP 2 --- */
+function renderStep2() {
+    const newDiv = document.createElement("div");
+
+    newDiv.innerHTML = `
         <div class="create-list-module">
 
             <div class="create-list-header-container create-list-header-container-step-2">
@@ -122,30 +154,37 @@ export default function renderCreateList(tripData) {
 
         </div>`;
 
-        newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
-            tripDataObj.day = newDiv.querySelector(".create-list-module-user-input-day").value;
-            tripDataObj.month = newDiv.querySelector(".create-list-module-user-input-month").value;
-            tripDataObj.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
 
-            if (!tripDataObj.day || !tripDataObj.month || !tripDataObj.duration) {
-                alert("Please enter fields");
-                return;
-            }
+    /* --- EVENTLISTENERS (BTN) --- */
+    newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
+        tripDataObj.day = newDiv.querySelector(".create-list-module-user-input-day").value;
+        tripDataObj.month = newDiv.querySelector(".create-list-module-user-input-month").value;
+        tripDataObj.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
 
-            goToStep(3);
-        });
+        if (!tripDataObj.day || !tripDataObj.month || !tripDataObj.duration) {
+            alert("Please enter fields");
+            return;
+        }
 
-        newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
-            goToStep(1);
-        });
+        goToStep(3);
+    });
 
-        return newDiv;
-    }
+    newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+        goToStep(1);
+    });
 
-    function renderStep3() {
-        const newDiv = document.createElement("div");
 
-        newDiv.innerHTML = `
+    /* --- create-list-box (APPENDCHILD) --- */
+    return newDiv;
+}
+
+
+
+/* ---  STEP 3 --- */
+function renderStep3() {
+    const newDiv = document.createElement("div");
+
+    newDiv.innerHTML = `
         <div class="create-list-module">
     
             <div class="create-list-header-container create-list-header-container-step-3">
@@ -181,25 +220,31 @@ export default function renderCreateList(tripData) {
             </div>
     
         </div>`;
-    
-        newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
-            const selected = newDiv.querySelector("input[name='purpose']:checked");
-            tripDataObj.purpose = parseInt(selected.value);
-            goToStep(4);
-            console.log(tripDataObj)
-        });
 
-        newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
-            goToStep(2);
-        });
 
-        return newDiv;
-    }
+    /* --- EVENTLISTENERS (BTN) --- */
+    newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
+        const selected = newDiv.querySelector("input[name='purpose']:checked");
+        tripDataObj.purpose = parseInt(selected.value);
+        goToStep(4);
+        console.log(tripDataObj)
+    });
 
-    function renderStep4() {
-        const newDiv = document.createElement("div");
+    newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+        goToStep(2);
+    });
 
-        newDiv.innerHTML = `
+
+    /* --- create-list-box (APPENDCHILD) --- */
+    return newDiv;
+}
+
+
+/* ---  STEP 4 --- */
+function renderStep4() {
+    const newDiv = document.createElement("div");
+
+    newDiv.innerHTML = `
         <div class="create-list-module">
     
             <div class="create-list-header-container create-list-header-container-step-4">
@@ -234,31 +279,59 @@ export default function renderCreateList(tripData) {
             </div>
     
         </div>`;
-    
 
-        newDiv.querySelector(".create-list-btn-create").addEventListener("click", () => {
-            const selectedVehicle = newDiv.querySelector("input[name='vehicle']:checked");
-            tripDataObj.vehicle = parseInt(selectedVehicle.value);
-            // Spara ner res-datan
-            // Anropa profileView
-        });
 
-        newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
-            goToStep(3);
-        });
+    /* --- EVENTLISTENERS (BTN) --- */
+    newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+        goToStep(3);
+    });
 
-        return newDiv;
-    }
+    newDiv.querySelector(".create-list-btn-create").addEventListener("click", async () => {
 
-    async function submitDestination(city) {
-        try {
-            // weather 
-            const weatherObj = await getWeatherDataFunc(city);
-            const weatherData = await weatherObj.json();
-            return weatherData;
-        } catch (error) {
-            console.error(error);
-            return null;
+        const selectedVehicle = newDiv.querySelector("input[name='vehicle']:checked");
+        tripDataObj.vehicle = parseInt(selectedVehicle.value);
+
+        // Anropa väderapi funktion -> submitDestination() uppdaterar weatherDataObj
+        const weatherResponseOK = await submitDestination(tripDataObj.city);
+
+
+        if (weatherResponseOK) {
+
+            // Anropa router.js -> renderProfileView + css
+            return navigateTo("profile", { tripDataObj, weatherDataObj })
+
+        } else {
+
+            navigateTo("profile"); // ELLER RELOAD CREATE-LIST?? OM EJ VÄDERDATA KUNDE HITTAS?
+
         }
+    });
+
+
+    /* --- create-list-box (APPENDCHILD) --- */
+    return newDiv;
+}
+
+
+/* --- WEATHER --- */
+async function submitDestination(city) {
+    try {
+        const weatherResponseData = await getWeatherDataFunc(city);
+
+        /* OBS UPPDATERA MOT WEATHER-CLIIENT, SÄTT EN TILL FUNK FÖR ATT FÅ ALL DENNA DATAN OCH EJ BARA TEMP OSV */
+        weatherDataObj.country = weatherResponseData.location.country;
+        weatherDataObj.language = weatherResponseData.request.language;
+        weatherDataObj.localtime = weatherResponseData.location.localtime;
+        weatherDataObj.timezone = weatherResponseData.location.timezone_id;
+        weatherDataObj.temperature = weatherResponseData.current.temperature;
+        weatherDataObj.weather_descriptions = weatherResponseData.current.weather_descriptions[0];
+        weatherDataObj.uv_index = weatherResponseData.current.uv_index;
+        weatherDataObj.is_day = weatherResponseData.current.is_day;
+
+        return weatherDataObj;
+    } catch (error) {
+        console.error(error);
+        return null;
     }
 }
+

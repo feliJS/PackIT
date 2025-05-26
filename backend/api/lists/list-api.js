@@ -9,7 +9,6 @@ import {
     getAllItemsFunc,
     updateItemFunc,
     deleteItemFunc,
-    getItemFunc,
 } from "./listFunctions.js";
 
 export async function listHandler(req) {
@@ -59,12 +58,7 @@ export async function listHandler(req) {
 
     // === GET ===
     if (reqMethod === "GET") {
-        // /users/:userId/:listId/items/:itemId
-        if (singleItemMatch) {
-            const { userId, listId, itemId } = singleItemMatch.pathname.groups;
-            return getItemFunc(userId, listId, itemId, listDB, responseHeaders);
-        }
-
+    
         // /users/:userId/:listId/items
         if (allItemsMatch) {
             const { userId, listId } = allItemsMatch.pathname.groups;

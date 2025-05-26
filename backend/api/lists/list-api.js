@@ -1,13 +1,14 @@
 import {
+    createListFunc,
+    getAllListsFunc,
     getListFunc,
     deleteListFunc,
     addItemFunc,
-    getItemFunc,
-    deleteItemFunc,
+    getAllItemsFunc,
     updateItemFunc,
-    createListFunc,
-    getAllItemsFunc
-} from "./listApiServer.js";
+    deleteItemFunc
+    // getItemFunc
+} from "./listFunctions.js";
 
 export async function listHandler(req) {
     const reqBody = await req.json();
@@ -27,7 +28,7 @@ export async function listHandler(req) {
 
     // --- URL-patterns ---
     const expectedCreateListRoute = new URLPattern({ pathname: "/users/:userId/lists" });
-    const expectedListRoute = new URLPattern({ pathname: "/users/:userId/:listId" });
+    const expectedListRoute = new URLPattern({ pathname: "/users/:userId/lists/:listId" });
     const expectedAddNewItemRoute = new URLPattern({ pathname: "/users/:userId/:listId/items" });
     const expectedHandleItemRoute = new URLPattern({ pathname: "/users/:userId/:listId/items/:itemId" });
 
@@ -65,6 +66,10 @@ export async function listHandler(req) {
         return getListFunc(urlUserId, urlListId, listDB, responseHeaders);
     }
 
+    if (reqMethod === "GET" && matchedCreateListParams) {
+        return getAllListsFunc(urlUserId, listDB, responseHeaders);
+    }
+
     if (reqMethod === "DELETE" && matchedListRouteParams) {
         return deleteListFunc(urlUserId, urlListId, listDB, responseHeaders);
     }
@@ -72,6 +77,8 @@ export async function listHandler(req) {
     if (reqMethod === "POST" && matchedCreateListParams) {
         return await createListFunc(urlUserId, reqBody, listDB, responseHeaders);
     }
+
+
 
     // --- Item routes ---
     if (reqMethod === "POST" && matchedAddItemParams) {

@@ -2,16 +2,17 @@ console.log("i createlistViiew")
 import { navigateTo } from "./router.js";
 import { getWeatherDataFunc } from "/client/weater-client.js";
 
-export default function renderCreateList() {
+export default function renderCreateList(tripData) {
 
-    const tripData = {
+    const tripDataObj = {
         city: "",
         country: "",
         month: "",
         day: "",
         duration: "",
         purpose: 1,
-        vehicle: 2
+        vehicle: 2,
+        userId: 77775443 // *** VALIDERA O HÄMTA USER
     };
 
     const createlistDiv = document.querySelector(".create-list-box");
@@ -68,16 +69,16 @@ export default function renderCreateList() {
         `;
 
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
-            tripData.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
-            tripData.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
+            tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
+            tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
 
-            if (!tripData.city || !tripData.country) {
+            if (!tripDataObj.city || !tripDataObj.country) {
                 alert("Please enter both city and country");
                 return;
             }
 
             // Anropa väderapi funktion
-            const weather = await submitDestination(tripData.city);
+            const weather = await submitDestination(tripDataObj.city);
             goToStep(2);
         });
 
@@ -122,11 +123,11 @@ export default function renderCreateList() {
         </div>`;
 
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
-            tripData.day = newDiv.querySelector(".create-list-module-user-input-day").value;
-            tripData.month = newDiv.querySelector(".create-list-module-user-input-month").value;
-            tripData.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
+            tripDataObj.day = newDiv.querySelector(".create-list-module-user-input-day").value;
+            tripDataObj.month = newDiv.querySelector(".create-list-module-user-input-month").value;
+            tripDataObj.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
 
-            if (!tripData.day || !tripData.month || !tripData.duration) {
+            if (!tripDataObj.day || !tripDataObj.month || !tripDataObj.duration) {
                 alert("Please enter fields");
                 return;
             }
@@ -183,9 +184,9 @@ export default function renderCreateList() {
     
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
             const selected = newDiv.querySelector("input[name='purpose']:checked");
-            tripData.purpose = parseInt(selected.value);
+            tripDataObj.purpose = parseInt(selected.value);
             goToStep(4);
-            console.log(tripData)
+            console.log(tripDataObj)
         });
 
         newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
@@ -237,7 +238,7 @@ export default function renderCreateList() {
 
         newDiv.querySelector(".create-list-btn-create").addEventListener("click", () => {
             const selectedVehicle = newDiv.querySelector("input[name='vehicle']:checked");
-            tripData.vehicle = parseInt(selectedVehicle.value);
+            tripDataObj.vehicle = parseInt(selectedVehicle.value);
             // Spara ner res-datan
             // Anropa profileView
         });

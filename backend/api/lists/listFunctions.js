@@ -170,33 +170,6 @@ export async function getAllItemsFunc(urlUserId, urlListId, listDB, responseHead
 }
 
 
-// (GET) - ONÖDIG?? vi har inget ställe där endast en item displayas?
-export async function getItemFunc(urlUserId, urlListId, urlItemId, listDB, responseHeaders) {
-    const foundList = listDB.find(currList => currList.userId == urlUserId && currList.listId == urlListId);
-
-    if (!foundList) {
-        return new Response(JSON.stringify({ error: "List not found" }), {
-            status: 404,
-            headers: { ...responseHeaders }
-        });
-    }
-
-    const foundItem = foundList.listItems.find(currItem => currItem.itemId == urlItemId);
-
-    if (!foundItem) {
-        return new Response(JSON.stringify({ error: "Item not found" }), {
-            status: 404,
-            headers: { ...responseHeaders }
-        });
-    }
-
-    return new Response(JSON.stringify(foundItem), {
-        status: 200,
-        headers: { ...responseHeaders }
-    });
-}
-
-
 // /users/:userId/lists/:listId/items/:itemId
 // (PUT)
 export async function updateItemFunc(reqBody, urlUserId, urlListId, urlItemId, listDB, responseHeaders) {

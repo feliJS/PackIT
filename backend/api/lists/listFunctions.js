@@ -23,23 +23,50 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
 
     const mappedPurposeName = purposeMap[purpose];
 
-    // Hämta användarens basic-list
-    const userBasicList = listDB.find(l =>
-    l.userId === Number(userId) &&
-    l.listName.toLowerCase() === "basic list"
+    // Kolla om användaren redan har en Basic List
+        let userBasicList = listDB.find(l =>
+        l.userId === Number(urlUserId) &&
+        l.listName.toLowerCase() === "basic list"
     );
+
+    // Om inte – skapa en kopia av defaulten
+    if (!userBasicList) {
+        const defaultBasic = listDB.find(l =>
+        l.userId === 0 &&
+        l.listName.toLowerCase() === "basic list");
+
+        const basicListId = Math.max(...listDB.map(l => l.listId)) + 1;
+
+        userBasicList = {
+            userId: Number(urlUserId),
+            listId: basicListId,
+            listName: "Basic List",
+            listItems: JSON.parse(JSON.stringify(defaultBasic.listItems)) // kopiera
+        };
+
+        listDB.push(userBasicList);
+    }
   
+
     // Hämta rätt template-lista baserat på purpose
     const typeTemplate = listDB.find(l =>
         l.userId === 0 &&
         l.listName.toLowerCase() === mappedPurposeName.toLowerCase()
     );
 
+    if (!typeTemplate) {
+        return new Response(JSON.stringify({ error: "Purpose template not found" }), {
+          status: 404,
+          headers: { ...responseHeaders }
+        });
+    }
+
+
     // Skapa ny list-objekt
     const newListId = Math.max(...listDB.map(l => l.listId)) + 1;
 
     const newList = {
-        userId: Number(userId),
+        userId: Number(urlUserId),
         listId: newListId,
         listName: listName, // <-- stadens namn
         listItems: [...userBasicList.listItems, ...typeTemplate.listItems]
@@ -53,6 +80,7 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
         headers: { ...responseHeaders }
     });
 }
+
 
 // (GET) - hämta alla listor för en userId (behövs till profilsidan för att displaya alla listor)
 export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {

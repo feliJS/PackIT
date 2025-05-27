@@ -29,8 +29,9 @@ function findUser() {
 }
 
 // const user = findUser() //??
-const userID = 0;
+const userID = 1;
 const listData = listApi.getAllLists(userID);
+
 
 export default function renderProfile(userId, tripData, weatherData) {
     if(tripData && weatherData) {
@@ -52,7 +53,7 @@ export default function renderProfile(userId, tripData, weatherData) {
     createButton.id = "create-list-button";
     createButton.textContent = "Create List";
     
-    profileContainer.appendChild(loadName(userName));
+    profileContainer.appendChild(loadName("userName"));
     profileContainer.appendChild(createButton);
     loadLists(userID, listData, allListsContainer);
 }
@@ -66,14 +67,24 @@ function renderNewList(userId, tripData, weatherData) {
 
 }
 
+let userIDo = 1;
 
-function loadLists(userID, listDB, container) {
+function loadLists(userIDo, container) {
     //getuserLists
-
-    for (let list of listDB) {
-        createListObj(list, container);
-        
+    if (listData) {
+        listApi.getAllLists(userIDo).then( (x) => {
+            console.log(x)
+    
+            for (let list of x) {
+                createListObj(list, container);
+                
+            }
+            console.log(createListObj)
+    
+        } )
     }
+   
+
 }
 
 
@@ -324,4 +335,3 @@ function editList (list, weatherData) {
 
     handleListView.appendChild(aboutBox);
 }
-renderProfile();

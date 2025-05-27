@@ -84,6 +84,7 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
 
 // (GET) - hämta alla listor för en userId (behövs till profilsidan för att displaya alla listor)
 export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {
+    console.log("I getAllListsFunc")
     const userLists = listDB.filter(list => list.userId == urlUserId);
   
     return new Response(JSON.stringify(userLists), {

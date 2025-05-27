@@ -110,9 +110,3 @@ body {
 .btn.cancel:hover {
     box-shadow: 0 6px 16px #1e2b20;
 }
-
-.error-msg {
-  color: #e74c3c;
- font-weight: 600;
- margin-top: 6px;
-}

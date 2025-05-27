@@ -6,28 +6,6 @@ const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
 
 
-export default function renderProfile(tripData, weatherData) {
-    if(tripData && weatherData) {
-        editList(userId, tripData, weatherData);
-    }
-    // DOM OSV.
-    const profileViewDOM = document.getElementById("profileView");
-    const profileContainer = document.createElement("div");
-    profileContainer.classList.add("profileHead")
-    const allListsContainer = document.createElement("div");
-    allListsContainer.classList.add("allListsContainer");
-    profileViewDOM.appendChild(profileContainer);
-    profileViewDOM.appendChild(allListsContainer);
-    const handleListView = document.getElementById("handleListView");
-
-    const createButton = document.createElement("button");
-    createButton.id = "create-list-button";
-    createButton.textContent = "Create List";
-    
-    profileContainer.appendChild(loadName(userName));
-    profileContainer.appendChild(createButton);
-    loadLists(userID, listData, allListsContainer);
-}
 
 function findUser() {
     function getCookie(name) { //hittar rätt cookie
@@ -49,18 +27,50 @@ function findUser() {
         window.location.href = "/";
     }
 }
+
+// const user = findUser() //??
+const userID = 0;
+const listData = listApi.getAllLists(userID);
+
+export default function renderProfile(userId, tripData, weatherData) {
+    if(tripData && weatherData) {
+        renderNewList(userId, tripData, weatherData);
+    }
+
+    
+    // DOM OSV.
+    const profileViewDOM = document.querySelector(".profile-box")
+    const profileContainer = document.createElement("div");
+    profileContainer.classList.add("profileHead")
+    const allListsContainer = document.createElement("div");
+    allListsContainer.classList.add("allListsContainer");
+    profileViewDOM.appendChild(profileContainer);
+    profileViewDOM.appendChild(allListsContainer);
+    const handleListView = document.getElementById("handleListView");
+
+    const createButton = document.createElement("button");
+    createButton.id = "create-list-button";
+    createButton.textContent = "Create List";
+    
+    profileContainer.appendChild(loadName(userName));
+    profileContainer.appendChild(createButton);
+    loadLists(userID, listData, allListsContainer);
+}
+
+
+// Väg från "Create List-mode"
+
 function renderNewList(userId, tripData, weatherData) {
     const newList = listApi.createList(userId, tripData.listName, tripData.purpose);
     editList(newList, weatherData);
 
 }
 
-// SATTE TILLFÄLLIG FUNC RUNT BEF. KOD FÖR BÄTTRE ÖVERBLICK AV FILEN
 
 function loadLists(userID, listDB, container) {
     //getuserLists
-    const userLists = listDB.filter((list) => list.userId === userID)
-    for (let list of userLists) {
+
+    for (let list of listDB) {
         createListObj(list, container);
         
     }
@@ -314,3 +324,4 @@ function editList (list, weatherData) {
 
     handleListView.appendChild(aboutBox);
 }
+renderProfile();

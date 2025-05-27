@@ -20,23 +20,21 @@ function logTest({ title, method, status, message }) {
 }
 
 // POST /lists/:userId (201)
-async function testCreateListSuccess() {
+const response = await fetch(`${baseUrl}/lists/1`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ listName: "Barcelona", purpose: 1 })
+});
 
-  const response = await fetch(`${baseUrl}/lists/1`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ listName: "Barcelona", purpose: 1 })
-  });
-  
-  const body = await response.json();
+const body = await response.json();
 
-  logTest({
-    title: "Create List (Success)",
-    method: "POST",
-    status: response.status,
-    message: body
-  });
-}
+logTest({
+  title: "Create List (Success)",
+  method: "POST",
+  status: response.status,
+  message: body
+});
+
 
 // POST /lists/:userId (404)
 async function testCreateListTemplateNotFound() {

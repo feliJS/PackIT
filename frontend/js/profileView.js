@@ -1,11 +1,17 @@
 /* profileView.js */
 
 import { UserAPI } from '/client/users-client.js';
+import { ListAPI } from '/client/list-client.js';
 const userApi = new UserAPI('http://localhost:8000');
+const listApi = new ListAPI('http://localhost:8000');
 
 
-export default function renderProfile(tripData, weaterData) {
-    // DOM OSV.const profileViewDOM = document.getElementById("profileView");
+export default function renderProfile(tripData, weatherData) {
+    if(tripData && weatherData) {
+        editList(userId, tripData, weatherData);
+    }
+    // DOM OSV.
+    const profileViewDOM = document.getElementById("profileView");
     const profileContainer = document.createElement("div");
     profileContainer.classList.add("profileHead")
     const allListsContainer = document.createElement("div");
@@ -23,8 +29,6 @@ export default function renderProfile(tripData, weaterData) {
     loadLists(userID, listData, allListsContainer);
 }
 
-
-// SATTE TILLFÄLLIG FUNC RUNT BEF. KOD FÖR BÄTTRE ÖVERBLICK AV FILEN
 function findUser() {
     function getCookie(name) { //hittar rätt cookie
         return document.cookie
@@ -45,6 +49,13 @@ function findUser() {
         window.location.href = "/";
     }
 }
+function renderNewList(userId, tripData, weatherData) {
+    const newList = listApi.createList(userId, tripData.listName, tripData.purpose);
+    editList(newList, weatherData);
+
+}
+
+// SATTE TILLFÄLLIG FUNC RUNT BEF. KOD FÖR BÄTTRE ÖVERBLICK AV FILEN
 
 function loadLists(userID, listDB, container) {
     //getuserLists
@@ -159,7 +170,7 @@ function createItem(item) {
 }
 
 
-function editList (list) {
+function editList (list, weatherData) {
     handleListView.classList.add("active");
     handleListView.innerHTML = "";
     let listContainer = document.createElement("div");
@@ -269,11 +280,19 @@ function editList (list) {
 
     const weatherCard = document.createElement("div");
     weatherCard.classList.add("aboutCard", "weather");
-    //här hämta info om vädret
-    weatherCard.innerHTML = `
+    if(weatherData) {
+        weatherCard.innerHTML = `
         <div>Weather</div>
-        <div><span style="font-weight: normal;">17°</span> Sunny</div>
+        <div><span style="font-weight: normal;">${weatherData.temperature}°</span> Sunny</div>
         `;
+
+    } else {
+        weatherCard.innerHTML =`
+        <div>Weather</div>
+        <div><span style="font-weight: normal;">-</span> Sunny</div>
+        `;
+    }
+    
     aboutBox.appendChild(weatherCard);
 
     const timeCard = document.createElement("div");

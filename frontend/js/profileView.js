@@ -1,30 +1,12 @@
 /* profileView.js */
 
 import { UserAPI } from '/client/users-client.js';
+import { ListAPI } from '/client/list-client.js';
 const userApi = new UserAPI('http://localhost:8000');
+const listApi = new ListAPI('http://localhost:8000');
 
 
-export default function renderProfile(tripData, weaterData) {
-    // DOM OSV.const profileViewDOM = document.getElementById("profileView");
-    const profileContainer = document.createElement("div");
-    profileContainer.classList.add("profileHead")
-    const allListsContainer = document.createElement("div");
-    allListsContainer.classList.add("allListsContainer");
-    profileViewDOM.appendChild(profileContainer);
-    profileViewDOM.appendChild(allListsContainer);
-    const handleListView = document.getElementById("handleListView");
 
-    const createButton = document.createElement("button");
-    createButton.id = "create-list-button";
-    createButton.textContent = "Create List";
-    
-    profileContainer.appendChild(loadName(userName));
-    profileContainer.appendChild(createButton);
-    loadLists(userID, listData, allListsContainer);
-}
-
-
-// SATTE TILLFÄLLIG FUNC RUNT BEF. KOD FÖR BÄTTRE ÖVERBLICK AV FILEN
 function findUser() {
     function getCookie(name) { //hittar rätt cookie
         return document.cookie
@@ -46,10 +28,49 @@ function findUser() {
     }
 }
 
+// const user = findUser() //??
+const userID = 0;
+const listData = listApi.getAllLists(userID);
+
+export default function renderProfile(userId, tripData, weatherData) {
+    if(tripData && weatherData) {
+        renderNewList(userId, tripData, weatherData);
+    }
+
+    
+    // DOM OSV.
+    const profileViewDOM = document.querySelector(".profile-box")
+    const profileContainer = document.createElement("div");
+    profileContainer.classList.add("profileHead")
+    const allListsContainer = document.createElement("div");
+    allListsContainer.classList.add("allListsContainer");
+    profileViewDOM.appendChild(profileContainer);
+    profileViewDOM.appendChild(allListsContainer);
+    const handleListView = document.getElementById("handleListView");
+
+    const createButton = document.createElement("button");
+    createButton.id = "create-list-button";
+    createButton.textContent = "Create List";
+    
+    profileContainer.appendChild(loadName(userName));
+    profileContainer.appendChild(createButton);
+    loadLists(userID, listData, allListsContainer);
+}
+
+
+// Väg från "Create List-mode"
+
+function renderNewList(userId, tripData, weatherData) {
+    const newList = listApi.createList(userId, tripData.listName, tripData.purpose);
+    editList(newList, weatherData);
+
+}
+
+
 function loadLists(userID, listDB, container) {
     //getuserLists
-    const userLists = listDB.filter((list) => list.userId === userID)
-    for (let list of userLists) {
+
+    for (let list of listDB) {
         createListObj(list, container);
         
     }
@@ -159,7 +180,7 @@ function createItem(item) {
 }
 
 
-function editList (list) {
+function editList (list, weatherData) {
     handleListView.classList.add("active");
     handleListView.innerHTML = "";
     let listContainer = document.createElement("div");
@@ -269,11 +290,19 @@ function editList (list) {
 
     const weatherCard = document.createElement("div");
     weatherCard.classList.add("aboutCard", "weather");
-    //här hämta info om vädret
-    weatherCard.innerHTML = `
+    if(weatherData) {
+        weatherCard.innerHTML = `
         <div>Weather</div>
-        <div><span style="font-weight: normal;">17°</span> Sunny</div>
+        <div><span style="font-weight: normal;">${weatherData.temperature}°</span> Sunny</div>
         `;
+
+    } else {
+        weatherCard.innerHTML =`
+        <div>Weather</div>
+        <div><span style="font-weight: normal;">-</span> Sunny</div>
+        `;
+    }
+    
     aboutBox.appendChild(weatherCard);
 
     const timeCard = document.createElement("div");
@@ -295,3 +324,4 @@ function editList (list) {
 
     handleListView.appendChild(aboutBox);
 }
+renderProfile();

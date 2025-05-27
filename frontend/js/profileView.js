@@ -55,7 +55,7 @@ export default function renderProfile(userId, tripData, weatherData) {
     
     profileContainer.appendChild(loadName("userName"));
     profileContainer.appendChild(createButton);
-    loadLists(userID, listData, allListsContainer);
+    loadLists(userID, allListsContainer);
 }
 
 

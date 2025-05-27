@@ -15,7 +15,7 @@ export class ListAPI {
             throw { error: "Något gick fel" }; // NGT MER?
         }
 
-        return res.json();
+        return response.json();
     }
 
     /* SKA CREDENTIALS VARA MED? *** */

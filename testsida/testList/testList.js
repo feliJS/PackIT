@@ -158,7 +158,7 @@ async function testDeleteListError() {
         headers: { "Content-Type": "application/json" }
     }
 
-    const response = await fetch(`${baseUrl}/users/400/1`, options);
+    const response = await fetch(`${baseUrl}/users/400/lists/1`, options)
     const resource = await response.json();
 
     logTest({

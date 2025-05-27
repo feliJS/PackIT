@@ -1,4 +1,6 @@
 
+/* listFunctions.js */
+
 const DB_PATH = "../databaser/lists.json";
 
 function saveDB(listDB) {

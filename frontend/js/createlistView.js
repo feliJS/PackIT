@@ -353,8 +353,8 @@ export default function renderCreateList() {
             tripDataObj.vehicle = parseInt(selectedVehicle.value);
 
             // Anropa väderapi funktion -> submitDestination() uppdaterar weatherDataObj
-            const weatherResponseOK = await submitDestination(tripDataObj.city);
-
+            /*             const weatherResponseOK = await submitDestination(tripDataObj.city);
+             */
 
             if (weatherResponseOK) {
 
@@ -377,7 +377,7 @@ export default function renderCreateList() {
     /* --- WEATHER --- */
     async function submitDestination(city) {
         try {
-            
+
             /*             const weatherResponseData = await getWeatherDataFunc(city);
              */
 

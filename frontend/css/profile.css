@@ -1,6 +1,6 @@
 @font-face {
     font-family: "fredoka";
-    src: url("frontend/assets/fonts/Fredoka-VariableFont_wdth\,wght.ttf");
+    src: url("../assets/fonts/Fredoka-VariableFont_wdth\,wght.ttf");
 }
 
 body {
@@ -68,7 +68,7 @@ body::before {
     z-index: -1;
 }
 
-#profileView {
+.profile-box {
     margin-top:100px;
     width: 1200px;
     min-height: 600px; /* Vet inte riktigt */
@@ -84,8 +84,17 @@ body::before {
 }
 
 .nameDiv {
+    display: flex;
+    gap: 8px;
     margin-left: 40px;
     justify-self: baseline;
+}
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    background-color: #BF694D;
+    border-radius: 50%;
+    margin: 0 auto 20px;
 }
 
 

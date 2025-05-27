@@ -2,12 +2,13 @@
 
 import { UserAPI } from '/client/users-client.js';
 import { ListAPI } from '/client/list-client.js';
+import { navigateTo } from './router.js';
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
 
 
 
-function findUser() {
+async function findUser() {
     function getCookie(name) { //hittar rätt cookie
         return document.cookie
             .split('; ')
@@ -16,29 +17,27 @@ function findUser() {
     }
 
     const sessionId = getCookie("session_id");
-
-    const nameText = document.querySelector(".profileName");
     
     if (sessionId) {
-        userApi.getSpecificUser(sessionId).then(user => {
-            nameText.textContent = `@${user.name}`;
-        })
+        let user = await userApi.getSpecificUser(sessionId);
+        return user;
     }
     else {
         window.location.href = "/";
     }
 }
 
-// const user = findUser() //??
-const userID = 1;
-const listData = listApi.getAllLists(userID);
 
 
-export default function renderProfile(userId, tripData, weatherData) {
-    if(tripData && weatherData) {
-        renderNewList(userId, tripData, weatherData);
+
+export default async function renderProfile(userId, tripData, weatherData) {
+    const user = await findUser();
+    if (!user) {
+        navigateTo("login")
+        return
     }
-
+    const listData = listApi.getAllLists(user.id);
+    
     
     // DOM OSV.
     const profileViewDOM = document.querySelector(".profile-box")
@@ -54,10 +53,15 @@ export default function renderProfile(userId, tripData, weatherData) {
     createButton.id = "create-list-button";
     createButton.textContent = "Create List";
     
-    profileContainer.appendChild(loadName("userName"));
+    profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);
-    loadLists(userID, allListsContainer);
-}
+
+    loadLists(user.id, allListsContainer);
+
+    if(tripData && weatherData) {
+        renderNewList(userId, tripData, weatherData);
+    }
+
 
 
 // Väg från "Create List-mode"
@@ -68,12 +72,10 @@ function renderNewList(userId, tripData, weatherData) {
 
 }
 
-let userIDo = 1;
-
-function loadLists(userIDo, container) {
+function loadLists(userId, container) {
     //getuserLists
     if (listData) {
-        listApi.getAllLists(userIDo).then( (x) => {
+        listApi.getAllLists(userId).then( (x) => {
             console.log(x)
     
             for (let list of x) {
@@ -89,6 +91,22 @@ function loadLists(userIDo, container) {
 }
 
 
+function loadName (user) {
+    const nameDiv = document.createElement("div");
+    nameDiv.classList.add("nameDiv");
+
+    const pic = document.createElement("div");
+    pic.classList.add("profile-pic")
+    pic.style.backgroundImage = `url("${user.pfp}")`;
+    pic.style.backgroundSize = "cover";
+    pic.style.backgroundPosition = "center";
+    nameDiv.appendChild(pic);
+
+    const h2 = document.createElement("h2");
+    h2.textContent = `${user.name}`;
+    nameDiv.appendChild(h2);
+    return nameDiv;
+}
 
 function createListObj(list, container) {
     const listDOM = document.createElement("div");
@@ -99,7 +117,7 @@ function createListObj(list, container) {
     listName.classList.add("listname");
     listName.textContent = list.listName;
     let editImg = document.createElement("img");
-    editImg.src = "frontend/assets/icons/editPng.png";
+    editImg.src = "../assets/icons/editPng.png";
     editImg.style.height = "16px";
     editImg.id = "edit";
     editImg.addEventListener("click", function (e) {
@@ -114,15 +132,6 @@ function createListObj(list, container) {
     container.appendChild(listDOM);
 }
 
-function loadName (name) {
-    const message = `Welcome ${name}`;
-    const nameDiv = document.createElement("div");
-    nameDiv.classList.add("nameDiv");
-    const h2 = document.createElement("h2");
-    h2.textContent = message;
-    nameDiv.appendChild(h2);
-    return nameDiv;
-}
 
 
 function createItem(item) {
@@ -153,7 +162,7 @@ function createItem(item) {
     const addBtn = document.createElement("button");
     addBtn.id = "addBtn";
     const png = document.createElement("img");
-    png.src = "frontend/assets/Icons/plus.png";
+    png.src = "../assets/icons/plus.png";
     png.style.height = "8px";
     png.style.width = "8px";
     addBtn.appendChild(png);
@@ -167,7 +176,7 @@ function createItem(item) {
     const reduceBtn = document.createElement("button");
     reduceBtn.id = "reduceBtn";
     const minPng = document.createElement("img");
-    minPng.src = "frontend/assets/icons/minus.png";
+    minPng.src = "../assets/icons/minus.png";
     minPng.style.width = "8px";
     reduceBtn.appendChild(minPng);
     quantDiv.appendChild(reduceBtn);
@@ -232,7 +241,7 @@ function editList (list, weatherData) {
         inputDiv.classList.add("itemDiv");
         inputDiv.style.marginTop = "8px";
         const img = document.createElement("img");
-        img.src = "frontend/assets/Icons/plus.png";
+        img.src = "../assets/Icons/plus.png";
         img.style.height = "8px";
         img.style.width = "8px";
         img.style.paddingLeft = "8px";
@@ -335,4 +344,5 @@ function editList (list, weatherData) {
     aboutBox.appendChild(bagCard);
 
     handleListView.appendChild(aboutBox);
+}
 }

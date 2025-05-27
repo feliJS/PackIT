@@ -50,7 +50,7 @@ export function navigateTo(view,  data = {}) {
             break;
 
         case "profile":
-           loadCSS("/frontend/css/profile.css");
+           loadCSS("/css/profile.css");
            document.querySelector(".profile-box").style.display = "inline-block";
            /* --- tripData, weatherData --- */
            renderProfile(data.tripDataObj, data.weatherDataObj);

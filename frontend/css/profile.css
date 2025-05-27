@@ -1,6 +1,6 @@
 @font-face {
     font-family: "fredoka";
-    src: url("frontend/assets/fonts/Fredoka-VariableFont_wdth\,wght.ttf");
+    src: url("../assets/fonts/Fredoka-VariableFont_wdth\,wght.ttf");
 }
 
 body {
@@ -68,7 +68,7 @@ body::before {
     z-index: -1;
 }
 
-#profileView {
+.profile-box {
     margin-top:100px;
     width: 1200px;
     min-height: 600px; /* Vet inte riktigt */

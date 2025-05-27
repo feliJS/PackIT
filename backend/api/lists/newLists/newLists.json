@@ -1,0 +1,16 @@
+{
+    "0": [
+        {
+            "userId": 0,
+            "listId": "1",
+            "listName": "Testlista",
+            "listItems": [
+                {
+                    "itemId": 1,
+                    "itemName": "Tandborste",
+                    "itemQuantity": 1
+                }
+            ]
+        }
+    ]
+}

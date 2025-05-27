@@ -1,4 +1,6 @@
 
+/* listFunctions.js */
+
 const DB_PATH = "../databaser/lists.json";
 
 function saveDB(listDB) {
@@ -10,7 +12,16 @@ function saveDB(listDB) {
 // (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
     
-    const { listName, template } = reqBody;  // listName = stad som user valt, template = typ av resa user har valt (måstre hämta ut i req som inputs..)
+    const { listName, purpose } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
+
+    // Mappa purpose-id till rätt listnamn
+    const purposeMap = {
+        1: "Suntrip List",
+        2: "Business List",
+        3: "Wellness/activities List"
+    };
+
+    const mappedPurposeName = purposeMap[purpose];
 
     // Hämta användarens basic-list
     const userBasicList = listDB.find(l =>
@@ -18,10 +29,10 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
     l.listName.toLowerCase() === "basic list"
     );
   
-    // Hämtar lista utifrån det listName som skickats med i req-bodyn (aka inputen om vilken typ av resa användaren ska göra)
+    // Hämta rätt template-lista baserat på purpose
     const typeTemplate = listDB.find(l =>
-    l.userId === 0 &&
-    l.listName.toLowerCase() === template.toLowerCase()
+        l.userId === 0 &&
+        l.listName.toLowerCase() === mappedPurposeName.toLowerCase()
     );
 
     // Skapa ny list-objekt
@@ -53,7 +64,7 @@ export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {
     });
   }
 
-
+2
 // /users/:userId/lists/:listId
 // (GET) - hämta en lista
 export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders) {

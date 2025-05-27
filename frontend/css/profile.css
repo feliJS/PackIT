@@ -84,8 +84,17 @@ body::before {
 }
 
 .nameDiv {
+    display: flex;
+    gap: 8px;
     margin-left: 40px;
     justify-self: baseline;
+}
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    background-color: #BF694D;
+    border-radius: 50%;
+    margin: 0 auto 20px;
 }
 
 

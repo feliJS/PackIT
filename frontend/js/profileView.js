@@ -53,7 +53,7 @@ export default async function renderProfile(userId, tripData, weatherData) {
     createButton.id = "create-list-button";
     createButton.textContent = "Create List";
     
-    profileContainer.appendChild(loadName(user.name));
+    profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);
 
     loadLists(user.id, allListsContainer);
@@ -72,12 +72,10 @@ function renderNewList(userId, tripData, weatherData) {
 
 }
 
-let userIDo = 1;
-
-function loadLists(userIDo, container) {
+function loadLists(userId, container) {
     //getuserLists
     if (listData) {
-        listApi.getAllLists(userIDo).then( (x) => {
+        listApi.getAllLists(userId).then( (x) => {
             console.log(x)
     
             for (let list of x) {
@@ -93,6 +91,22 @@ function loadLists(userIDo, container) {
 }
 
 
+function loadName (user) {
+    const nameDiv = document.createElement("div");
+    nameDiv.classList.add("nameDiv");
+
+    const pic = document.createElement("div");
+    pic.classList.add("profile-pic")
+    pic.style.backgroundImage = `url("${user.pfp}")`;
+    pic.style.backgroundSize = "cover";
+    pic.style.backgroundPosition = "center";
+    nameDiv.appendChild(pic);
+
+    const h2 = document.createElement("h2");
+    h2.textContent = `${user.name}`;
+    nameDiv.appendChild(h2);
+    return nameDiv;
+}
 
 function createListObj(list, container) {
     const listDOM = document.createElement("div");
@@ -118,15 +132,6 @@ function createListObj(list, container) {
     container.appendChild(listDOM);
 }
 
-function loadName (name) {
-    const message = `Welcome ${name}`;
-    const nameDiv = document.createElement("div");
-    nameDiv.classList.add("nameDiv");
-    const h2 = document.createElement("h2");
-    h2.textContent = message;
-    nameDiv.appendChild(h2);
-    return nameDiv;
-}
 
 
 function createItem(item) {

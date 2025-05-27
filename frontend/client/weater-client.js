@@ -95,7 +95,7 @@ export async function getWeatherDataFunc (city) {
     // för online:
     // const weather = new WeatherData(weatherObject.current.temperature, weatherObject.location.localtime, weatherObject.location.country);
     // för offline:
-    const weather = new WeatherData(testWeatherObj.current.temperature, testWeatherObj.location.localtime, testWeatherObj.location.country, testWeatherObj.current.weather_descriptions[0]);
+    const weather = new WeatherData(weatherDB[0].current.temperature, weatherDB[0].location.localtime, weatherDB[0].location.country, weatherDB[0].current.weather_descriptions[0]);
 
     // console.log(weatherObject);
     console.log(weather);

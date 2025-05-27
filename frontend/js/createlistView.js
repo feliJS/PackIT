@@ -353,10 +353,12 @@ export default function renderCreateList() {
             tripDataObj.vehicle = parseInt(selectedVehicle.value);
 
             // Anropa väderapi funktion -> submitDestination() uppdaterar weatherDataObj
+
             /*             const weatherResponseOK = await submitDestination(tripDataObj.city);
              */
+   
 
-            if (weatherResponseOK) {
+            if (weatherDB) {
 
                 // Anropa router.js -> renderProfileView + css
                 return navigateTo("profile", { tripDataObj, weatherDataObj })

@@ -18,6 +18,7 @@ function findUser() {
     const sessionId = getCookie("session_id");
 
     const nameText = document.querySelector(".profileName");
+    
     if (sessionId) {
         userApi.getSpecificUser(sessionId).then(user => {
             nameText.textContent = `@${user.name}`;

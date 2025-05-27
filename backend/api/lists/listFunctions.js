@@ -12,25 +12,61 @@ function saveDB(listDB) {
 // (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
     
-    const { listName, template } = reqBody;  // listName = stad som user valt, template = typ av resa user har valt (måstre hämta ut i req som inputs..)
+    const { listName, purpose } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
 
-    // Hämta användarens basic-list
-    const userBasicList = listDB.find(l =>
-    l.userId === Number(userId) &&
-    l.listName.toLowerCase() === "basic list"
+    // Mappa purpose-id till rätt listnamn
+    const purposeMap = {
+        1: "Suntrip List",
+        2: "Business List",
+        3: "Wellness/activities List"
+    };
+
+    const mappedPurposeName = purposeMap[purpose];
+
+    // Kolla om användaren redan har en Basic List
+        let userBasicList = listDB.find(l =>
+        l.userId === Number(urlUserId) &&
+        l.listName.toLowerCase() === "basic list"
     );
+
+    // Om inte – skapa en kopia av defaulten
+    if (!userBasicList) {
+        const defaultBasic = listDB.find(l =>
+        l.userId === 0 &&
+        l.listName.toLowerCase() === "basic list");
+
+        const basicListId = Math.max(...listDB.map(l => l.listId)) + 1;
+
+        userBasicList = {
+            userId: Number(urlUserId),
+            listId: basicListId,
+            listName: "Basic List",
+            listItems: JSON.parse(JSON.stringify(defaultBasic.listItems)) // kopiera
+        };
+
+        listDB.push(userBasicList);
+    }
   
-    // Hämtar lista utifrån det listName som skickats med i req-bodyn (aka inputen om vilken typ av resa användaren ska göra)
+
+    // Hämta rätt template-lista baserat på purpose
     const typeTemplate = listDB.find(l =>
-    l.userId === 0 &&
-    l.listName.toLowerCase() === template.toLowerCase()
+        l.userId === 0 &&
+        l.listName.toLowerCase() === mappedPurposeName.toLowerCase()
     );
+
+    if (!typeTemplate) {
+        return new Response(JSON.stringify({ error: "Purpose template not found" }), {
+          status: 404,
+          headers: { ...responseHeaders }
+        });
+    }
+
 
     // Skapa ny list-objekt
     const newListId = Math.max(...listDB.map(l => l.listId)) + 1;
 
     const newList = {
-        userId: Number(userId),
+        userId: Number(urlUserId),
         listId: newListId,
         listName: listName, // <-- stadens namn
         listItems: [...userBasicList.listItems, ...typeTemplate.listItems]
@@ -45,6 +81,7 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
     });
 }
 
+
 // (GET) - hämta alla listor för en userId (behövs till profilsidan för att displaya alla listor)
 export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {
     const userLists = listDB.filter(list => list.userId == urlUserId);
@@ -55,7 +92,7 @@ export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {
     });
   }
 
-
+2
 // /users/:userId/lists/:listId
 // (GET) - hämta en lista
 export async function getListFunc(urlUserId, urlListId, listDB, responseHeaders) {

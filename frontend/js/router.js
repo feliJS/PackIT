@@ -16,7 +16,7 @@ function loadCSS(href) {
 }
 
 function hideAllViews() {
-    document.querySelectorAll(".home-box, .create-list-box, .profile-box").forEach((currElem) => {
+    document.querySelectorAll(".home-box, .create-list-box, .profile-box, .login-box, .register-box").forEach((currElem) => {
         currElem.style.display = "none";
         currElem.innerHTML = "";
     });
@@ -28,7 +28,7 @@ function removeCSS(href) {
 }
 
 
-export function navigateTo(view) {
+export function navigateTo(view,  data = {}) {
 
     hideAllViews();
     removeCSS("/css/home.css");
@@ -36,7 +36,7 @@ export function navigateTo(view) {
     removeCSS("/css/registerlogin.css");
     removeCSS("/css/profile.css");
 
-    switch (view, data = {}) {
+    switch (view) {
         case "home":
             loadCSS("/css/home.css");
             document.querySelector(".home-box").style.display = "inline-block";

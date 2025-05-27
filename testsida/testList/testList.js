@@ -18,6 +18,54 @@ function logTest ({ rubrik, metod, status, meddelande}) {
 }
 
 
+// -- LISTS --
+
+// POST (201) --> /users/:userId/lists    ------- UPD I API template = purpose (1-3) + listName = CITY?
+async function testCreateList () {
+    const options = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            listName: "Taghazout",
+            purpose: 2
+        })
+    }
+
+    const response = await fetch(`${baseUrl}/users/10/lists`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Create List",
+        metod: "POST",
+        status: response.status,
+        message: resource
+    })
+
+    console.log("testCreateList:", resource);
+    
+}
+
+testCreateList();
+
+
+// GET (200) --> /users/:userId/lists
+async function testGetAllLists () {
+    const response = await fetch(`${baseUrl}/users/1/lists`);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Get All Lists",
+        metod: "GET",
+        status: response.status,
+        message: resource
+    })
+
+    console.log("testGetAllLists:", resource);
+}
+
+testGetAllLists();
+
+
 // GET (200) --> /users/:userId/lists/:listId 
 async function testGetListFound () {
     const response = await fetch(`${baseUrl}/users/1/lists/1`);
@@ -27,15 +75,18 @@ async function testGetListFound () {
         rubrik: "Get List",
         metod: "GET",
         status: response.status,
-        message: resource.listId
+        message: resource
     })
 
     console.log("testGetListFound:", resource);
 }
 
+testGetListFound();
+
+
 // GET (404) --> /users/:userId/lists/:listId
 async function testGetListNotFound () {
-    const response = await fetch(`${baseUrl}/users/1000/lists/0`)
+    const response = await fetch(`${baseUrl}/users/400/lists/0`)
     const resource = await response.json();
 
     logTest({
@@ -49,8 +100,11 @@ async function testGetListNotFound () {
     
 }
 
+testGetListNotFound();
+
+
 // DELETE (200) --> /users/:userId/lists/:listId 
-async function testDeleteList() {
+async function testDeleteListOK() {
     const options = {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
@@ -70,6 +124,9 @@ async function testDeleteList() {
     
 }
 
+testDeleteListOK();
+
+
 // DELETE (404) --> /users/:userId/lists/:listId
 async function testDeleteListError() {
     const options = {
@@ -77,40 +134,36 @@ async function testDeleteListError() {
         headers: {"Content-Type": "application/json"}
     }
 
-    const response = await fetch(`${baseUrl}/users/1000/1`, options);
+    const response = await fetch(`${baseUrl}/users/400/1`, options);
     const resource = await response.json();
 
     logTest({
-        rubrik: "List NOT Found",
+        rubrik: "List Not Found",
         metod: "DELETE",
         status: response.status,
         message: resource.error
     })
 
     console.log("testDeleteListError:", response.status);
-    
 }
 
-// POST (201) --> /users/:userId/:listId (listId bör ej existera om man skapar en ny?)
-// POST (400) --> /users/:userId/:listId 
-
-// PATCH (200) --> /users/:userId/:listId 
-// PATCH (404) --> /users/:userId/:listId 
+testDeleteListError();
 
 
-/*
-// POST (201) --> /users/:userId/:listId/item
+// -- ITEMS --
+
+// POST (201) --> /users/:userId/lists/:listId/items
 async function testPostItem () {
     const options = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
             itemName: "test item", 
-            itemQuantity: 1
+            itemQuantity: 2
         })
     }
 
-    const response = await fetch(`${baseUrl}/users/1/1/item`, options);
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items`, options);
     const resource = await response.json();
 
     logTest({
@@ -119,44 +172,25 @@ async function testPostItem () {
         status: response.status,
         message: resource.message
     })
+
+    console.log("testPostItem:", response.status);
 }
 
-// ska vara med?
-// POST (400) --> /users/:userId/:listId/item
-async function testPostItemMissingAttribute () {
-    const options = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            itemName: null, 
-            itemQuantity: 1
-        })
-    }
-
-    const response = await fetch(`${baseUrl}/users/1/1/item`, options);
-    const resource = await response.json();
-
-    logTest({
-        rubrik: "Attribute Missing",
-        metod: "POST",
-        status: response.status,
-        message: resource.error
-    })
-}
+testPostItem();
 
 
-// POST (404) --> /users/:userId/:listId/item
+// POST (404) --> /users/:userId/lists/:listId/items
 async function testPostItemListIdNotFound () {
     const options = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
             itemName: "test item", 
-            itemQuantity: 1
+            itemQuantity: 400
         })
     }
 
-    const response = await fetch(`${baseUrl}/users/1/0/item`, options);
+    const response = await fetch(`${baseUrl}/users/1/lists/0/item`, options);
     const resource = await response.json();
 
     logTest({
@@ -165,20 +199,25 @@ async function testPostItemListIdNotFound () {
         status: response.status,
         message: resource.error
     })
+
+    console.log("testPostItemListIdNotFound:", response.status);
 }
 
-// POST (409) --> /users/:userId/:listId/item
+testPostItemListIdNotFound();
+
+
+// POST (409) --> /users/:userId/lists/:listId/items
 async function testPostItemAlreadyExists () {
     const options = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            itemName: "Passport / ID", 
-            itemQuantity: 1
+            itemName: "test item", 
+            itemQuantity: 400
         })
     }
 
-    const response = await fetch(`${baseUrl}/users/1/1/item`, options);
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items`, options);
     const resource = await response.json();
 
     logTest({
@@ -187,20 +226,52 @@ async function testPostItemAlreadyExists () {
         status: response.status,
         message: resource.error
     })
+
+    console.log("testPostItemAlreadyExists:", response.status);
 }
 
+testPostItemAlreadyExists();
 
-// GET (200) --> /users/:userId/:listId/:itemId
-async function testGetAllItems () {
-    const response = await fetch(`${baseUrl}/users/1/1/itemId`);
+
+// GET (200) --> /users/:userId/lists/:listId/:items
+async function testGetAllItemsInAList () {
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items`);
     const resource = await response.json();
 
+    logTest({
+        rubrik: "Get All Items In A List",
+        metod: "GET",
+        status: 200,
+        message: resource
+    })
 
+    console.log("testGetAllItemsInAList:", response.status);
 }
 
-// GET (404) --> /users/:userId/:listId/:itemId
+testGetAllItemsInAList();
 
-*/
+
+// GET (404) --> /users/:userId/lists/:listId/:items
+async function testGetAllItemsInAListIdNotFound () {
+    const response = await fetch(`${baseUrl}/users/1/lists/0/items`);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "List Not Found",
+        metod: "GET",
+        status: 200,
+        message: resource.error
+    })
+
+    console.log("testGetAllItemsInAListIdNotFound:", response.status);
+}
+
+testGetAllItemsInAListIdNotFound();
+
+
+
+
+
 
 /*
 logTest({

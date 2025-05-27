@@ -16,7 +16,7 @@ function loadCSS(href) {
 }
 
 function hideAllViews() {
-    document.querySelectorAll(".home-box, .create-list-box, .profile-box").forEach((currElem) => {
+    document.querySelectorAll(".home-box, .create-list-box, .profile-box, .login-box, .register-box").forEach((currElem) => {
         currElem.style.display = "none";
         currElem.innerHTML = "";
     });

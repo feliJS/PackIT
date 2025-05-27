@@ -6,7 +6,7 @@ import { navigateTo } from "./router.js";
 // Om användaren är inloggad aktiveras "create-list"-knappen
 
 function toggleCreateListBtn() {
-
+  const errorMsg = document.getElementById("error-create-list");
   const createBtn = document.querySelector(".create-list-button");
   const isCookie = document.cookie
       .split('; ')
@@ -15,9 +15,11 @@ function toggleCreateListBtn() {
 
   if (isCookie) { 
     createBtn.disabled = false;    
+    errorMsg = ""
     createBtn.classList.remove("create-list-btn-disabled");
    } else {
-    createBtn.disabled = true;    
+    createBtn.disabled = true;  
+    errorMsg.textContent = "You need to login or create an account before creating a list!";  
     createBtn.classList.add("create-list-btn-disabled");
    }
 }
@@ -34,6 +36,7 @@ export default function renderHome() {
       <h1 class="h1-title">CREATE YOUR PACKING LIST</h1>
       <p class="p-text">Don't know what to pack for your next trip? Click the button and get started!</p>
       <button class="create-list-button">Create List</button>
+      <p id="error-create-list" style="color: #e74c3c;"></p>
     </div>
 
     <div class="login-div">

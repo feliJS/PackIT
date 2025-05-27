@@ -28,7 +28,7 @@ function removeCSS(href) {
 }
 
 
-export function navigateTo(view) {
+export function navigateTo(view,  data = {}) {
 
     hideAllViews();
     removeCSS("/css/home.css");
@@ -36,7 +36,7 @@ export function navigateTo(view) {
     removeCSS("/css/registerlogin.css");
     removeCSS("/css/profile.css");
 
-    switch (view, data = {}) {
+    switch (view) {
         case "home":
             loadCSS("/css/home.css");
             document.querySelector(".home-box").style.display = "inline-block";

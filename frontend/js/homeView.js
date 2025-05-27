@@ -6,7 +6,7 @@ import { navigateTo } from "./router.js";
 // Om användaren är inloggad aktiveras "create-list"-knappen
 
 function toggleCreateListBtn() {
-  const errorMsg = document.getElementById("error-create-list");
+  let errorMsg = document.getElementById("error-create-list");
   const createBtn = document.querySelector(".create-list-button");
   const isCookie = document.cookie
       .split('; ')

@@ -1,5 +1,67 @@
 /* createlistView.js */
 
+
+const weatherDB = [
+    {
+        "request": {
+            "type": "City",
+            "query": "London, United Kingdom",
+            "language": "en",
+            "unit": "m"
+        },
+        "location": {
+            "name": "London",
+            "country": "United Kingdom",
+            "region": "City of London, Greater London",
+            "lat": "51.517",
+            "lon": "-0.106",
+            "timezone_id": "Europe/London",
+            "localtime": "2025-05-16 12:31",
+            "localtime_epoch": 1747398660,
+            "utc_offset": "1.0"
+        },
+        "current": {
+            "observation_time": "11:31 AM",
+            "temperature": 17,
+            "weather_code": 113,
+            "weather_icons": [
+                "https://cdn.worldweatheronline.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
+            ],
+            "weather_descriptions": ["Sunny"],
+            "astro": {
+                "sunrise": "05:07 AM",
+                "sunset": "08:48 PM",
+                "moonrise": "12:26 AM",
+                "moonset": "06:55 AM",
+                "moon_phase": "Waning Gibbous",
+                "moon_illumination": 90
+            },
+            "air_quality": {
+                "co": "270.1",
+                "no2": "12.395",
+                "o3": "87",
+                "so2": "2.59",
+                "pm2_5": "9.805",
+                "pm10": "17.02",
+                "us-epa-index": "1",
+                "gb-defra-index": "1"
+            },
+            "wind_speed": 19,
+            "wind_degree": 10,
+            "wind_dir": "N",
+            "pressure": 1026,
+            "precip": 0,
+            "humidity": 42,
+            "cloudcover": 0,
+            "feelslike": 17,
+            "uv_index": 6,
+            "visibility": 10,
+            "is_day": "yes"
+        }
+    }
+]
+
+
 import { navigateTo } from "./router.js";
 import { getWeatherDataFunc } from "/client/weater-client.js";
 
@@ -68,13 +130,12 @@ export default function renderCreateList() {
                 break;
         }
     }
-}
 
 
-/* ---  STEP 1 --- */
-function renderStep1() {
-    const newDiv = document.createElement("div");
-    newDiv.innerHTML = `
+    /* ---  STEP 1 --- */
+    function renderStep1() {
+        const newDiv = document.createElement("div");
+        newDiv.innerHTML = `
         <div class="create-list-module">
 
             <div class="create-list-header-container create-list-header-container-step-1">
@@ -96,31 +157,31 @@ function renderStep1() {
         `;
 
 
-    /* --- EVENTLISTENERS (BTN) --- */
-    newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
-        tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
-        tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
+        /* --- EVENTLISTENERS (BTN) --- */
+        newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
+            tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
+            tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
 
-        if (!tripDataObj.city || !tripDataObj.country) {
-            alert("Please enter both city and country");
-            return;
-        }
+            if (!tripDataObj.city || !tripDataObj.country) {
+                alert("Please enter both city and country");
+                return;
+            }
 
-        goToStep(2);
-    });
-
-
-    /* --- create-list-box (APPENDCHILD) --- */
-    return newDiv;
-}
+            goToStep(2);
+        });
 
 
+        /* --- create-list-box (APPENDCHILD) --- */
+        return newDiv;
+    }
 
-/* ---  STEP 2 --- */
-function renderStep2() {
-    const newDiv = document.createElement("div");
 
-    newDiv.innerHTML = `
+
+    /* ---  STEP 2 --- */
+    function renderStep2() {
+        const newDiv = document.createElement("div");
+
+        newDiv.innerHTML = `
         <div class="create-list-module">
 
             <div class="create-list-header-container create-list-header-container-step-2">
@@ -155,36 +216,36 @@ function renderStep2() {
         </div>`;
 
 
-    /* --- EVENTLISTENERS (BTN) --- */
-    newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
-        tripDataObj.day = newDiv.querySelector(".create-list-module-user-input-day").value;
-        tripDataObj.month = newDiv.querySelector(".create-list-module-user-input-month").value;
-        tripDataObj.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
+        /* --- EVENTLISTENERS (BTN) --- */
+        newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
+            tripDataObj.day = newDiv.querySelector(".create-list-module-user-input-day").value;
+            tripDataObj.month = newDiv.querySelector(".create-list-module-user-input-month").value;
+            tripDataObj.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
 
-        if (!tripDataObj.day || !tripDataObj.month || !tripDataObj.duration) {
-            alert("Please enter fields");
-            return;
-        }
+            if (!tripDataObj.day || !tripDataObj.month || !tripDataObj.duration) {
+                alert("Please enter fields");
+                return;
+            }
 
-        goToStep(3);
-    });
+            goToStep(3);
+        });
 
-    newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
-        goToStep(1);
-    });
-
-
-    /* --- create-list-box (APPENDCHILD) --- */
-    return newDiv;
-}
+        newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+            goToStep(1);
+        });
 
 
+        /* --- create-list-box (APPENDCHILD) --- */
+        return newDiv;
+    }
 
-/* ---  STEP 3 --- */
-function renderStep3() {
-    const newDiv = document.createElement("div");
 
-    newDiv.innerHTML = `
+
+    /* ---  STEP 3 --- */
+    function renderStep3() {
+        const newDiv = document.createElement("div");
+
+        newDiv.innerHTML = `
         <div class="create-list-module">
     
             <div class="create-list-header-container create-list-header-container-step-3">
@@ -222,29 +283,29 @@ function renderStep3() {
         </div>`;
 
 
-    /* --- EVENTLISTENERS (BTN) --- */
-    newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
-        const selected = newDiv.querySelector("input[name='purpose']:checked");
-        tripDataObj.purpose = parseInt(selected.value);
-        goToStep(4);
-        console.log(tripDataObj)
-    });
+        /* --- EVENTLISTENERS (BTN) --- */
+        newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
+            const selected = newDiv.querySelector("input[name='purpose']:checked");
+            tripDataObj.purpose = parseInt(selected.value);
+            goToStep(4);
+            console.log(tripDataObj)
+        });
 
-    newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
-        goToStep(2);
-    });
-
-
-    /* --- create-list-box (APPENDCHILD) --- */
-    return newDiv;
-}
+        newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+            goToStep(2);
+        });
 
 
-/* ---  STEP 4 --- */
-function renderStep4() {
-    const newDiv = document.createElement("div");
+        /* --- create-list-box (APPENDCHILD) --- */
+        return newDiv;
+    }
 
-    newDiv.innerHTML = `
+
+    /* ---  STEP 4 --- */
+    function renderStep4() {
+        const newDiv = document.createElement("div");
+
+        newDiv.innerHTML = `
         <div class="create-list-module">
     
             <div class="create-list-header-container create-list-header-container-step-4">
@@ -281,57 +342,60 @@ function renderStep4() {
         </div>`;
 
 
-    /* --- EVENTLISTENERS (BTN) --- */
-    newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
-        goToStep(3);
-    });
+        /* --- EVENTLISTENERS (BTN) --- */
+        newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+            goToStep(3);
+        });
 
-    newDiv.querySelector(".create-list-btn-create").addEventListener("click", async () => {
+        newDiv.querySelector(".create-list-btn-create").addEventListener("click", async () => {
 
-        const selectedVehicle = newDiv.querySelector("input[name='vehicle']:checked");
-        tripDataObj.vehicle = parseInt(selectedVehicle.value);
+            const selectedVehicle = newDiv.querySelector("input[name='vehicle']:checked");
+            tripDataObj.vehicle = parseInt(selectedVehicle.value);
 
-        // Anropa väderapi funktion -> submitDestination() uppdaterar weatherDataObj
-        const weatherResponseOK = await submitDestination(tripDataObj.city);
+            // Anropa väderapi funktion -> submitDestination() uppdaterar weatherDataObj
+            /*             const weatherResponseOK = await submitDestination(tripDataObj.city);
+             */
 
+            if (weatherResponseOK) {
 
-        if (weatherResponseOK) {
+                // Anropa router.js -> renderProfileView + css
+                return navigateTo("profile", { tripDataObj, weatherDataObj })
 
-            // Anropa router.js -> renderProfileView + css
-            return navigateTo("profile", { tripDataObj, weatherDataObj })
+            } else {
 
-        } else {
+                navigateTo("profile"); // ELLER RELOAD CREATE-LIST?? OM EJ VÄDERDATA KUNDE HITTAS?
 
-            navigateTo("profile"); // ELLER RELOAD CREATE-LIST?? OM EJ VÄDERDATA KUNDE HITTAS?
-
-        }
-    });
-
-
-    /* --- create-list-box (APPENDCHILD) --- */
-    return newDiv;
-}
+            }
+        });
 
 
-/* --- WEATHER --- */
-async function submitDestination(city) {
-    try {
-        const weatherResponseData = await getWeatherDataFunc(city);
-
-        /* OBS UPPDATERA MOT WEATHER-CLIIENT, SÄTT EN TILL FUNK FÖR ATT FÅ ALL DENNA DATAN OCH EJ BARA TEMP OSV */
-        weatherDataObj.country = weatherResponseData.location.country;
-        weatherDataObj.language = weatherResponseData.request.language;
-        weatherDataObj.localtime = weatherResponseData.location.localtime;
-        weatherDataObj.timezone = weatherResponseData.location.timezone_id;
-        weatherDataObj.temperature = weatherResponseData.current.temperature;
-        weatherDataObj.weather_descriptions = weatherResponseData.current.weather_descriptions[0];
-        weatherDataObj.uv_index = weatherResponseData.current.uv_index;
-        weatherDataObj.is_day = weatherResponseData.current.is_day;
-
-        return weatherDataObj;
-    } catch (error) {
-        console.error(error);
-        return null;
+        /* --- create-list-box (APPENDCHILD) --- */
+        return newDiv;
     }
-}
 
+
+    /* --- WEATHER --- */
+    async function submitDestination(city) {
+        try {
+
+            /*             const weatherResponseData = await getWeatherDataFunc(city);
+             */
+
+            /* OBS UPPDATERA MOT WEATHER-CLIIENT, SÄTT EN TILL FUNK FÖR ATT FÅ ALL DENNA DATAN OCH EJ BARA TEMP OSV */
+            weatherDataObj.country = weatherDB.location.country;
+            weatherDataObj.language = weatherDB.request.language;
+            weatherDataObj.localtime = weatherDB.location.localtime;
+            weatherDataObj.timezone = weatherDB.location.timezone_id;
+            weatherDataObj.temperature = weatherDB.current.temperature;
+            weatherDataObj.weather_descriptions = weatherDB.current.weather_descriptions[0];
+            weatherDataObj.uv_index = weatherDB.current.uv_index;
+            weatherDataObj.is_day = weatherDB.current.is_day;
+
+            return weatherDataObj;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+}

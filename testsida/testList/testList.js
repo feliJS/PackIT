@@ -1,17 +1,25 @@
 const baseUrl = "http://localhost:8000";
 const reqLog = document.getElementById("reqLog");
 
-function logTest({ rubrik, metod, status, meddelande }) {
+function logTest({ title, method, status, message }) {
+
     const row = document.createElement("div");
     row.className = "row";
+
+    let msg;
+    if (typeof message === "object") {
+        msg = JSON.stringify(message);
+    } else {
+        msg = message;
+    }
 
     const statusClass = status >= 200 && status < 300 ? "success" : "fail";
 
     row.innerHTML = `
-        <div>${rubrik}</div>
-        <div>${metod}</div>
+        <div>${title}</div>
+        <div>${method}</div>
         <div><span class="status ${statusClass}">${status}</span></div>
-        <div>${message}</div>
+        <div>${msg}</div>
     `;
 
     reqLog.appendChild(row);
@@ -35,8 +43,8 @@ async function testCreateList() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Create List",
-        metod: "POST",
+        title: "Create List",
+        method: "POST",
         status: response.status,
         message: resource
     })
@@ -45,18 +53,16 @@ async function testCreateList() {
 
 }
 
-testCreateList();
-
 
 // POST (404) --> /users/:userId/lists  
 async function testCreateListWithInvalidParameters() {
-    
+
     const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             listName: "Barcelona",
-            purpose: 5  
+            purpose: 5
         })
     };
 
@@ -64,16 +70,14 @@ async function testCreateListWithInvalidParameters() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Create List: Invalid Parameters",
-        metod: "POST",
+        title: "Create List: Invalid Parameters",
+        method: "POST",
         status: response.status,
         message: resource.error
     });
 
     console.log("testCreateListWithInvalidPurpose:", response.status);
 }
-
-testCreateListWithInvalidParameters();
 
 
 // GET (200) --> /users/:userId/lists
@@ -82,16 +86,14 @@ async function testGetAllLists() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Get All Lists",
-        metod: "GET",
+        title: "Get All Lists",
+        method: "GET",
         status: response.status,
         message: resource
     })
 
     console.log("testGetAllLists:", resource);
 }
-
-testGetAllLists();
 
 
 // GET (200) --> /users/:userId/lists/:listId 
@@ -100,16 +102,14 @@ async function testGetListFound() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Get List",
-        metod: "GET",
+        title: "Get List",
+        method: "GET",
         status: response.status,
         message: resource
     })
 
     console.log("testGetListFound:", resource);
 }
-
-testGetListFound();
 
 
 // GET (404) --> /users/:userId/lists/:listId
@@ -118,8 +118,8 @@ async function testGetListNotFound() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "List Not Found",
-        metod: "GET",
+        title: "List Not Found",
+        method: "GET",
         status: response.status,
         message: resource.error
     })
@@ -127,8 +127,6 @@ async function testGetListNotFound() {
     console.log("testGetListNotFound:", response.status);
 
 }
-
-testGetListNotFound();
 
 
 // DELETE (200) --> /users/:userId/lists/:listId 
@@ -142,8 +140,8 @@ async function testDeleteListOK() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Delete List",
-        metod: "DELETE",
+        title: "Delete List",
+        method: "DELETE",
         status: response.status,
         message: resource.message
     })
@@ -151,8 +149,6 @@ async function testDeleteListOK() {
     console.log("testDeleteList:", resource);
 
 }
-
-testDeleteListOK();
 
 
 // DELETE (404) --> /users/:userId/lists/:listId
@@ -162,12 +158,12 @@ async function testDeleteListError() {
         headers: { "Content-Type": "application/json" }
     }
 
-    const response = await fetch(`${baseUrl}/users/400/1`, options);
+    const response = await fetch(`${baseUrl}/users/400/lists/1`, options)
     const resource = await response.json();
 
     logTest({
-        rubrik: "List Not Found",
-        metod: "DELETE",
+        title: "List Not Found",
+        method: "DELETE",
         status: response.status,
         message: resource.error
     })
@@ -175,7 +171,6 @@ async function testDeleteListError() {
     console.log("testDeleteListError:", response.status);
 }
 
-testDeleteListError();
 
 
 // --- ITEMS ---
@@ -195,16 +190,14 @@ async function testPostItem() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Create New item",
-        metod: "POST",
+        title: "Create New item",
+        method: "POST",
         status: response.status,
         message: resource.message
     })
 
     console.log("testPostItem:", response.status);
 }
-
-testPostItem();
 
 
 // POST (404) --> /users/:userId/lists/:listId/items
@@ -218,20 +211,18 @@ async function testPostItemListIdNotFound() {
         })
     }
 
-    const response = await fetch(`${baseUrl}/users/1/lists/0/item`, options);
+    const response = await fetch(`${baseUrl}/users/1/lists/0/items`, options);
     const resource = await response.json();
 
     logTest({
-        rubrik: "ListId Not Found",
-        metod: "POST",
+        title: "ListId Not Found",
+        method: "POST",
         status: response.status,
         message: resource.error
     })
 
     console.log("testPostItemListIdNotFound:", response.status);
 }
-
-testPostItemListIdNotFound();
 
 
 // POST (409) --> /users/:userId/lists/:listId/items   *** tas bort?
@@ -249,16 +240,14 @@ async function testPostItemAlreadyExists() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Item Already Exists",
-        metod: "POST",
+        title: "Item Already Exists",
+        method: "POST",
         status: response.status,
         message: resource.error
     })
 
     console.log("testPostItemAlreadyExists:", response.status);
 }
-
-testPostItemAlreadyExists();
 
 
 // GET (200) --> /users/:userId/lists/:listId/:items
@@ -267,8 +256,8 @@ async function testGetAllItemsInAList() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Get All Items In A List",
-        metod: "GET",
+        title: "Get All Items In A List",
+        method: "GET",
         status: 200,
         message: resource
     })
@@ -276,26 +265,22 @@ async function testGetAllItemsInAList() {
     console.log("testGetAllItemsInAList:", response.status);
 }
 
-testGetAllItemsInAList();
-
 
 // GET (404) --> /users/:userId/lists/:listId/:items   
 async function testGetAllItemsInAListIdNotFound() {
-   
+
     const response = await fetch(`${baseUrl}/users/1/lists/9999/items`);
     const resource = await response.json();
 
     logTest({
-        rubrik: "List Not Found",
-        metod: "GET",
-        status: 200,
+        title: "List Not Found",
+        method: "GET",
+        status: response.status,
         message: resource.error
     })
 
     console.log("testGetAllItemsInAListIdNotFound:", response.status);
 }
-
-testGetAllItemsInAListIdNotFound();
 
 
 // /users/:userId/lists/:listId/:itemId
@@ -315,16 +300,14 @@ async function testUpdateItemOK() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Update Item OK",
-        metod: "PUT",
+        title: "Update Item OK",
+        method: "PUT",
         status: response.status,
         message: resource.message
     });
 
     console.log("testUpdateItemOK:", response.status);
 }
-
-testUpdateItemOK();
 
 
 // PUT (404) --> /users/1/lists/999/items/1
@@ -342,8 +325,8 @@ async function testUpdateItemListNotFound() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Update Item: List Not Found",
-        metod: "PUT",
+        title: "Update Item: List Not Found",
+        method: "PUT",
         status: response.status,
         message: resource.error
     });
@@ -351,8 +334,6 @@ async function testUpdateItemListNotFound() {
     console.log("testUpdateItemListNotFound:", response.status);
 }
 
-testUpdateItemListNotFound();
-
 
 // PUT (409) --> /users/1/lists/2/items/999
 async function testUpdateItemItemNotFound() {
@@ -369,43 +350,14 @@ async function testUpdateItemItemNotFound() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Update Item – Item Not Found",
-        metod: "PUT",
-        status: response.status,
-        message: resource.error
-    });
-
-    console.log("testUpdateItemItemNotFound:", response.status);
-}
-
-testUpdateItemItemNotFound();
-
-
-// PUT (409) --> /users/1/lists/2/items/999
-async function testUpdateItemItemNotFound() {
-    const options = {
+        title: "Update Item: Item Not Found",
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            itemName: "Updated Item",
-            itemQuantity: 10
-        })
-    };
-
-    const response = await fetch(`${baseUrl}/users/1/lists/2/items/999`, options);
-    const resource = await response.json();
-
-    logTest({
-        rubrik: "Update Item: Item Not Found",
-        metod: "PUT",
         status: response.status,
         message: resource.error
     });
 
     console.log("testUpdateItemItemNotFound:", response.status);
 }
-
-testUpdateItemItemNotFound();
 
 
 // DELETE (200) --> /users/1/lists/2/items/1
@@ -419,16 +371,14 @@ async function testDeleteItemOK() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Delete Item OK",
-        metod: "DELETE",
+        title: "Delete Item OK",
+        method: "DELETE",
         status: response.status,
         message: resource.message
     });
 
     console.log("testDeleteItemOK:", response.status);
 }
-
-testDeleteItemOK();
 
 
 // DELETE (404) --> /users/1/lists/999/items/1
@@ -442,16 +392,14 @@ async function testDeleteItemListNotFound() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Delete Item – List Not Found",
-        metod: "DELETE",
+        title: "Delete Item: List Not Found",
+        method: "DELETE",
         status: response.status,
         message: resource.error
     });
 
     console.log("testDeleteItemListNotFound:", response.status);
 }
-
-testDeleteItemListNotFound();
 
 
 // DELETE (409) --> /users/1/lists/2/items/999
@@ -465,8 +413,8 @@ async function testDeleteItemItemNotFound() {
     const resource = await response.json();
 
     logTest({
-        rubrik: "Delete Item: Item Not Found",
-        metod: "DELETE",
+        title: "Delete Item: Item Not Found",
+        method: "DELETE",
         status: response.status,
         message: resource.error
     });
@@ -474,17 +422,29 @@ async function testDeleteItemItemNotFound() {
     console.log("testDeleteItemItemNotFound:", response.status);
 }
 
-testDeleteItemItemNotFound();
 
 
+async function runTests() {
+    await testCreateList();
+    await testCreateListWithInvalidParameters();
+    await testGetAllLists();
+    await testGetListFound();
+    await testGetListNotFound();
+    await testDeleteListOK();
+    await testDeleteListError();
+    await testPostItem();
+    await testPostItemListIdNotFound();
+    await testPostItemAlreadyExists();
+    await testGetAllItemsInAList();
+    await testGetAllItemsInAListIdNotFound();
+    await testUpdateItemOK();
+    await testUpdateItemListNotFound();
+    await testUpdateItemItemNotFound();
+    await testDeleteItemOK();
+    await testDeleteItemListNotFound();
+    await testDeleteItemItemNotFound();
+}
 
 
+runTests();
 
-/*
-logTest({
-        rubrik:
-        metod:
-        status:
-        message:
-    })
-*/

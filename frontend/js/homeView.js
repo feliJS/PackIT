@@ -3,6 +3,25 @@ console.log("i homeview")
 
 import { navigateTo } from "./router.js";
 
+// Om användaren är inloggad aktiveras "create-list"-knappen
+
+function toggleCreateListBtn() {
+
+  const createBtn = document.querySelector(".create-list-button");
+  const isCookie = document.cookie
+      .split('; ')
+      .find(cookie => cookie.startsWith("session_id="))
+      ?.split('=')[1] || null;
+
+  if (isCookie) { 
+    createBtn.disabled = false;    
+    createBtn.classList.remove("create-list-btn-disabled");
+   } else {
+    createBtn.disabled = true;    
+    createBtn.classList.add("create-list-btn-disabled");
+   }
+}
+
 export default function renderHome() {
   const homeDiv = document.getElementsByClassName("home-box")[0];
   if (!homeDiv) {
@@ -41,23 +60,3 @@ export default function renderHome() {
   });
 }
 
-// Om användaren är inloggad aktiveras "create-list"-knappen
-
-function toggleCreateListBtn() {
-
-  /* AKTIVERA NÄR LOGIN FUNGERAR
-  const createBtn = document.querySelector(".create-list-button");
-  const isCookie = document.cookie
-      .split('; ')
-      .find(cookie => cookie.startsWith("session_id="))
-      ?.split('=')[1] || null;
-
-  if (isCookie) { 
-    createBtn.disabled = false;    
-    createBtn.classList.remove("create-list-btn-disabled");
-   } else {
-    createBtn.disabled = true;    
-    createBtn.classList.add("create-list-btn-disabled");
-   }
- */
-}

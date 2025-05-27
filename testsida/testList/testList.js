@@ -1,7 +1,7 @@
 const baseUrl = "http://localhost:8000";
 const reqLog = document.getElementById("reqLog");
 
-function logTest ({ rubrik, metod, status, meddelande}) {
+function logTest({ rubrik, metod, status, meddelande }) {
     const row = document.createElement("div");
     row.className = "row";
 
@@ -18,13 +18,13 @@ function logTest ({ rubrik, metod, status, meddelande}) {
 }
 
 
-// -- LISTS --
+// --- LISTS ---
 
 // POST (201) --> /users/:userId/lists    ------- UPD I API template = purpose (1-3) + listName = CITY?
-async function testCreateList () {
+async function testCreateList() {
     const options = {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             listName: "Taghazout",
             purpose: 2
@@ -42,14 +42,42 @@ async function testCreateList () {
     })
 
     console.log("testCreateList:", resource);
-    
+
 }
 
 testCreateList();
 
 
+// POST (404) --> /users/:userId/lists  
+async function testCreateListWithInvalidParameters() {
+    
+    const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            listName: "Barcelona",
+            purpose: 5  
+        })
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Create List: Invalid Parameters",
+        metod: "POST",
+        status: response.status,
+        message: resource.error
+    });
+
+    console.log("testCreateListWithInvalidPurpose:", response.status);
+}
+
+testCreateListWithInvalidParameters();
+
+
 // GET (200) --> /users/:userId/lists
-async function testGetAllLists () {
+async function testGetAllLists() {
     const response = await fetch(`${baseUrl}/users/1/lists`);
     const resource = await response.json();
 
@@ -67,7 +95,7 @@ testGetAllLists();
 
 
 // GET (200) --> /users/:userId/lists/:listId 
-async function testGetListFound () {
+async function testGetListFound() {
     const response = await fetch(`${baseUrl}/users/1/lists/1`);
     const resource = await response.json();
 
@@ -85,7 +113,7 @@ testGetListFound();
 
 
 // GET (404) --> /users/:userId/lists/:listId
-async function testGetListNotFound () {
+async function testGetListNotFound() {
     const response = await fetch(`${baseUrl}/users/400/lists/0`)
     const resource = await response.json();
 
@@ -97,7 +125,7 @@ async function testGetListNotFound () {
     })
 
     console.log("testGetListNotFound:", response.status);
-    
+
 }
 
 testGetListNotFound();
@@ -107,7 +135,7 @@ testGetListNotFound();
 async function testDeleteListOK() {
     const options = {
         method: "DELETE",
-        headers: {"Content-Type": "application/json"}
+        headers: { "Content-Type": "application/json" }
     }
 
     const response = await fetch(`${baseUrl}/users/1/lists/1`, options);
@@ -121,7 +149,7 @@ async function testDeleteListOK() {
     })
 
     console.log("testDeleteList:", resource);
-    
+
 }
 
 testDeleteListOK();
@@ -131,7 +159,7 @@ testDeleteListOK();
 async function testDeleteListError() {
     const options = {
         method: "DELETE",
-        headers: {"Content-Type": "application/json"}
+        headers: { "Content-Type": "application/json" }
     }
 
     const response = await fetch(`${baseUrl}/users/400/1`, options);
@@ -150,15 +178,15 @@ async function testDeleteListError() {
 testDeleteListError();
 
 
-// -- ITEMS --
+// --- ITEMS ---
 
 // POST (201) --> /users/:userId/lists/:listId/items
-async function testPostItem () {
+async function testPostItem() {
     const options = {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            itemName: "test item", 
+            itemName: "test item",
             itemQuantity: 2
         })
     }
@@ -180,12 +208,12 @@ testPostItem();
 
 
 // POST (404) --> /users/:userId/lists/:listId/items
-async function testPostItemListIdNotFound () {
+async function testPostItemListIdNotFound() {
     const options = {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            itemName: "test item", 
+            itemName: "test item",
             itemQuantity: 400
         })
     }
@@ -206,13 +234,13 @@ async function testPostItemListIdNotFound () {
 testPostItemListIdNotFound();
 
 
-// POST (409) --> /users/:userId/lists/:listId/items
-async function testPostItemAlreadyExists () {
+// POST (409) --> /users/:userId/lists/:listId/items   *** tas bort?
+async function testPostItemAlreadyExists() {
     const options = {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            itemName: "test item", 
+            itemName: "test item",
             itemQuantity: 400
         })
     }
@@ -234,7 +262,7 @@ testPostItemAlreadyExists();
 
 
 // GET (200) --> /users/:userId/lists/:listId/:items
-async function testGetAllItemsInAList () {
+async function testGetAllItemsInAList() {
     const response = await fetch(`${baseUrl}/users/1/lists/2/items`);
     const resource = await response.json();
 
@@ -251,9 +279,10 @@ async function testGetAllItemsInAList () {
 testGetAllItemsInAList();
 
 
-// GET (404) --> /users/:userId/lists/:listId/:items
-async function testGetAllItemsInAListIdNotFound () {
-    const response = await fetch(`${baseUrl}/users/1/lists/0/items`);
+// GET (404) --> /users/:userId/lists/:listId/:items   
+async function testGetAllItemsInAListIdNotFound() {
+   
+    const response = await fetch(`${baseUrl}/users/1/lists/9999/items`);
     const resource = await response.json();
 
     logTest({
@@ -268,6 +297,184 @@ async function testGetAllItemsInAListIdNotFound () {
 
 testGetAllItemsInAListIdNotFound();
 
+
+// /users/:userId/lists/:listId/:itemId
+
+// PUT (200) --> /users/1/lists/2/items/1
+async function testUpdateItemOK() {
+    const options = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            itemName: "Updated Item",
+            itemQuantity: 10
+        })
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items/1`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Update Item OK",
+        metod: "PUT",
+        status: response.status,
+        message: resource.message
+    });
+
+    console.log("testUpdateItemOK:", response.status);
+}
+
+testUpdateItemOK();
+
+
+// PUT (404) --> /users/1/lists/999/items/1
+async function testUpdateItemListNotFound() {
+    const options = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            itemName: "Updated Item",
+            itemQuantity: 10
+        })
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists/999/items/1`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Update Item: List Not Found",
+        metod: "PUT",
+        status: response.status,
+        message: resource.error
+    });
+
+    console.log("testUpdateItemListNotFound:", response.status);
+}
+
+testUpdateItemListNotFound();
+
+
+// PUT (409) --> /users/1/lists/2/items/999
+async function testUpdateItemItemNotFound() {
+    const options = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            itemName: "Updated Item",
+            itemQuantity: 10
+        })
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items/999`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Update Item – Item Not Found",
+        metod: "PUT",
+        status: response.status,
+        message: resource.error
+    });
+
+    console.log("testUpdateItemItemNotFound:", response.status);
+}
+
+testUpdateItemItemNotFound();
+
+
+// PUT (409) --> /users/1/lists/2/items/999
+async function testUpdateItemItemNotFound() {
+    const options = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            itemName: "Updated Item",
+            itemQuantity: 10
+        })
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items/999`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Update Item: Item Not Found",
+        metod: "PUT",
+        status: response.status,
+        message: resource.error
+    });
+
+    console.log("testUpdateItemItemNotFound:", response.status);
+}
+
+testUpdateItemItemNotFound();
+
+
+// DELETE (200) --> /users/1/lists/2/items/1
+async function testDeleteItemOK() {
+    const options = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items/1`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Delete Item OK",
+        metod: "DELETE",
+        status: response.status,
+        message: resource.message
+    });
+
+    console.log("testDeleteItemOK:", response.status);
+}
+
+testDeleteItemOK();
+
+
+// DELETE (404) --> /users/1/lists/999/items/1
+async function testDeleteItemListNotFound() {
+    const options = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists/999/items/1`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Delete Item – List Not Found",
+        metod: "DELETE",
+        status: response.status,
+        message: resource.error
+    });
+
+    console.log("testDeleteItemListNotFound:", response.status);
+}
+
+testDeleteItemListNotFound();
+
+
+// DELETE (409) --> /users/1/lists/2/items/999
+async function testDeleteItemItemNotFound() {
+    const options = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+    };
+
+    const response = await fetch(`${baseUrl}/users/1/lists/2/items/999`, options);
+    const resource = await response.json();
+
+    logTest({
+        rubrik: "Delete Item: Item Not Found",
+        metod: "DELETE",
+        status: response.status,
+        message: resource.error
+    });
+
+    console.log("testDeleteItemItemNotFound:", response.status);
+}
+
+testDeleteItemItemNotFound();
 
 
 

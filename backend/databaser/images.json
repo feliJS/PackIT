@@ -1,7 +1,7 @@
 {
   "ratelimit": {
-    "remaining": "48",
-    "lastChecked": 1748434057853
+    "remaining": "45",
+    "lastChecked": 1748438683103
   },
   "images": {
     "animal": [
@@ -47,6 +47,24 @@
       "https://images.unsplash.com/photo-1521930651981-dceaf670cc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzM1MjN8&ixlib=rb-4.1.0&q=80&w=400",
       "https://images.unsplash.com/photo-1545586867-a0dd5984124c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzM2MTR8&ixlib=rb-4.1.0&q=80&w=400",
       "https://images.unsplash.com/photo-1565895852923-aba9405b8ac8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzQwNTd8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "germany": [
+      "https://images.unsplash.com/photo-1604252879330-a63fadf53b63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzU1NjR8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "swe": [],
+    "fra": [
+      "https://images.unsplash.com/photo-1658740792340-e8271744eadb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzY1OTJ8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1676928859011-41fadd0a1249?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0Mzc2OTB8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1693841549100-92d150364322?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzgxMDR8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "france": [
+      "https://images.unsplash.com/photo-1532728065-ae5cc28665d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzY5NDV8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "sew": [
+      "https://images.unsplash.com/photo-1502217915754-8272dd84a805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0Mzc4MTd8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "en": [
+      "https://images.unsplash.com/photo-1702662666032-6ed75d3a9e45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0Mzg2ODN8&ixlib=rb-4.1.0&q=80&w=400"
     ]
   }
 }

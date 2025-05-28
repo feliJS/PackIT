@@ -87,7 +87,7 @@ async function renderNewList(userId, tripDataObj) {
     const cover = await fetchListPic(tripDataObj.country);
     const listName = tripDataObj.city
     const newList = await listApi.createList(userId, listName, tripDataObj.purpose, cover);
-    editList(newList.list);
+    editList(newList.list, tripDataObj);
 }
 
 function loadLists(userId, container) {
@@ -149,7 +149,7 @@ function createListObj(list, container, tripDataObj) {
     editImg.id = "edit";
     editImg.addEventListener("click", async () => {
         let upToDateList = await listApi.getList(user.id, list.listId);
-        editList(upToDateList); // vid klick på edit symbol
+        editList(upToDateList, {vehicle: list.vehicle}); // vid klick på edit symbol
         submitDestination(tripDataObj.city);
     });
     

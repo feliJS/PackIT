@@ -4,9 +4,8 @@ import { submitDestination } from "./createlistView.js";
 const listApi = new ListAPI("http://localhost:8000");
 
 
-
-export async function editList(list) {
-    console.log("editList mottog:", list);
+export async function editList(list, tripDataObj) {
+    console.log("editList mottog:", list, tripDataObj);
 
     const weatherDataObj = await submitDestination(list.listName);
 
@@ -133,9 +132,20 @@ export async function editList(list) {
     timeCard.innerHTML = `<div>Local time</div><div><span style="font-size: 2rem;">${weatherDataObj.localTime.split(" ")[1]}</div>`;
     aboutBox.appendChild(timeCard);
 
+
+    function getRecommendedBag(vehicle) {
+        switch(vehicle) {
+            case 1: return "Backpack";
+            case 2: return "Cabin Bag";
+            case 3: return "Sportbag";
+            default: return "Cabin Bag";
+        }
+    }
+    const recommendedBag = getRecommendedBag(tripDataObj.vehicle);
+
     const bagCard = document.createElement("div");
     bagCard.classList.add("aboutCard", "bag");
-    bagCard.innerHTML = `<div>Recommended bag:</div><div>Cabin Bag</div>`;
+    bagCard.innerHTML = `<div>Recommended bag:</div><div>${recommendedBag}</div>`;
     aboutBox.appendChild(bagCard);
 
     handleListView.appendChild(aboutBox);

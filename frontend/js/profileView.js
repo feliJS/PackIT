@@ -125,8 +125,15 @@ function loadName (user) {
 }
 
 function createListObj(list, container) {
+    console.log(list.listName);
     const listDOM = document.createElement("div");
     listDOM.classList.add("listContainer");
+    if (list.listName === "Basic List") {
+        let backPic = "../assets/images/backpack.jpg"
+        listDOM.style.backgroundImage = `url("${backPic}")`;
+        listDOM.style.backgroundSize ="cover";
+        listDOM.style.backgroundPosition = "top";
+    }
     if (list.cover) {
         listDOM.style.backgroundImage = `url("${list.cover}")`;
         listDOM.style.backgroundSize = "cover";

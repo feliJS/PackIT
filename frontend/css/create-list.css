@@ -51,16 +51,15 @@
 /* --- Modul  --- */
 .create-list-module {
     background-color: var(--color-primary-light);
-    /* Turkos */
-    border-radius: var(--radius-m);
-    padding: var(--spacing-xl) var(--spacing-2xl);
-    min-width: 700px;
-    min-height: 600px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: var(--spacing-l);
+
+    border-radius: var(--radius-m);
+    padding: var(--spacing-xl) var(--spacing-2xl);
+    min-width: 700px;
+    min-height: 600px;
 }
 
 /* --- Rubriker --- */
@@ -80,12 +79,30 @@
     font-size: var(--font-size-2xl)
 }
 
+
 /* --- Input containers --- */
 
 .create-list-header-container {
-color: var(--color-surface);}
+    color: var(--color-surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-m);
+}
+
+.create-list-header-close-icon {
+    width: 40px;
+    margin-right: -5px;
+    height: auto;
+}
+
+.create-list-header-close-icon-outside {
+    justify-self: right;
+    margin-left: 600px;
+    width: 40px;
+}
 
 .create-list-input-container {
+    height: 230px;
     display: flex;
     flex-direction: column;
     justify-content: center;

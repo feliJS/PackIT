@@ -137,10 +137,10 @@ export default function renderCreateList() {
         const newDiv = document.createElement("div");
         newDiv.innerHTML = `
         <div class="create-list-module">
-
+        <img src="../assets/icons/closeIcon.png" alt="Close" class="create-list-header-close-icon-outside">
             <div class="create-list-header-container create-list-header-container-step-1">
-                <h1 class="create-list-module-h1">1/4</h1>
-                <h3 class="create-list-module-h3">Where are you going?</h3>
+                     <h1 class="create-list-module-h1">1/4</h1>
+                     <h3 class="create-list-module-h3">Where are you going?</h3>
             </div>
 
             <div class="create-list-input-container create-list-input-container-step-1">
@@ -183,10 +183,10 @@ export default function renderCreateList() {
 
         newDiv.innerHTML = `
         <div class="create-list-module">
-
-            <div class="create-list-header-container create-list-header-container-step-2">
-                <h1 class="create-list-module-h1">2/4</h1>
-                <h3 class="create-list-module-h3">When is your trip?</h3>
+        <img src="../assets/icons/closeIcon.png" alt="Close" class="create-list-header-close-icon-outside">
+            <div class="create-list-header-container create-list-header-container-step-1">
+                     <h1 class="create-list-module-h1">2/4</h1>
+                     <h3 class="create-list-module-h3">When is your trip?</h3>
             </div>
 
             <div class="create-list-input-container create-list-input-container-step-2">
@@ -244,13 +244,13 @@ export default function renderCreateList() {
     /* ---  STEP 3 --- */
     function renderStep3() {
         const newDiv = document.createElement("div");
-
+        
         newDiv.innerHTML = `
         <div class="create-list-module">
-    
+        <img src="../assets/icons/closeIcon.png" alt="Close" class="create-list-header-close-icon-outside">
             <div class="create-list-header-container create-list-header-container-step-3">
-                <h1 class="create-list-module-h1">3/4</h1>
-                <h3 class="create-list-module-h3">What is the purpose of your trip?</h3>
+                     <h1 class="create-list-module-h1">3/4</h1>
+                     <h3 class="create-list-module-h3">What is the purpose oof your trip?</h3>
             </div>
     
             <div class="create-list-input-container create-list-input-container-step-3">
@@ -307,10 +307,10 @@ export default function renderCreateList() {
 
         newDiv.innerHTML = `
         <div class="create-list-module">
-    
+        <img src="../assets/icons/closeIcon.png" alt="Close" class="create-list-header-close-icon-outside">
             <div class="create-list-header-container create-list-header-container-step-4">
-                <h1 class="create-list-module-h1">4/4</h1>
-                <h3 class="create-list-module-h3">How will you travel?</h3>
+                     <h1 class="create-list-module-h1">4/4</h1>
+                     <h3 class="create-list-module-h3">How will you travel?</h3>
             </div>
     
             <div class="create-list-input-container create-list-input-container-step-4">
@@ -356,7 +356,7 @@ export default function renderCreateList() {
 
             /*             const weatherResponseOK = await submitDestination(tripDataObj.city);
              */
-   
+
 
             if (weatherDB) {
 

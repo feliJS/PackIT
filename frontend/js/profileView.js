@@ -3,6 +3,7 @@
 import { UserAPI } from '/client/users-client.js';
 import { ListAPI } from '/client/list-client.js';
 import { navigateTo } from './router.js';
+
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
 
@@ -27,7 +28,14 @@ async function findUser() {
     }
 }
 
-
+async function fetchListPic(destination) {
+  const res = await fetch(`${imageApiBase}/randomimage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: `${destination}` }),
+  });
+  return await res.text();
+}
 
 
 export default async function renderProfile(userId, tripData, weatherData) {
@@ -66,8 +74,9 @@ export default async function renderProfile(userId, tripData, weatherData) {
 
 // Väg från "Create List-mode"
 
-function renderNewList(userId, tripData, weatherData) {
-    const newList = listApi.createList(userId, tripData.listName, tripData.purpose);
+async function renderNewList(userId, tripData, weatherData) {
+    const cover = await fetchListPic(weatherData.country);
+    const newList = listApi.createList(userId, tripData.listName, tripData.purpose, cover);
     editList(newList, weatherData);
 
 }
@@ -111,6 +120,12 @@ function loadName (user) {
 function createListObj(list, container) {
     const listDOM = document.createElement("div");
     listDOM.classList.add("listContainer");
+    if (list.cover) {
+        listDOM.style.backgroundImage = `url("${list.cover}")`;
+        listDOM.style.backgroundSize = "cover";
+        listDOM.style.backgroundPosition = "center";
+    }
+    
     let listHead = document.createElement("div");
     listHead.classList.add("listHead")
     let listName = document.createElement("h3");

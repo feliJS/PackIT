@@ -12,7 +12,7 @@ function saveDB(listDB) {
 // (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
     
-    const { listName, purpose } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
+    const { listName, purpose, cover } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
 
     // Mappa purpose-id till rätt listnamn
     const purposeMap = {
@@ -69,7 +69,8 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
         userId: Number(urlUserId),
         listId: newListId,
         listName: listName, // <-- stadens namn
-        listItems: [...userBasicList.listItems, ...typeTemplate.listItems]
+        listItems: [...userBasicList.listItems, ...typeTemplate.listItems],
+        cover: cover
     };
 
     listDB.push(newList);

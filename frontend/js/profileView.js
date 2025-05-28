@@ -3,8 +3,11 @@
 import { UserAPI } from '/client/users-client.js';
 import { ListAPI } from '/client/list-client.js';
 import { navigateTo } from './router.js';
+
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
+
+const imageApiBase = "http://localhost:8000/image";
 
 
 
@@ -27,15 +30,28 @@ async function findUser() {
     }
 }
 
+async function fetchListPic(destination) {
+  const res = await fetch(`${imageApiBase}/randomimage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: `${destination}` }),
+  });
+  return await res.text();
+}
 
 
-
-export default async function renderProfile(userId, tripData, weatherData) {
+export default async function renderProfile(tripData, weatherData) {
     const user = await findUser();
     if (!user) {
         navigateTo("login")
         return
     }
+    console.log(tripData);
+    console.log(weatherData);
+    if(tripData && weatherData) {
+        renderNewList(user.id, tripData, weatherData);
+    }
+
     const listData = listApi.getAllLists(user.id);
     
     
@@ -47,27 +63,30 @@ export default async function renderProfile(userId, tripData, weatherData) {
     allListsContainer.classList.add("allListsContainer");
     profileViewDOM.appendChild(profileContainer);
     profileViewDOM.appendChild(allListsContainer);
-    const handleListView = document.getElementById("handleListView");
+    const handleListView = document.createElement("div");
+    handleListView.id = "handleListView";
 
     const createButton = document.createElement("button");
     createButton.id = "create-list-button";
     createButton.textContent = "Create List";
+    createButton.addEventListener("click", () => {
+        navigateTo("create-list");
+    })
     
     profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);
 
     loadLists(user.id, allListsContainer);
 
-    if(tripData && weatherData) {
-        renderNewList(userId, tripData, weatherData);
-    }
+    
 
 
 
 // Väg från "Create List-mode"
 
-function renderNewList(userId, tripData, weatherData) {
-    const newList = listApi.createList(userId, tripData.listName, tripData.purpose);
+async function renderNewList(userId, tripData, weatherData) {
+    const cover = await fetchListPic(tripData.country);
+    const newList = listApi.createList(userId, tripData.listName, tripData.purpose, cover);
     editList(newList, weatherData);
 
 }
@@ -76,14 +95,11 @@ function loadLists(userId, container) {
     //getuserLists
     if (listData) {
         listApi.getAllLists(userId).then( (x) => {
-            console.log(x)
     
             for (let list of x) {
                 createListObj(list, container);
                 
             }
-            console.log(createListObj)
-    
         } )
     }
    
@@ -111,6 +127,12 @@ function loadName (user) {
 function createListObj(list, container) {
     const listDOM = document.createElement("div");
     listDOM.classList.add("listContainer");
+    if (list.cover) {
+        listDOM.style.backgroundImage = `url("${list.cover}")`;
+        listDOM.style.backgroundSize = "cover";
+        listDOM.style.backgroundPosition = "center";
+    }
+    
     let listHead = document.createElement("div");
     listHead.classList.add("listHead")
     let listName = document.createElement("h3");

@@ -42,7 +42,7 @@ export async function listHandler(req) {
         return new Response(null, { status: 200, headers: corsHeaders });
     }
 
-    const listData = await Deno.readTextFileSync("../databaser/lists.json");
+    const listData = await Deno.readTextFile("../databaser/lists.json");
     const listDB = JSON.parse(listData);
 
     // URL patterns

@@ -1,7 +1,7 @@
 {
   "ratelimit": {
     "remaining": "48",
-    "lastChecked": 1748423109775
+    "lastChecked": 1748434057853
   },
   "images": {
     "animal": [
@@ -30,10 +30,23 @@
       "https://images.unsplash.com/photo-1512723185835-0700e5069a9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgzNTI0NzN8&ixlib=rb-4.1.0&q=80&w=400",
       "https://images.unsplash.com/photo-1508817628294-5a453fa0b8fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgzNTMzNjF8&ixlib=rb-4.1.0&q=80&w=400",
       "https://images.unsplash.com/photo-1566487097168-e91a4f38bee2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgzNTQ0MzF8&ixlib=rb-4.1.0&q=80&w=400",
-      "https://images.unsplash.com/photo-1621206593424-6e4e8f6336e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgzNjM0ODV8&ixlib=rb-4.1.0&q=80&w=400"
+      "https://images.unsplash.com/photo-1621206593424-6e4e8f6336e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgzNjM0ODV8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1552833172-fd5ac167c18c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzIzNzN8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzI3MjB8&ixlib=rb-4.1.0&q=80&w=400"
     ],
     "Sweden": [
       "https://images.unsplash.com/photo-1612881763713-7d962da533c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MjMxMDl8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "Morocco": [
+      "https://images.unsplash.com/photo-1628640816954-3a79f35c60da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzI3Njl8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "Great Britain": [
+      "https://images.unsplash.com/photo-1444491741275-3747c53c99b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzI5MDl8&ixlib=rb-4.1.0&q=80&w=400"
+    ],
+    "sweden": [
+      "https://images.unsplash.com/photo-1521930651981-dceaf670cc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzM1MjN8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1545586867-a0dd5984124c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzM2MTR8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1565895852923-aba9405b8ac8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzQwNTd8&ixlib=rb-4.1.0&q=80&w=400"
     ]
   }
 }

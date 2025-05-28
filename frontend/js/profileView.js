@@ -3,6 +3,7 @@
 import { UserAPI } from '/client/users-client.js';
 import { ListAPI } from '/client/list-client.js';
 import { navigateTo } from './router.js';
+import { editList } from "./handleListView.js";
 
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
@@ -86,9 +87,8 @@ export default async function renderProfile(tripData, weatherData) {
 
 async function renderNewList(userId, tripData, weatherData) {
     const cover = await fetchListPic(tripData.country);
-    const newList = listApi.createList(userId, tripData.listName, tripData.purpose, cover);
+    const newList = await listApi.createList(userId, tripData.listName, tripData.purpose, cover);
     editList(newList, weatherData);
-
 }
 
 function loadLists(userId, container) {
@@ -162,7 +162,7 @@ function createListObj(list, container) {
 }
 
 
-
+/*
 function createItem(item) {
     let itemDiv = document.createElement("div");
     itemDiv.classList.add("itemDiv");
@@ -228,8 +228,9 @@ function createItem(item) {
     
     return itemDiv;
 }
+*/
 
-
+/* 
 function editList (list, weatherData) {
     handleListView.classList.add("active");
     handleListView.innerHTML = "";
@@ -374,4 +375,5 @@ function editList (list, weatherData) {
 
     handleListView.appendChild(aboutBox);
 }
+*/
 }

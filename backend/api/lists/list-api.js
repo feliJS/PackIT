@@ -16,7 +16,7 @@ export async function listHandler(req) {
     const reqMethod = req.method;
 
     let reqBody = {};
-    if (reqMethod !== "GET" && reqMethod !== "OPTIONS") {
+    if (reqMethod !== "GET" && reqMethod !== "OPTIONS" && reqMethod !== "DELETE") {
         reqBody = await req.json();
     }
 
@@ -42,14 +42,14 @@ export async function listHandler(req) {
         return new Response(null, { status: 200, headers: corsHeaders });
     }
 
-    const listData = await Deno.readTextFileSync("../databaser/lists.json");
+    const listData = await Deno.readTextFile("../databaser/lists.json");
     const listDB = JSON.parse(listData);
 
     // URL patterns
-    const allListsPattern = new URLPattern({ pathname: "/users/:userId/lists" });
-    const singleListPattern = new URLPattern({ pathname: "/users/:userId/lists/:listId" });
-    const allItemsPattern = new URLPattern({ pathname: "/users/:userId/:listId/items" });
-    const singleItemPattern = new URLPattern({ pathname: "/users/:userId/:listId/items/:itemId" });
+    const allListsPattern = new URLPattern({ pathname: "/lists/:userId" });
+    const singleListPattern = new URLPattern({ pathname: "/lists/:userId/:listId" });
+    const allItemsPattern = new URLPattern({ pathname: "/lists/:userId/:listId/items" });
+    const singleItemPattern = new URLPattern({ pathname: "/lists/:userId/:listId/items/:itemId" });
 
     const allListsMatch = allListsPattern.exec(reqUrl);
     const singleListMatch = singleListPattern.exec(reqUrl);
@@ -58,35 +58,38 @@ export async function listHandler(req) {
 
     // === GET ===
     if (reqMethod === "GET") {
-    
-        // /users/:userId/:listId/items
+
+        // /lists/:userId/:listId/items
         if (allItemsMatch) {
             const { userId, listId } = allItemsMatch.pathname.groups;
             return getAllItemsFunc(userId, listId, listDB, responseHeaders);
         }
 
-        // /users/:userId/lists/:listId
+        // /lists/:userId/:listId
         if (singleListMatch) {
             const { userId, listId } = singleListMatch.pathname.groups;
             return getListFunc(userId, listId, listDB, responseHeaders);
         }
 
-        // /users/:userId/lists
+        // /lists/:userId
         if (allListsMatch) {
             const { userId } = allListsMatch.pathname.groups;
+
+            console.log("I getAllListsFunc i (LIST_API)")
+
             return getAllListsFunc(userId, listDB, responseHeaders);
         }
     }
 
     // === POST ===
     if (reqMethod === "POST") {
-        // /users/:userId/:listId/items
+        // /lists/:userId/:listId/items
         if (allItemsMatch) {
             const { userId, listId } = allItemsMatch.pathname.groups;
             return addItemFunc(reqBody, userId, listId, listDB, responseHeaders);
         }
 
-        // /users/:userId/lists
+        // /lists/:userId
         if (allListsMatch) {
             const { userId } = allListsMatch.pathname.groups;
             return await createListFunc(userId, reqBody, listDB, responseHeaders);
@@ -94,7 +97,7 @@ export async function listHandler(req) {
     }
 
     // === PUT ===
-    // /users/:userId/:listId/items/:itemId
+    // /lists/:userId/:listId/items/:itemId
     if (reqMethod === "PUT" && singleItemMatch) {
         const { userId, listId, itemId } = singleItemMatch.pathname.groups;
         return updateItemFunc(reqBody, userId, listId, itemId, listDB, responseHeaders);
@@ -102,13 +105,13 @@ export async function listHandler(req) {
 
     // === DELETE ===
     if (reqMethod === "DELETE") {
-        // /users/:userId/:listId/items/:itemId
+        // /lists/:userId/:listId/items/:itemId
         if (singleItemMatch) {
             const { userId, listId, itemId } = singleItemMatch.pathname.groups;
             return deleteItemFunc(userId, listId, itemId, listDB, responseHeaders);
         }
 
-        // /users/:userId/lists/:listId
+        // /lists/:userId/:listId
         if (singleListMatch) {
             const { userId, listId } = singleListMatch.pathname.groups;
             return deleteListFunc(userId, listId, listDB, responseHeaders);

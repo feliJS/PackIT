@@ -12,7 +12,7 @@ function saveDB(listDB) {
 // (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
     
-    const { listName, purpose } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
+    const { listName, purpose, cover } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
 
     // Mappa purpose-id till rätt listnamn
     const purposeMap = {
@@ -23,26 +23,54 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
 
     const mappedPurposeName = purposeMap[purpose];
 
-    // Hämta användarens basic-list
-    const userBasicList = listDB.find(l =>
-    l.userId === Number(userId) &&
-    l.listName.toLowerCase() === "basic list"
+    // Kolla om användaren redan har en Basic List
+        let userBasicList = listDB.find(l =>
+        l.userId === Number(urlUserId) &&
+        l.listName.toLowerCase() === "basic list"
     );
+
+    // Om inte – skapa en kopia av defaulten
+    if (!userBasicList) {
+        const defaultBasic = listDB.find(l =>
+        l.userId === 0 &&
+        l.listName.toLowerCase() === "basic list");
+
+        const basicListId = Math.max(...listDB.map(l => l.listId)) + 1;
+
+        userBasicList = {
+            userId: Number(urlUserId),
+            listId: basicListId,
+            listName: "Basic List",
+            listItems: JSON.parse(JSON.stringify(defaultBasic.listItems)) // kopiera
+        };
+
+        listDB.push(userBasicList);
+    }
   
+
     // Hämta rätt template-lista baserat på purpose
     const typeTemplate = listDB.find(l =>
         l.userId === 0 &&
         l.listName.toLowerCase() === mappedPurposeName.toLowerCase()
     );
 
+    if (!typeTemplate) {
+        return new Response(JSON.stringify({ error: "Purpose template not found" }), {
+          status: 404,
+          headers: { ...responseHeaders }
+        });
+    }
+
+
     // Skapa ny list-objekt
     const newListId = Math.max(...listDB.map(l => l.listId)) + 1;
 
     const newList = {
-        userId: Number(userId),
+        userId: Number(urlUserId),
         listId: newListId,
         listName: listName, // <-- stadens namn
-        listItems: [...userBasicList.listItems, ...typeTemplate.listItems]
+        listItems: [...userBasicList.listItems, ...typeTemplate.listItems],
+        cover: cover
     };
 
     listDB.push(newList);
@@ -54,8 +82,10 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
     });
 }
 
+
 // (GET) - hämta alla listor för en userId (behövs till profilsidan för att displaya alla listor)
 export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {
+    console.log("I getAllListsFunc")
     const userLists = listDB.filter(list => list.userId == urlUserId);
   
     return new Response(JSON.stringify(userLists), {
@@ -149,6 +179,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
 
     const newItem = {
         itemId: newItemId,
+        itemType: reqBody.itemType,
         itemName: reqBody.itemName,
         itemQuantity: reqBody.itemQuantity
     };
@@ -157,7 +188,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
 
     await saveDB(listDB);
 
-    return new Response(JSON.stringify({ message: "Item added successfully" }), {
+    return new Response(JSON.stringify({ message: "Item added successfully", item: newItem }), {
         status: 201,
         headers: { ...responseHeaders }
     });

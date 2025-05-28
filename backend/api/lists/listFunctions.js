@@ -179,6 +179,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
 
     const newItem = {
         itemId: newItemId,
+        itemType: reqBody.itemType,
         itemName: reqBody.itemName,
         itemQuantity: reqBody.itemQuantity
     };
@@ -187,7 +188,7 @@ export async function addItemFunc(reqBody, urlUserId, urlListId, listDB, respons
 
     await saveDB(listDB);
 
-    return new Response(JSON.stringify({ message: "Item added successfully" }), {
+    return new Response(JSON.stringify({ message: "Item added successfully", item: newItem }), {
         status: 201,
         headers: { ...responseHeaders }
     });

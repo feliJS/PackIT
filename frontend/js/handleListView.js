@@ -35,7 +35,7 @@ export function editList(list, weatherData) {
     let itemBox = document.createElement("div");
     itemBox.id = "inner";
 
-    let types = [...new Set(list.listItems.map((item) => item.itemType))];
+    let types = [...new Set(list.listItems.map((item) => item.itemType || "other"))];
     let containers = {};
 
     for (let type of types) {
@@ -81,9 +81,13 @@ export function editList(list, weatherData) {
             const userId = list.userId;
             const listId = list.listId;
 
-            const added = await listApi.addItem(userId, listId, itemName, 1);
-            const itemDiv = createItem(added.item, list);
-            itemsContainer.appendChild(itemDiv);
+            const added = await listApi.addItem(userId, listId, box.id, itemName, 1);
+            if(added) {
+                const itemDiv = createItem(added.item, list);
+                itemsContainer.appendChild(itemDiv);
+            }
+            //// Här visa om det inte gick...
+            
         });
 
         box.appendChild(inputDiv);

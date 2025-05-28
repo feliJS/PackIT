@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test (test2)</title>
+        <link rel="stylesheet" href="teststyle.css">
+    </head>
+
+    <body>
+
+        <header>
+            <h1>Test</h1>
+            <button class="run-tests-btn">Run tests</button>
+        </header>
+
+        <div id="wrap">
+
+            <div class="request-log" id="reqLog">
+
+                <div class="row header">
+                    <div>Title</div>
+                    <div>Method</div>
+                    <div>Status</div>
+                    <div>Body</div>
+                </div>
+
+                <!-- Bara ett exempel på hur det kan se ut! -->
+                <div class="row">
+                    <div>Create New User</div>
+                    <div>POST</div>
+                    <div><span class="status success">200</span></div>
+                    <div>Successful</div>
+                </div>
+                <div class="row">
+                    <div>Create New User</div>
+                    <div>POST</div>
+                    <div><span class="status success">400</span></div>
+                    <div>Successful</div>
+                </div>
+                <div class="row">
+                    <div>Create New User</div>
+                    <div>POST</div>
+                    <div><span class="status success">200</span></div>
+                    <div>Successful</div>
+                </div>
+                <div class="row">
+                    <div>Create New User</div>
+                    <div>POST</div>
+                    <div><span class="status success">200</span></div>
+                    <div>Successful</div>
+                </div>
+                <div class="row">
+                    <div>Create New User</div>
+                    <div>POST</div>
+                    <div><span class="status success">200</span></div>
+                    <div>Successful</div>
+                </div>
+
+            </div>
+
+            <div id="user-list">
+
+                <h3>List of users</h3>
+                <div class="user-list-log">
+                    <!-- ??? -->
+                </div>
+
+            </div>
+
+        </div>
+
+        <script src="/testsida/testList/testList2.js" type="module"></script>
+        <script src="/testsida/testUsers/testUser2.js" type="module"></script>
+    </body>
+
+</html>

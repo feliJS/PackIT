@@ -1,11 +1,14 @@
 import { ListAPI } from "/client/list-client.js";
+import { submitDestination } from "./createlistView.js";
 
 const listApi = new ListAPI("http://localhost:8000");
 
 
 
-export function editList(list, weatherDataObj) {
+export async function editList(list) {
     console.log("editList mottog:", list);
+
+    const weatherDataObj = await submitDestination(list.listName);
 
     const handleListView = document.createElement("div");
     handleListView.id = "handleListView";
@@ -123,13 +126,13 @@ export function editList(list, weatherDataObj) {
     const weatherCard = document.createElement("div");
     weatherCard.classList.add("aboutCard", "weather");
     weatherCard.innerHTML = weatherDataObj
-        ? `<div>Weather</div><div><span style="font-weight: normal;">${weatherDataObj.temperature}°</span>${weatherDataObj.weather_descriptions}</div>`
+        ? `<div>Weather</div><div><span style="font-weight: normal;">${weatherDataObj.temperature}°</span>${weatherDataObj.weatherDescriptions}</div>`
         : `<div>Weather</div><div><span style="font-weight: normal;">-</span> Sunny</div>`; // vad är denna till för?
     aboutBox.appendChild(weatherCard);
 
     const timeCard = document.createElement("div");
     timeCard.classList.add("aboutCard");
-    timeCard.innerHTML = `<div>Local time</div><div><span style="font-size: 2rem;">${weatherDataObj.localtime.split(" ")[1]}</div>`;
+    timeCard.innerHTML = `<div>Local time</div><div><span style="font-size: 2rem;">${weatherDataObj.localTime.split(" ")[1]}</div>`;
     aboutBox.appendChild(timeCard);
 
     const bagCard = document.createElement("div");

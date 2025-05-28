@@ -4,6 +4,7 @@ import { UserAPI } from '/client/users-client.js';
 import { ListAPI } from '/client/list-client.js';
 import { navigateTo } from './router.js';
 import { editList } from "./handleListView.js";
+import { submitDestination } from "./createlistView.js";
 
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
@@ -122,7 +123,7 @@ function loadName (user) {
     return nameDiv;
 }
 
-function createListObj(list, container) {
+function createListObj(list, container, tripData) {
     const listDOM = document.createElement("div");
     listDOM.classList.add("listContainer");
     if (list.listName === "Basic List") {
@@ -149,6 +150,7 @@ function createListObj(list, container) {
     editImg.addEventListener("click", async () => {
         let upToDateList = await listApi.getList(user.id, list.listId);
         editList(upToDateList); // vid klick på edit symbol
+        submitDestination(tripData.city);
     });
     
     listHead.appendChild(listName);

@@ -85,7 +85,8 @@ export default async function renderProfile(tripData, weatherData) {
 
 async function renderNewList(userId, tripData, weatherData) {
     const cover = await fetchListPic(tripData.country);
-    const newList = await listApi.createList(userId, tripData.listName, tripData.purpose, cover);
+    const listName = tripData.city
+    const newList = await listApi.createList(userId, listName, tripData.purpose, cover);
     editList(newList.list, weatherData);
 }
 

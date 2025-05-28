@@ -29,6 +29,7 @@ export function editList(list, weatherData) {
 
     doneBtn.addEventListener("click", () => {
         handleListView.classList.remove("active");
+        handleListView.style.display = "none";
     });
 
     let itemBox = document.createElement("div");

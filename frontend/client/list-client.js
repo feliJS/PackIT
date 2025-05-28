@@ -84,14 +84,14 @@ export class ListAPI {
     }
 
     // (POST)   ENDPOINT = /lists/:userId/:listId/items   – lägg till en item i listan
-    async addItem(userId, listId, itemName, itemQuantity) {
+    async addItem(userId, listId, itemType, itemName, itemQuantity) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}/items`;
 
         const response = await fetch(reqURL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ itemName, itemQuantity }),
+            body: JSON.stringify({ itemType, itemName, itemQuantity }),
         });
         return this.handleResponse(response);
     }

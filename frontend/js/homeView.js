@@ -23,6 +23,10 @@ function toggleCreateListBtn() {
     createBtn.classList.add("create-list-btn-disabled");
    }
 }
+function toggleLoginRegBtn() {
+  
+}
+
 
 export default function renderHome() {
   const homeDiv = document.getElementsByClassName("home-box")[0];

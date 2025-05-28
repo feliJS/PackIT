@@ -1,7 +1,7 @@
 {
   "ratelimit": {
-    "remaining": "45",
-    "lastChecked": 1748438683103
+    "remaining": "47",
+    "lastChecked": 1748451374899
   },
   "images": {
     "animal": [
@@ -35,7 +35,8 @@
       "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzI3MjB8&ixlib=rb-4.1.0&q=80&w=400"
     ],
     "Sweden": [
-      "https://images.unsplash.com/photo-1612881763713-7d962da533c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MjMxMDl8&ixlib=rb-4.1.0&q=80&w=400"
+      "https://images.unsplash.com/photo-1612881763713-7d962da533c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MjMxMDl8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1497217968520-7d8d60b7bc25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0NTEzNzR8&ixlib=rb-4.1.0&q=80&w=400"
     ],
     "Morocco": [
       "https://images.unsplash.com/photo-1628640816954-3a79f35c60da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzI3Njl8&ixlib=rb-4.1.0&q=80&w=400"

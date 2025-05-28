@@ -16,7 +16,7 @@ export async function listHandler(req) {
     const reqMethod = req.method;
 
     let reqBody = {};
-    if (reqMethod !== "GET" && reqMethod !== "OPTIONS") {
+    if (reqMethod !== "GET" && reqMethod !== "OPTIONS" && reqMethod !== "DELETE") {
         reqBody = await req.json();
     }
 

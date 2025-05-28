@@ -3,8 +3,14 @@ import { ListAPI } from "/client/list-client.js";
 const listApi = new ListAPI("http://localhost:8000");
 
 
+
 export function editList(list, weatherData) {
-    const handleListView = document.getElementById("handleListView");
+    console.log("editList mottog:", list);
+
+    const handleListView = document.createElement("div");
+    handleListView.id = "handleListView";
+    document.querySelector("#app").appendChild(handleListView);
+    
     handleListView.classList.add("active");
     handleListView.innerHTML = "";
 

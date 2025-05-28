@@ -1,69 +1,8 @@
 /* createlistView.js */
 
-
-const weatherDB = [
-    {
-        "request": {
-            "type": "City",
-            "query": "London, United Kingdom",
-            "language": "en",
-            "unit": "m"
-        },
-        "location": {
-            "name": "London",
-            "country": "United Kingdom",
-            "region": "City of London, Greater London",
-            "lat": "51.517",
-            "lon": "-0.106",
-            "timezone_id": "Europe/London",
-            "localtime": "2025-05-16 12:31",
-            "localtime_epoch": 1747398660,
-            "utc_offset": "1.0"
-        },
-        "current": {
-            "observation_time": "11:31 AM",
-            "temperature": 17,
-            "weather_code": 113,
-            "weather_icons": [
-                "https://cdn.worldweatheronline.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
-            ],
-            "weather_descriptions": ["Sunny"],
-            "astro": {
-                "sunrise": "05:07 AM",
-                "sunset": "08:48 PM",
-                "moonrise": "12:26 AM",
-                "moonset": "06:55 AM",
-                "moon_phase": "Waning Gibbous",
-                "moon_illumination": 90
-            },
-            "air_quality": {
-                "co": "270.1",
-                "no2": "12.395",
-                "o3": "87",
-                "so2": "2.59",
-                "pm2_5": "9.805",
-                "pm10": "17.02",
-                "us-epa-index": "1",
-                "gb-defra-index": "1"
-            },
-            "wind_speed": 19,
-            "wind_degree": 10,
-            "wind_dir": "N",
-            "pressure": 1026,
-            "precip": 0,
-            "humidity": 42,
-            "cloudcover": 0,
-            "feelslike": 17,
-            "uv_index": 6,
-            "visibility": 10,
-            "is_day": "yes"
-        }
-    }
-]
-
-
 import { navigateTo } from "./router.js";
-import { getWeatherDataFunc } from "/client/weater-client.js";
+import { getWeatherDataFunc } from "../client/weater-client.js";
+
 
 /* function getCookie(name) {
     return document.cookie
@@ -90,13 +29,9 @@ export default function renderCreateList() {
 
     const weatherDataObj = {
         country: "",
-        temperature: 22,
-        language: "",
+        temperature: "",
         localtime: "",
-        timezone_id: "",  // TA VÄRLDSDEL FÖR AVG. TEMP. NATT/DAG
         weather_descriptions: "",
-        uv_index: "",
-        is_day: ""  // OM NEJ SÅ SÄTT DEF. ÖKAD TEMP? ^^
     }
 
     const createlistDiv = document.querySelector(".create-list-box");
@@ -353,20 +288,12 @@ export default function renderCreateList() {
             tripDataObj.vehicle = parseInt(selectedVehicle.value);
 
             // Anropa väderapi funktion -> submitDestination() uppdaterar weatherDataObj
-
-            /*             const weatherResponseOK = await submitDestination(tripDataObj.city);
-             */
-
-
-            if (weatherDB) {
-
-                // Anropa router.js -> renderProfileView + css
-                return navigateTo("profile", { tripDataObj, weatherDataObj })
-
+            const weatherResponseOK = await submitDestination(tripDataObj.city);
+            
+            if (weatherResponseOK) {
+                navigateTo("profile", { tripDataObj, weatherDataObj });
             } else {
-
-                navigateTo("profile"); // ELLER RELOAD CREATE-LIST?? OM EJ VÄDERDATA KUNDE HITTAS?
-
+                alert("Could not retrieve weather data. Please try again.");
             }
         });
 
@@ -379,23 +306,22 @@ export default function renderCreateList() {
     /* --- WEATHER --- */
     async function submitDestination(city) {
         try {
-
-            /*             const weatherResponseData = await getWeatherDataFunc(city);
-             */
-
-            /* OBS UPPDATERA MOT WEATHER-CLIIENT, SÄTT EN TILL FUNK FÖR ATT FÅ ALL DENNA DATAN OCH EJ BARA TEMP OSV */
-            weatherDataObj.country = weatherDB.location.country;
-            weatherDataObj.language = weatherDB.request.language;
-            weatherDataObj.localtime = weatherDB.location.localtime;
-            weatherDataObj.timezone = weatherDB.location.timezone_id;
-            weatherDataObj.temperature = weatherDB.current.temperature;
-            weatherDataObj.weather_descriptions = weatherDB.current.weather_descriptions[0];
-            weatherDataObj.uv_index = weatherDB.current.uv_index;
-            weatherDataObj.is_day = weatherDB.current.is_day;
-
+            const weatherResponse = await getWeatherDataFunc(city);
+    
+            if (!weatherResponse) {
+                throw new Error("No weather data returned");
+            }
+    
+            weatherDataObj.temperature = weatherResponse.temperature;
+            weatherDataObj.localtime = weatherResponse.localTime;
+            weatherDataObj.country = weatherResponse.country;
+            weatherDataObj.weather_descriptions = weatherResponse.weatherDescriptions;
+    
+            console.log("det fungerade! omfg:", weatherDataObj);
             return weatherDataObj;
+    
         } catch (error) {
-            console.error(error);
+            console.error("Kunde inte hämta väderdata:", error);
             return null;
         }
     }

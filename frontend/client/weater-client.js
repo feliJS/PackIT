@@ -98,8 +98,8 @@ export async function getWeatherDataFunc (city) {
     const weather = new WeatherData(weatherDB[0].current.temperature, weatherDB[0].location.localtime, weatherDB[0].location.country, weatherDB[0].current.weather_descriptions[0]);
 
     // console.log(weatherObject);
-    console.log(weather);
+    console.log("weatherInstans:", weather);
     return weather;
 }
 
-getWeatherDataFunc("London");
+// getWeatherDataFunc("London");

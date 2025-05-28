@@ -7,6 +7,8 @@ import { navigateTo } from './router.js';
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
 
+const imageApiBase = "http://localhost:8000/image";
+
 
 
 async function findUser() {
@@ -38,12 +40,18 @@ async function fetchListPic(destination) {
 }
 
 
-export default async function renderProfile(userId, tripData, weatherData) {
+export default async function renderProfile(tripData, weatherData) {
     const user = await findUser();
     if (!user) {
         navigateTo("login")
         return
     }
+    console.log(tripData);
+    console.log(weatherData);
+    if(tripData && weatherData) {
+        renderNewList(user.id, tripData, weatherData);
+    }
+
     const listData = listApi.getAllLists(user.id);
     
     
@@ -55,27 +63,29 @@ export default async function renderProfile(userId, tripData, weatherData) {
     allListsContainer.classList.add("allListsContainer");
     profileViewDOM.appendChild(profileContainer);
     profileViewDOM.appendChild(allListsContainer);
-    const handleListView = document.getElementById("handleListView");
+    const handleListView = document.createElement("div");
+    handleListView.id = "handleListView";
 
     const createButton = document.createElement("button");
     createButton.id = "create-list-button";
     createButton.textContent = "Create List";
+    createButton.addEventListener("click", () => {
+        navigateTo("create-list");
+    })
     
     profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);
 
     loadLists(user.id, allListsContainer);
 
-    if(tripData && weatherData) {
-        renderNewList(userId, tripData, weatherData);
-    }
+    
 
 
 
 // Väg från "Create List-mode"
 
 async function renderNewList(userId, tripData, weatherData) {
-    const cover = await fetchListPic(weatherData.country);
+    const cover = await fetchListPic(tripData.country);
     const newList = listApi.createList(userId, tripData.listName, tripData.purpose, cover);
     editList(newList, weatherData);
 
@@ -85,14 +95,11 @@ function loadLists(userId, container) {
     //getuserLists
     if (listData) {
         listApi.getAllLists(userId).then( (x) => {
-            console.log(x)
     
             for (let list of x) {
                 createListObj(list, container);
                 
             }
-            console.log(createListObj)
-    
         } )
     }
    

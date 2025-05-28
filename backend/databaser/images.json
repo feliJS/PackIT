@@ -1,7 +1,7 @@
 {
   "ratelimit": {
-    "remaining": "49",
-    "lastChecked": 1748433614258
+    "remaining": "48",
+    "lastChecked": 1748434057853
   },
   "images": {
     "animal": [
@@ -45,7 +45,8 @@
     ],
     "sweden": [
       "https://images.unsplash.com/photo-1521930651981-dceaf670cc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzM1MjN8&ixlib=rb-4.1.0&q=80&w=400",
-      "https://images.unsplash.com/photo-1545586867-a0dd5984124c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzM2MTR8&ixlib=rb-4.1.0&q=80&w=400"
+      "https://images.unsplash.com/photo-1545586867-a0dd5984124c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzM2MTR8&ixlib=rb-4.1.0&q=80&w=400",
+      "https://images.unsplash.com/photo-1565895852923-aba9405b8ac8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDg0MzQwNTd8&ixlib=rb-4.1.0&q=80&w=400"
     ]
   }
 }

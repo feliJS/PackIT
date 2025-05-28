@@ -125,9 +125,7 @@ export async function editList(list) {
 
     const weatherCard = document.createElement("div");
     weatherCard.classList.add("aboutCard", "weather");
-    weatherCard.innerHTML = weatherDataObj
-        ? `<div>Weather</div><div><span style="font-weight: normal;">${weatherDataObj.temperature}°</span>${weatherDataObj.weatherDescriptions}</div>`
-        : `<div>Weather</div><div><span style="font-weight: normal;">-</span> Sunny</div>`; // vad är denna till för?
+    weatherCard.innerHTML = `<div>Weather</div><div><span style="font-weight: normal;">${weatherDataObj.temperature}°</span>${weatherDataObj.weatherDescriptions}</div>`
     aboutBox.appendChild(weatherCard);
 
     const timeCard = document.createElement("div");

@@ -42,15 +42,15 @@ async function fetchListPic(destination) {
 }
 
 
-export default async function renderProfile(tripData, weatherDataObj) {
+export default async function renderProfile(tripDataObj, weatherDataObj) {
     const user = await findUser();
     if (!user) {
         navigateTo("login")
         return
     }
     
-    if(tripData && weatherDataObj) {
-        renderNewList(user.id, tripData, weatherDataObj);
+    if(tripDataObj && weatherDataObj) {
+        renderNewList(user.id, tripDataObj, weatherDataObj);
     }
 
     const listData = await listApi.getAllLists(user.id);
@@ -83,11 +83,11 @@ export default async function renderProfile(tripData, weatherDataObj) {
 
 // Väg från "Create List-mode"
 
-async function renderNewList(userId, tripData, weatherDataObj) {
-    const cover = await fetchListPic(tripData.country);
-    const listName = tripData.city
-    const newList = await listApi.createList(userId, listName, tripData.purpose, cover);
-    editList(newList.list, weatherDataObj);
+async function renderNewList(userId, tripDataObj) {
+    const cover = await fetchListPic(tripDataObj.country);
+    const listName = tripDataObj.city
+    const newList = await listApi.createList(userId, listName, tripDataObj.purpose, cover);
+    editList(newList.list);
 }
 
 function loadLists(userId, container) {
@@ -123,7 +123,7 @@ function loadName (user) {
     return nameDiv;
 }
 
-function createListObj(list, container, tripData) {
+function createListObj(list, container, tripDataObj) {
     const listDOM = document.createElement("div");
     listDOM.classList.add("listContainer");
     if (list.listName === "Basic List") {
@@ -150,7 +150,7 @@ function createListObj(list, container, tripData) {
     editImg.addEventListener("click", async () => {
         let upToDateList = await listApi.getList(user.id, list.listId);
         editList(upToDateList); // vid klick på edit symbol
-        submitDestination(tripData.city);
+        submitDestination(tripDataObj.city);
     });
     
     listHead.appendChild(listName);

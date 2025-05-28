@@ -391,9 +391,24 @@ export async function getWeatherDataFunc (city) {
     // för online:
     // const weather = new WeatherData(weatherObject.current.temperature, weatherObject.location.localtime, weatherObject.location.country);
     // för offline:
-    const weather = new WeatherData(weatherDB[0].current.temperature, weatherDB[0].location.localtime, weatherDB[0].location.country, weatherDB[0].current.weather_descriptions[0]);
+    const cityLower = city.trim().toLowerCase();
 
-    // console.log(weatherObject);
+    const match = weatherDB.find(
+        entry => entry.location.name.toLowerCase() === cityLower
+    );
+
+    if (!match) {
+        console.error("Ingen väderdata hittades för:", city);
+        return null;
+    }
+
+    const weather = new WeatherData(
+        match.current.temperature,
+        match.location.localtime,
+        match.location.country,
+        match.current.weather_descriptions[0]
+    );
+
     console.log("weatherInstans:", weather);
     return weather;
 }

@@ -41,16 +41,15 @@ async function fetchListPic(destination) {
 }
 
 
-export default async function renderProfile(tripData, weatherData) {
+export default async function renderProfile(tripData, weatherDataObj) {
     const user = await findUser();
     if (!user) {
         navigateTo("login")
         return
     }
-    console.log(tripData);
-    console.log(weatherData);
-    if(tripData && weatherData) {
-        renderNewList(user.id, tripData, weatherData);
+    
+    if(tripData && weatherDataObj) {
+        renderNewList(user.id, tripData, weatherDataObj);
     }
 
     const listData = await listApi.getAllLists(user.id);
@@ -83,11 +82,11 @@ export default async function renderProfile(tripData, weatherData) {
 
 // Väg från "Create List-mode"
 
-async function renderNewList(userId, tripData, weatherData) {
+async function renderNewList(userId, tripData, weatherDataObj) {
     const cover = await fetchListPic(tripData.country);
     const listName = tripData.city
     const newList = await listApi.createList(userId, listName, tripData.purpose, cover);
-    editList(newList.list, weatherData);
+    editList(newList.list, weatherDataObj);
 }
 
 function loadLists(userId, container) {

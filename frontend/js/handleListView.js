@@ -4,7 +4,7 @@ const listApi = new ListAPI("http://localhost:8000");
 
 
 
-export function editList(list, weatherData) {
+export function editList(list, weatherDataObj) {
     console.log("editList mottog:", list);
 
     const handleListView = document.createElement("div");
@@ -122,14 +122,14 @@ export function editList(list, weatherData) {
 
     const weatherCard = document.createElement("div");
     weatherCard.classList.add("aboutCard", "weather");
-    weatherCard.innerHTML = weatherData
-        ? `<div>Weather</div><div><span style="font-weight: normal;">${weatherData.temperature}°</span>${weatherData.weatherDescriptions}</div>`
+    weatherCard.innerHTML = weatherDataObj
+        ? `<div>Weather</div><div><span style="font-weight: normal;">${weatherDataObj.temperature}°</span>${weatherDataObj.weather_descriptions}</div>`
         : `<div>Weather</div><div><span style="font-weight: normal;">-</span> Sunny</div>`; // vad är denna till för?
     aboutBox.appendChild(weatherCard);
 
     const timeCard = document.createElement("div");
     timeCard.classList.add("aboutCard");
-    timeCard.innerHTML = `<div>Local time</div><div><span style="font-size: 2rem;">${weatherData.localTime.split(" ")[1]}</div>`;
+    timeCard.innerHTML = `<div>Local time</div><div><span style="font-size: 2rem;">${weatherDataObj.localtime.split(" ")[1]}</div>`;
     aboutBox.appendChild(timeCard);
 
     const bagCard = document.createElement("div");

@@ -23,7 +23,7 @@ export class ListAPI {
 
     // --- LISTOR ---
 
-    // (GET)  ENDPOINT = /lists/:userId/lists   – hämta alla användarens listor
+    // (GET)  ENDPOINT = /lists/:userId   – hämta alla användarens listor
     async getAllLists(userId) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}`;
@@ -32,7 +32,7 @@ export class ListAPI {
         return this.handleResponse(response);
     }
 
-    // (GET)  ENDPOINT = /lists/:userId/lists/:listId   – hämta specifik lista
+    // (GET)  ENDPOINT = /lists/:userId/:listId   – hämta specifik lista
     async getList(userId, listId) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}`;
@@ -43,20 +43,20 @@ export class ListAPI {
         return this.handleResponse(response);
     }
 
-    // (POST)  ENDPOINT = /lists/:userId/lists   – skapa ny lista
-    async createList(userId, listName, template) {
+    // (POST)  ENDPOINT = /lists/:userId   – skapa ny lista
+    async createList(userId, listName, purpose) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}`;
 
         const response = await fetch(reqURL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ listName, template }),
+            body: JSON.stringify({ listName, purpose }),
         });
         return this.handleResponse(response);
     }
 
-    // (DELETE)  ENDPOINT = /lists/:userId/lists/:listId   – radera lista
+    // (DELETE)  ENDPOINT = /lists/:userId/:listId   – radera lista
     async deleteList(userId, listId) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}`;
@@ -72,7 +72,7 @@ export class ListAPI {
 
     // --- ITEMS ---
 
-    // (GET)   ENDPOINT = /lists/:userId/lists/:listId/items   – hämta alla items i en lista *** ?
+    // (GET)   ENDPOINT = /lists/:userId/:listId/items   – hämta alla items i en lista *** ?
     async getAllItems(userId, listId) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}/items`;
@@ -83,7 +83,7 @@ export class ListAPI {
         return this.handleResponse(response);
     }
 
-    // (POST)   ENDPOINT = /lists/:userId/lists/:listId/items   – lägg till en item i listan
+    // (POST)   ENDPOINT = /lists/:userId/:listId/items   – lägg till en item i listan
     async addItem(userId, listId, itemName, itemQuantity) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}/items`;
@@ -96,7 +96,7 @@ export class ListAPI {
         return this.handleResponse(response);
     }
 
-    // (PUT)   ENDPOINT = /lists/:userId/lists/:listId/items/:itemId   – uppdatera item *** ?
+    // (PUT)   ENDPOINT = /lists/:userId/:listId/items/:itemId   – uppdatera item *** ?
     async updateItem(userId, listId, itemId, updatedFields) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}/items/${itemId}`;
@@ -111,7 +111,7 @@ export class ListAPI {
         return this.handleResponse(response);
     }
 
-    // (DELETE)   ENDPOINT = /lists/:userId/lists/:listId/items/:itemId   – radera en item
+    // (DELETE)   ENDPOINT = /lists/:userId/:listId/items/:itemId   – radera en item
     async deleteItem(userId, listId, itemId) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}/items/${itemId}`;

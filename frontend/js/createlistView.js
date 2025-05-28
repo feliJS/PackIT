@@ -11,6 +11,31 @@ import { getWeatherDataFunc } from "../client/weater-client.js";
         ?.split('=')[1] || null;
 } */
 
+export async function submitDestination(city) {
+    try {
+        const weatherResponse = await getWeatherDataFunc(city);
+
+        if (!weatherResponse) {
+            throw new Error("No weather data returned");
+        }
+
+        const weatherDataObj = {
+            temperature: weatherResponse.temperature,
+            localTime: weatherResponse.localTime,
+            country: weatherResponse.country,
+            weatherDescriptions: weatherResponse.weatherDescriptions
+        };
+
+        console.log("det fungerade! omfg:", weatherDataObj);
+        return weatherDataObj;
+
+    } catch (error) {
+        console.error("Kunde inte hämta väderdata:", error);
+        return null;
+    }
+}
+
+
 export default function renderCreateList() {
 
     const tripDataObj = {
@@ -300,30 +325,6 @@ export default function renderCreateList() {
 
         /* --- create-list-box (APPENDCHILD) --- */
         return newDiv;
-    }
-
-
-    /* --- WEATHER --- */
-    async function submitDestination(city) {
-        try {
-            const weatherResponse = await getWeatherDataFunc(city);
-    
-            if (!weatherResponse) {
-                throw new Error("No weather data returned");
-            }
-    
-            weatherDataObj.temperature = weatherResponse.temperature;
-            weatherDataObj.localtime = weatherResponse.localTime;
-            weatherDataObj.country = weatherResponse.country;
-            weatherDataObj.weather_descriptions = weatherResponse.weatherDescriptions;
-    
-            console.log("det fungerade! omfg:", weatherDataObj);
-            return weatherDataObj;
-    
-        } catch (error) {
-            console.error("Kunde inte hämta väderdata:", error);
-            return null;
-        }
     }
 
 }

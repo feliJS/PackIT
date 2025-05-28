@@ -4,6 +4,7 @@ import { UserAPI } from '/client/users-client.js';
 import { ListAPI } from '/client/list-client.js';
 import { navigateTo } from './router.js';
 import { editList } from "./handleListView.js";
+import { submitDestination } from "./createlistView.js";
 
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
@@ -41,15 +42,15 @@ async function fetchListPic(destination) {
 }
 
 
-export default async function renderProfile(tripData, weatherDataObj) {
+export default async function renderProfile(tripDataObj, weatherDataObj) {
     const user = await findUser();
     if (!user) {
         navigateTo("login")
         return
     }
     
-    if(tripData && weatherDataObj) {
-        renderNewList(user.id, tripData, weatherDataObj);
+    if(tripDataObj && weatherDataObj) {
+        renderNewList(user.id, tripDataObj, weatherDataObj);
     }
 
     const listData = await listApi.getAllLists(user.id);
@@ -82,11 +83,11 @@ export default async function renderProfile(tripData, weatherDataObj) {
 
 // Väg från "Create List-mode"
 
-async function renderNewList(userId, tripData, weatherDataObj) {
-    const cover = await fetchListPic(tripData.country);
-    const listName = tripData.city
-    const newList = await listApi.createList(userId, listName, tripData.purpose, cover);
-    editList(newList.list, weatherDataObj);
+async function renderNewList(userId, tripDataObj) {
+    const cover = await fetchListPic(tripDataObj.country);
+    const listName = tripDataObj.city
+    const newList = await listApi.createList(userId, listName, tripDataObj.purpose, cover);
+    editList(newList.list);
 }
 
 function loadLists(userId, container) {
@@ -122,7 +123,7 @@ function loadName (user) {
     return nameDiv;
 }
 
-function createListObj(list, container) {
+function createListObj(list, container, tripDataObj) {
     const listDOM = document.createElement("div");
     listDOM.classList.add("listContainer");
     if (list.listName === "Basic List") {
@@ -149,6 +150,7 @@ function createListObj(list, container) {
     editImg.addEventListener("click", async () => {
         let upToDateList = await listApi.getList(user.id, list.listId);
         editList(upToDateList); // vid klick på edit symbol
+        submitDestination(tripDataObj.city);
     });
     
     listHead.appendChild(listName);

@@ -1,18 +1,17 @@
-
 console.log("i homeview")
 
 import { navigateTo } from "./router.js";
 
 // Om användaren är inloggad aktiveras "create-list"-knappen
 
+const isCookie = document.cookie
+    .split('; ')
+    .find(cookie => cookie.startsWith("session_id="))
+    ?.split('=')[1] || null;
+      
 function toggleCreateListBtn() {
   let errorMsg = document.getElementById("error-create-list");
   const createBtn = document.querySelector(".create-list-button");
-  const isCookie = document.cookie
-      .split('; ')
-      .find(cookie => cookie.startsWith("session_id="))
-      ?.split('=')[1] || null;
-
   if (isCookie) { 
     createBtn.disabled = false;    
     errorMsg = ""
@@ -23,6 +22,25 @@ function toggleCreateListBtn() {
     createBtn.classList.add("create-list-btn-disabled");
    }
 }
+
+// Spara originalinnehållet för login-div
+const loginDivDefaultHTML = `
+  <p>Log in to see your lists</p>
+  <div class="login-button-div">
+    <button class="log-create-acc-buttons login-button">Log In</button>
+    <button class="log-create-acc-buttons create-button">Create Account</button>
+  </div>
+`;
+
+function toggleLoginRegBtn() {
+  const loginDiv = document.querySelector(".login-div");
+  if (isCookie) {
+    loginDiv.innerHTML = "";
+  } else {
+    loginDiv.innerHTML = loginDivDefaultHTML;
+  }
+}
+
 
 export default function renderHome() {
   const homeDiv = document.getElementsByClassName("home-box")[0];
@@ -39,16 +57,14 @@ export default function renderHome() {
       <p id="error-create-list" style="color: #e74c3c;"></p>
     </div>
 
-    <div class="login-div">
-      <p>Log in to see your lists</p>
-      <div class="login-button-div">
-        <button class="log-create-acc-buttons login-button">Log In</button>
-        <button class="log-create-acc-buttons create-button">Create Account</button>
+      <div class="login-div">
+        ${loginDivDefaultHTML}
       </div>
     </div>
   `;
 
   toggleCreateListBtn();
+  toggleLoginRegBtn();
 
   homeDiv.querySelector(".create-list-button")?.addEventListener("click", () => {
     navigateTo("create-list");

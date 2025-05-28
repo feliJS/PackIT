@@ -124,7 +124,6 @@ function loadName (user) {
 }
 
 function createListObj(list, container) {
-    console.log(list.listName);
     const listDOM = document.createElement("div");
     listDOM.classList.add("listContainer");
     if (list.listName === "Basic List") {
@@ -148,8 +147,9 @@ function createListObj(list, container) {
     editImg.src = "../assets/icons/editPng.png";
     editImg.style.height = "16px";
     editImg.id = "edit";
-    editImg.addEventListener("click", () => {
-        editList(list); // vid klick på edit symbol
+    editImg.addEventListener("click", async () => {
+        let upToDateList = await listApi.getList(user.id, list.listId);
+        editList(upToDateList); // vid klick på edit symbol
     });
     
     listHead.appendChild(listName);

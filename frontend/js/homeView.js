@@ -1,7 +1,6 @@
-console.log("i homeview")
-
+import { UserAPI } from "/client/users-client.js";
 import { navigateTo } from "./router.js";
-
+const userApi = new UserAPI("http://localhost:8000");
 // Om användaren är inloggad aktiveras "create-list"-knappen
 
 const isCookie = document.cookie
@@ -41,6 +40,27 @@ function toggleLoginRegBtn() {
   }
 }
 
+async function toggleProfilePicture() {
+  const profileImgEl = document.querySelector(
+    ".header-container-right .user-profile"
+  );
+  if (!isCookie) { //om ingen profil bild visa standard ikon
+    profileImgEl.src = "/assets/icons/user2.png";
+    return;
+  }
+  try {
+    const user = await userApi.getSpecificUser(isCookie); 
+
+    if (user.pfp) {
+      profileImgEl.src = user.pfp;
+    } else {
+      profileImgEl.src = "/assets/icons/user2.png"; // fallback om pfp saknas
+    }
+  } catch (err) {
+    profileImgEl.src = "/assets/icons/user2.png";   // fallback vid fel
+  }
+}
+
 
 export default function renderHome() {
   const homeDiv = document.getElementsByClassName("home-box")[0];
@@ -65,6 +85,7 @@ export default function renderHome() {
 
   toggleCreateListBtn();
   toggleLoginRegBtn();
+  toggleProfilePicture()
 
   homeDiv.querySelector(".create-list-button")?.addEventListener("click", () => {
     navigateTo("create-list");

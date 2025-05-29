@@ -101,6 +101,10 @@
     width: 40px;
 }
 
+.create-list-header-close-icon-outside:hover {
+    cursor: pointer;
+}
+
 .create-list-input-container {
     height: 230px;
     display: flex;

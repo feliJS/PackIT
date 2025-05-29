@@ -347,3 +347,8 @@ export default function renderCreateList() {
     }
 
 }
+
+const profileBtn = document.querySelector(".user-profile");
+profileBtn.addEventListener("click", () => {
+  navigateTo("profile")
+})

@@ -4,22 +4,22 @@ const userApi = new UserAPI("http://localhost:8000");
 // Om användaren är inloggad aktiveras "create-list"-knappen
 
 const isCookie = document.cookie
-    .split('; ')
-    .find(cookie => cookie.startsWith("session_id="))
-    ?.split('=')[1] || null;
-      
+  .split('; ')
+  .find(cookie => cookie.startsWith("session_id="))
+  ?.split('=')[1] || null;
+
 function toggleCreateListBtn() {
   let errorMsg = document.getElementById("error-create-list");
   const createBtn = document.querySelector(".create-list-button");
-  if (isCookie) { 
-    createBtn.disabled = false;    
+  if (isCookie) {
+    createBtn.disabled = false;
     errorMsg = ""
     createBtn.classList.remove("create-list-btn-disabled");
-   } else {
-    createBtn.disabled = true;  
-    errorMsg.textContent = "You need to login or create an account before creating a list!";  
+  } else {
+    createBtn.disabled = true;
+    errorMsg.textContent = "You need to login or create an account before creating a list!";
     createBtn.classList.add("create-list-btn-disabled");
-   }
+  }
 }
 
 // Spara originalinnehållet för login-div
@@ -49,7 +49,7 @@ async function toggleProfilePicture() {
     return;
   }
   try {
-    const user = await userApi.getSpecificUser(isCookie); 
+    const user = await userApi.getSpecificUser(isCookie);
 
     if (user.pfp) {
       profileImgEl.src = user.pfp;
@@ -99,4 +99,9 @@ export default function renderHome() {
     navigateTo("register");
   });
 }
+
+const profileBtn = document.querySelector(".user-profile");
+profileBtn.addEventListener("click", () => {
+  navigateTo("profile")
+})
 

@@ -137,7 +137,7 @@ body::before {
     font-weight: 500;
 }
 
-#edit:hover {
+.edit:hover {
     cursor:pointer;
     filter:brightness(0.25);
 }

@@ -145,7 +145,7 @@ function createListObj(list, container, tripDataObj) {
     
     let buttonBox = document.createElement("div");
     buttonBox.style.display = "flex";
-    buttonBox.style.gap = "4px";
+    buttonBox.style.gap = "8px";
 
     let editImg = document.createElement("img");
     editImg.src = "../assets/icons/editPng.png";

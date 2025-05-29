@@ -1,5 +1,6 @@
 import { ListAPI } from "/client/list-client.js";
 import { submitDestination } from "./createlistView.js";
+import  renderProfile  from "./profileView.js";
 
 const listApi = new ListAPI("http://localhost:8000");
 
@@ -32,6 +33,7 @@ export async function editList(list, tripDataObj) {
     doneBtn.addEventListener("click", () => {
         handleListView.classList.remove("active");
         handleListView.style.display = "none";
+        renderProfile();
     });
 
     let itemBox = document.createElement("div");

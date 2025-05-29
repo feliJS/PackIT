@@ -55,9 +55,8 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
 
     const listData = await listApi.getAllLists(user.id);
     
-    
-    // DOM OSV.
     const profileViewDOM = document.querySelector(".profile-box")
+    profileViewDOM.innerHTML = "";
     const profileContainer = document.createElement("div");
     profileContainer.classList.add("profileHead")
     const allListsContainer = document.createElement("div");

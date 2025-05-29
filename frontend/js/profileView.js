@@ -179,3 +179,8 @@ function createListObj(list, container, tripDataObj) {
 }
 
 }
+
+const profileBtn = document.querySelector(".user-profile");
+profileBtn.addEventListener("click", () => {
+  navigateTo("profile")
+})

@@ -71,6 +71,7 @@
 
 }
 
+
 .header-container-right {
     display: flex;
     gap: var(--spacing-xl);
@@ -83,6 +84,10 @@
     height: 80px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+.header-container-right-img:hover {
+    cursor: pointer;
 }
 
 .header-container-left-logo {

@@ -78,9 +78,11 @@
 }
 
 .header-container-right-img {
-    width: 40px;
     /* *** sätt i :ROOT */
-    height: auto;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .header-container-left-logo {

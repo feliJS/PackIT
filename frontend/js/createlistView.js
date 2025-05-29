@@ -118,6 +118,10 @@ export default function renderCreateList() {
 
 
         /* --- EVENTLISTENERS (BTN) --- */
+        newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
+            navigateTo("home")
+        })
+
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
             tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
             tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
@@ -177,6 +181,11 @@ export default function renderCreateList() {
 
 
         /* --- EVENTLISTENERS (BTN) --- */
+        newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
+            navigateTo("home")
+        })
+
+
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
             tripDataObj.day = newDiv.querySelector(".create-list-module-user-input-day").value;
             tripDataObj.month = newDiv.querySelector(".create-list-module-user-input-month").value;
@@ -244,6 +253,10 @@ export default function renderCreateList() {
 
 
         /* --- EVENTLISTENERS (BTN) --- */
+        newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
+            navigateTo("home")
+        })
+
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
             const selected = newDiv.querySelector("input[name='purpose']:checked");
             tripDataObj.purpose = parseInt(selected.value);
@@ -303,6 +316,12 @@ export default function renderCreateList() {
 
 
         /* --- EVENTLISTENERS (BTN) --- */
+
+        newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
+            navigateTo("home")
+        })
+
+
         newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
             goToStep(3);
         });

@@ -41,6 +41,15 @@ function toggleLoginRegBtn() {
   }
 }
 
+function toggleProfilePicture() {
+  if (isCookie) {
+    
+  } else {
+    
+  }
+}
+
+
 
 export default function renderHome() {
   const homeDiv = document.getElementsByClassName("home-box")[0];

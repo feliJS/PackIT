@@ -142,18 +142,38 @@ function createListObj(list, container, tripDataObj) {
     let listName = document.createElement("h3");
     listName.classList.add("listname");
     listName.textContent = list.listName;
+    
+    let buttonBox = document.createElement("div");
+    buttonBox.style.display = "flex";
+    buttonBox.style.gap = "4px";
+
     let editImg = document.createElement("img");
     editImg.src = "../assets/icons/editPng.png";
     editImg.style.height = "16px";
-    editImg.id = "edit";
+    editImg.classList.add("edit")
     editImg.addEventListener("click", async () => {
         let upToDateList = await listApi.getList(user.id, list.listId);
         editList(upToDateList, {vehicle: list.vehicle}); // vid klick på edit symbol
         submitDestination(tripDataObj.city);
     });
-    
+
+    let deleteListBtn = document.createElement("img");
+    deleteListBtn.src = "../assets/icons/deleteIconGray.png";
+    deleteListBtn.style.height = "16px";
+    deleteListBtn.classList.add("edit");
+    deleteListBtn.addEventListener("click", () => {
+        const confirmed = window.confirm("Är du säker på att du vill radera listan?")
+        if(confirmed) {
+            listApi.deleteList(user.id, list.listId);
+            listDOM.remove();
+        }
+    });
+        
+    buttonBox.appendChild(editImg)
+    buttonBox.appendChild(deleteListBtn);
+
     listHead.appendChild(listName);
-    listHead.appendChild(editImg);
+    listHead.appendChild(buttonBox);
     listDOM.appendChild(listHead);
     container.appendChild(listDOM);
 }

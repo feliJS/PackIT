@@ -7,13 +7,50 @@ function saveDB(listDB) {
     return Deno.writeTextFile(DB_PATH, JSON.stringify(listDB));
 }
 
+function createBasicList(urlUserId, listDB) {
+    const defaultBasic = listDB.find(l =>
+        l.userId === 0 &&
+        l.listName.toLowerCase() === "basic list"
+    );
 
+    if (!defaultBasic) {
+        throw new Error("Default basic list not found");
+    }
+
+    const basicListId = Math.max(...listDB.map(l => l.listId)) + 1;
+
+    const newBasicList = {
+        userId: Number(urlUserId),
+        listId: basicListId,
+        listName: "Basic List",
+        listItems: JSON.parse(JSON.stringify(defaultBasic.listItems)) // djup kopia
+    };
+
+    listDB.push(newBasicList);
+    return newBasicList;
+}
 // /users/:userId/lists
 // (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
     
     const { listName, purpose, cover, vehicle } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
-    console.log(vehicle);
+    
+    if (!listName && !purpose && !cover && !vehicle) {
+    let userBasicList = listDB.find(l =>
+        l.userId === Number(urlUserId) &&
+        l.listName.toLowerCase() === "basic list"
+    );
+
+    if (!userBasicList) {
+        userBasicList = createBasicList(urlUserId, listDB);
+        await saveDB(listDB); // <-- Spara när vi skapat en ny lista
+    }
+
+    return new Response(JSON.stringify({ message: "Basic list created", list: userBasicList }), {
+        status: 201,
+        headers: { ...responseHeaders }
+    });
+}
 
     // Mappa purpose-id till rätt listnamn
     const purposeMap = {
@@ -43,20 +80,7 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
 
     // Om inte – skapa en kopia av defaulten
     if (!userBasicList) {
-        const defaultBasic = listDB.find(l =>
-        l.userId === 0 &&
-        l.listName.toLowerCase() === "basic list");
-
-        const basicListId = Math.max(...listDB.map(l => l.listId)) + 1;
-
-        userBasicList = {
-            userId: Number(urlUserId),
-            listId: basicListId,
-            listName: "Basic List",
-            listItems: JSON.parse(JSON.stringify(defaultBasic.listItems)) // kopiera
-        };
-
-        listDB.push(userBasicList);
+        userBasicList = createBasicList(urlUserId, listDB);
     }
   
 
@@ -73,8 +97,6 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
         });
     }
 
-    
-    
 
     // Skapa ny list-objekt
     const newListId = Math.max(...listDB.map(l => l.listId)) + 1;

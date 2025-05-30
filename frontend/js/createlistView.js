@@ -119,7 +119,7 @@ export default function renderCreateList() {
 
         /* --- EVENTLISTENERS (BTN) --- */
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
-            navigateTo("home")
+            navigateTo("profile")
         })
 
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
@@ -182,7 +182,7 @@ export default function renderCreateList() {
 
         /* --- EVENTLISTENERS (BTN) --- */
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
-            navigateTo("home")
+            navigateTo("profile")
         })
 
 
@@ -254,7 +254,7 @@ export default function renderCreateList() {
 
         /* --- EVENTLISTENERS (BTN) --- */
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
-            navigateTo("home")
+            navigateTo("profile")
         })
 
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
@@ -318,7 +318,7 @@ export default function renderCreateList() {
         /* --- EVENTLISTENERS (BTN) --- */
 
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
-            navigateTo("home")
+            navigateTo("profile")
         })
 
 

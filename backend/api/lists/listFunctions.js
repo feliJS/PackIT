@@ -12,7 +12,8 @@ function saveDB(listDB) {
 // (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
     
-    const { listName, purpose, cover } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
+    const { listName, purpose, cover, vehicle } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
+    console.log(vehicle);
 
     // Mappa purpose-id till rätt listnamn
     const purposeMap = {
@@ -22,6 +23,17 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
     };
 
     const mappedPurposeName = purposeMap[purpose];
+    
+
+    function getRecommendedBag(vehicle) {
+        switch(vehicle) {
+            case 1: return "Backpack";
+            case 2: return "Cabin Bag";
+            case 3: return "Sportbag";
+            default: return "Cabin Bag";
+        }
+    }
+    const recommendedBag = getRecommendedBag(Number(vehicle));
 
     // Kolla om användaren redan har en Basic List
         let userBasicList = listDB.find(l =>
@@ -61,6 +73,8 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
         });
     }
 
+    
+    
 
     // Skapa ny list-objekt
     const newListId = Math.max(...listDB.map(l => l.listId)) + 1;
@@ -70,8 +84,10 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
         listId: newListId,
         listName: listName, // <-- stadens namn
         listItems: [...userBasicList.listItems, ...typeTemplate.listItems],
-        cover: cover
+        cover: cover,
+        bag: recommendedBag
     };
+    console.log(newList);
 
     listDB.push(newList);
     await saveDB(listDB);

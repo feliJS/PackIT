@@ -80,7 +80,8 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
     
     profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);
-
+    profileContainer.appendChild(createButtonSettings);  
+    
     loadLists(user.id, allListsContainer);
 
     

@@ -356,3 +356,96 @@ button:hover {
 }
 
 
+settings-options button:hover {
+    background-color: #b2bec3;
+}
+
+
+
+/*settings*/
+
+#toggleSettings {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #4a6fa1;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.settings-panel {
+    position: fixed;
+    top: 26%;
+    right: -380px; 
+    width: 350px;
+    background: #d9d9d9;
+    border-radius: 20px 0 0 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 9999;
+}
+.settings-panel.active {
+    right: 20px;
+}
+
+.settings-header {
+    background: #8ba6d0;
+    color: #fff;
+    padding: 22px 26px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.settings-content {
+    padding: 36px 40px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+}
+
+.settings-content p {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+#profile-updates .input-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#profile-updates input{
+    border: none;
+    border-bottom: 2px solid #000;
+    padding: 8px 4px;
+    width: 100%;
+    font-size: 1rem;
+    background: transparent;
+}
+
+#profile-updates .save-btn {
+    background: #37a337;
+    color: #fff;
+    border: none;
+    padding: 8px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.settings-content .btn {
+    background: #b8684e;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+.settings-content .delete {
+    width: 100%;
+}

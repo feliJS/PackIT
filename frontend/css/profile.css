@@ -354,3 +354,13 @@ button:hover {
     font-size: 1rem;
     border-radius: 12px;
 }
+
+
+#settings-button {
+    margin-right: 10px;         
+    font-size: 16px;
+    width: 120px;
+    height: 50px;
+    background-color: #4A634F;  
+    color: #ffffff;
+}

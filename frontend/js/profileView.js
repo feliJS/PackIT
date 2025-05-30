@@ -5,6 +5,7 @@ import { ListAPI } from '/client/list-client.js';
 import { navigateTo } from './router.js';
 import { editList } from "./handleListView.js";
 import { submitDestination } from "./createlistView.js";
+import { renderSettingsView } from "./settingsView.js";
 
 const userApi = new UserAPI('http://localhost:8000');
 const listApi = new ListAPI('http://localhost:8000');
@@ -78,9 +79,17 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
     createButton.addEventListener("click", () => {
         navigateTo("create-list");
     })
+
+    const createButtonSettings = document.createElement("button");
+    createButtonSettings.id = "settings-button";
+    createButtonSettings.textContent = "settings"; //picture
+    createButtonSettings.addEventListener("click", () => {
+        renderSettingsView()
+    })
     
     profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);
+    profileContainer.appendChild(createButtonSettings);  
 
     loadLists(user.id, allListsContainer);
 

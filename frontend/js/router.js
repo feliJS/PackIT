@@ -6,7 +6,6 @@ import renderCreateList from "../js/createlistView.js";
 import { openRegister, openLogin } from "/js/LogInView.js";
 import renderProfile from "../js/profileView.js";
 
-
 function loadCSS(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const link = document.createElement("link");
@@ -16,7 +15,7 @@ function loadCSS(href) {
 }
 
 function hideAllViews() {
-    document.querySelectorAll(".home-box, .create-list-box, .profile-box, .login-box, .register-box").forEach((currElem) => {
+    document.querySelectorAll(".home-box, .create-list-box, .profile-box, .login-box, .register-box .settings-box").forEach((currElem) => {
         currElem.style.display = "none";
         currElem.innerHTML = "";
     });
@@ -35,6 +34,7 @@ export function navigateTo(view,  data = {}) {
     removeCSS("/css/create-list.css");
     removeCSS("/css/registerlogin.css");
     removeCSS("/css/profile.css");
+    removeCSS("/css/settings.css");
 
     switch (view) {
         case "home":
@@ -51,6 +51,7 @@ export function navigateTo(view,  data = {}) {
 
         case "profile":
            loadCSS("/css/profile.css");
+           loadCSS("/css/settings.css");
            document.querySelector(".profile-box").style.display = "inline-block";
            /* --- tripData, weatherData --- */
            renderProfile(data.tripDataObj, data.weatherDataObj);

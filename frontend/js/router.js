@@ -5,7 +5,6 @@ import renderHome from "../js/homeView.js";
 import renderCreateList from "../js/createlistView.js";
 import { openRegister, openLogin } from "/js/LogInView.js";
 import renderProfile from "../js/profileView.js";
-import renderSettingsView from "../js/settingsView.js";
 
 function loadCSS(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
@@ -66,13 +65,6 @@ export function navigateTo(view,  data = {}) {
            loadCSS("/css/registerlogin.css");
            document.querySelector(".register-box").style.display = "inline-block";
            openRegister();
-           break; 
-
-        
-        case "settings":
-           loadCSS("/css/settings.css");
-           document.querySelector(".settings-box").style.display = "inline-block";
-           renderSettingsView()
            break; 
 
         default:

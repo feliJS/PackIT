@@ -58,13 +58,14 @@ function createPanelHTML() {
 }
 
 function settingsChoice(panel) {
-  const saveBtn = panel.querySelector(".save-btn");
-  const usernameInput = panel.querySelector("#username");
+  const saveBtn = panel.querySelector(".input-row .save-btn");
+  const usernameInput = panel.querySelector(".input-row input");
   const logoutBtn = panel.querySelector(".logout");
   const deleteBtn = panel.querySelector(".delete");
 
   saveBtn.addEventListener("click", async () => {
     const newName = usernameInput.value;
+    
     if (!newName) {
       console.log("Name can’t be empty.");
       return;

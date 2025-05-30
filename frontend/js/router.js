@@ -68,6 +68,13 @@ export function navigateTo(view,  data = {}) {
            openRegister();
            break; 
 
+        
+        case "settings":
+           loadCSS("/css/registerlogin.css");
+           document.querySelector(".register-box").style.display = "inline-block";
+           openRegister();
+           break; 
+
         default:
             loadCSS("/css/home.css");
             document.querySelector(".home-box").style.display = "inline-block";

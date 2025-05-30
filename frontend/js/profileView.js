@@ -70,6 +70,13 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
     createButton.addEventListener("click", () => {
         navigateTo("create-list");
     })
+
+    const createButtonSettings = document.createElement("button");
+    createButtonSettings.id = "settings-button";
+    createButtonSettings.textContent = "settings"; //picture
+    createButtonSettings.addEventListener("click", () => {
+        navigateTo("settings");
+    })
     
     profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);

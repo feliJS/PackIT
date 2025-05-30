@@ -72,16 +72,18 @@ export class UserAPI {
       method: "DELETE",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({})
     });
     return this.handleResponse(res);
   }
 
-  // (POST) /users/logout – logga ut
+  // (POST) /users/logout – logga ut (kan egentligen vara en GET)
   async logoutUser() {
     const res = await fetch(`${this.baseUrl}/users/logout`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({})
     });
     return this.handleResponse(res);
   }

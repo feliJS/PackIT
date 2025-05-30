@@ -133,9 +133,14 @@ export async function deleteUserFunc(
   users.splice(index, 1);
   await writeUsers(users);
 
+  const headersWithCookie = {
+    ...responseHeaders,
+    "Set-Cookie": "session_id=; Path=/; Max-Age=0",
+  };
+
   return new Response(JSON.stringify({ message: "User deleted" }), {
     status: 200,
-    headers: { ...responseHeaders },
+    headers: headersWithCookie,
   });
 }
 

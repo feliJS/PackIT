@@ -50,6 +50,7 @@ function createPanelHTML() {
                 </div>
             </div>
             <button class="btn delete">Delete Account</button>
+            <button class="btn logout">Logout</button>
         </div>
     `;
 
@@ -57,13 +58,14 @@ function createPanelHTML() {
 }
 
 function settingsChoice(panel) {
-  const saveBtn = panel.querySelector(".save-btn");
-  const usernameInput = panel.querySelector("#username");
+  const saveBtn = panel.querySelector(".input-row .save-btn");
+  const usernameInput = panel.querySelector(".input-row input");
   const logoutBtn = panel.querySelector(".logout");
   const deleteBtn = panel.querySelector(".delete");
 
   saveBtn.addEventListener("click", async () => {
     const newName = usernameInput.value;
+    
     if (!newName) {
       console.log("Name can’t be empty.");
       return;
@@ -97,7 +99,7 @@ function settingsChoice(panel) {
 }
 
 export async function renderSettingsView() {
-  const container = document.querySelector(".settings-box");
+  const container = document.querySelector(".profile-box");
   const toggleBtn = document.getElementById("toggleSettings");
 
   if (!container) {
@@ -106,6 +108,6 @@ export async function renderSettingsView() {
   }
 
   await currentUserFind();
-  container.innerHTML = createPanelHTML();
-  settingsChoice(container.querySelector("#settingsPanel"));
+  createPanelHTML();
+  settingsChoice(container.querySelector(".settings-panel"));
 }

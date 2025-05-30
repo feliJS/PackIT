@@ -4,12 +4,6 @@ import { navigateTo } from "./router.js";
 import { getWeatherDataFunc } from "../client/weater-client.js";
 
 
-/* function getCookie(name) {
-    return document.cookie
-        .split('; ')
-        .find(cookie => cookie.startsWith(name + "="))
-        ?.split('=')[1] || null;
-} */
 
 export async function submitDestination(city) {
     try {
@@ -102,12 +96,11 @@ export default function renderCreateList() {
                      <h1 class="create-list-module-h1">1/4</h1>
                      <h3 class="create-list-module-h3">Where are you going?</h3>
             </div>
-
             <div class="create-list-input-container create-list-input-container-step-1">
                 <input type="text" placeholder="City" id="city" class="create-list-module-user-input create-list-module-user-input-city" />
                 <input type="text" placeholder="Country" id="country" class="create-list-module-user-input create-list-module-user-input-country" />
             </div>
-
+            <div class="user-feedback-container">  </div>
             <div class="create-list-btn-container">
                 <button class="create-list-btn create-list-btn-hide">Hide</button>
                 <button class="create-list-btn create-list-btn-next" id="next">Next</button>
@@ -127,9 +120,14 @@ export default function renderCreateList() {
             tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
 
             if (!tripDataObj.city || !tripDataObj.country) {
-                alert("Please enter both city and country");
+
+                userFeedbackDiv = document.querySelector(".user-feedback-container")
+                handleError("Please enter both city and country");
+
                 return;
             }
+            userFeedbackDiv = document.querySelector(".user-feedback-container")
+            handleError(null);
 
             goToStep(2);
         });
@@ -161,7 +159,7 @@ export default function renderCreateList() {
                     <option value="03">March</option>
                     <option value="04">April</option>
                     <option value="05">May</option>
-                    <option value="06">June</option>
+                    <option value="06" selected>June</option>
                     <option value="07">July</option>
                     <option value="08">August</option>
                     <option value="09">September</option>
@@ -171,6 +169,8 @@ export default function renderCreateList() {
                 </select>
                 <input type="number" placeholder="Duration (days)" min="1" max="90" class="create-list-module-user-input-duration create-list-module-user-input create-list-module-user-input-step-2" />
             </div>
+
+            <div class="user-feedback-container">  </div>
 
             <div class="create-list-btn-container">
                 <button id="back" class="create-list-btn-back create-list-btn">Back</button>
@@ -192,14 +192,22 @@ export default function renderCreateList() {
             tripDataObj.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
 
             if (!tripDataObj.day || !tripDataObj.month || !tripDataObj.duration) {
-                alert("Please enter fields");
+                
+                userFeedbackDiv = document.querySelector(".user-feedback-container")
+                handleError("Please enter all fields");
+
                 return;
             }
+            userFeedbackDiv = document.querySelector(".user-feedback-container")
+            handleError(null);
 
             goToStep(3);
         });
 
         newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+            userFeedbackDiv = document.querySelector(".user-feedback-container")
+            handleError(null);
+
             goToStep(1);
         });
 
@@ -213,7 +221,7 @@ export default function renderCreateList() {
     /* ---  STEP 3 --- */
     function renderStep3() {
         const newDiv = document.createElement("div");
-        
+
         newDiv.innerHTML = `
         <div class="create-list-module">
         <img src="../assets/icons/closeIcon.png" alt="Close" class="create-list-header-close-icon-outside">
@@ -243,7 +251,8 @@ export default function renderCreateList() {
             </label>
         </div>
         
-    
+        <div class="user-feedback-container">  </div>    
+
             <div class="create-list-btn-container">
                 <button class="create-list-btn-back create-list-btn">Back</button>
                 <button class="create-list-btn-next create-list-btn">Next</button>
@@ -260,11 +269,16 @@ export default function renderCreateList() {
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", () => {
             const selected = newDiv.querySelector("input[name='purpose']:checked");
             tripDataObj.purpose = parseInt(selected.value);
+
+            userFeedbackDiv = document.querySelector(".user-feedback-container")
+            handleError(null);
+
             goToStep(4);
-            console.log(tripDataObj)
         });
 
         newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+            userFeedbackDiv = document.querySelector(".user-feedback-container")
+            handleError(null);
             goToStep(2);
         });
 
@@ -306,6 +320,7 @@ export default function renderCreateList() {
             </label>
         </div>
         
+        <div class="user-feedback-container">  </div>
     
             <div class="create-list-btn-container">
                 <button class="create-list-btn-back create-list-btn">Back</button>
@@ -318,11 +333,18 @@ export default function renderCreateList() {
         /* --- EVENTLISTENERS (BTN) --- */
 
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
+
+            userFeedbackDiv = document.querySelector(".user-feedback-container")
+            handleError(null);
+
             navigateTo("profile")
         })
 
 
         newDiv.querySelector(".create-list-btn-back").addEventListener("click", () => {
+            userFeedbackDiv = document.querySelector(".user-feedback-container")
+            handleError(null);
+
             goToStep(3);
         });
 
@@ -331,13 +353,14 @@ export default function renderCreateList() {
             const selectedVehicle = newDiv.querySelector("input[name='vehicle']:checked");
             tripDataObj.vehicle = parseInt(selectedVehicle.value);
 
-            // Anropa väderapi funktion -> submitDestination() uppdaterar weatherDataObj
             const weatherResponseOK = await submitDestination(tripDataObj.city);
-            
+
             if (weatherResponseOK) {
                 navigateTo("profile", { tripDataObj, weatherDataObj });
             } else {
-                alert("Could not retrieve weather data. Please try again.");
+
+                userFeedbackDiv = document.querySelector(".user-feedback-container")
+                handleError("Could not retrieve weather data. Please try again.");
             }
         });
 
@@ -349,6 +372,18 @@ export default function renderCreateList() {
 }
 
 const profileBtn = document.querySelector(".user-profile");
+
 profileBtn.addEventListener("click", () => {
-  navigateTo("profile")
+    navigateTo("profile")
 })
+
+let userFeedbackDiv;
+
+function handleError(message) {
+
+    if (!message) {
+        userFeedbackDiv.innerHTML = "";
+    }
+
+    userFeedbackDiv.innerHTML = message
+}

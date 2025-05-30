@@ -79,6 +79,16 @@
     font-size: var(--font-size-2xl)
 }
 
+.user-feedback-container {
+    height: 35px;
+    text-align: center;
+    font-size: var(--spacing-m);
+    color: var(--color-text-default);
+}
+
+
+
+
 
 /* --- Input containers --- */
 

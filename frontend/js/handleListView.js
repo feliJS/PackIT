@@ -224,7 +224,3 @@ export function createItem(item, list) {
 }
 
 
-const profileBtn = document.querySelector(".user-profile");
-profileBtn.addEventListener("click", () => {
-  navigateTo("profile")
-})

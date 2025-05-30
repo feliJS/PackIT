@@ -71,14 +71,14 @@ body::before {
     height: 600px; /* Vet inte riktigt */
     background-color: #EEE2D3;
     border-radius: 12px;
-
+    position: relative;
     overflow-y: auto;
 }
 
 .profileHead {
     height: 120px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
 }
 

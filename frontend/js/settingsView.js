@@ -50,6 +50,7 @@ function createPanelHTML() {
                 </div>
             </div>
             <button class="btn delete">Delete Account</button>
+            <button class="btn logout">Logout</button>
         </div>
     `;
 
@@ -97,7 +98,7 @@ function settingsChoice(panel) {
 }
 
 export async function renderSettingsView() {
-  const container = document.querySelector(".settings-box");
+  const container = document.querySelector(".profile-box");
   const toggleBtn = document.getElementById("toggleSettings");
 
   if (!container) {
@@ -106,6 +107,6 @@ export async function renderSettingsView() {
   }
 
   await currentUserFind();
-  container.innerHTML = createPanelHTML();
-  settingsChoice(container.querySelector("#settingsPanel"));
+  createPanelHTML();
+  settingsChoice(container.querySelector(".settings-panel"));
 }

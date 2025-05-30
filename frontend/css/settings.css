@@ -21,7 +21,7 @@ settings-options button:hover {
 }
 
 .settings-panel {
-    position: absolute; /* eller ta bort position helt för att använda normal layout */
+    position: absolute; 
     top: auto;
     right: 0;
     width: 350px;
@@ -29,8 +29,8 @@ settings-options button:hover {
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    z-index: 1; /* inte för högt, så den stannar i boxen */
-    margin: 20px auto; /* centrerad inuti profile-box */
+    z-index: 1; 
+    margin: 20px auto; 
 }
 .settings-panel.active {
       display: block;

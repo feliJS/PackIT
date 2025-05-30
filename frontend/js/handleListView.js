@@ -134,16 +134,10 @@ export async function editList(list, tripDataObj) {
     timeCard.innerHTML = `<div>Local time</div><div><span style="font-size: 2rem;">${weatherDataObj.localTime.split(" ")[1]}</div>`;
     aboutBox.appendChild(timeCard);
 
-
-    function getRecommendedBag(vehicle) {
-        switch(vehicle) {
-            case 1: return "Backpack";
-            case 2: return "Cabin Bag";
-            case 3: return "Sportbag";
-            default: return "Cabin Bag";
-        }
+    let recommendedBag = list.bag;
+    if (!recommendedBag) {
+        recommendedBag = "Cabin Bag";
     }
-    const recommendedBag = getRecommendedBag(tripDataObj.vehicle);
 
     const bagCard = document.createElement("div");
     bagCard.classList.add("aboutCard", "bag");

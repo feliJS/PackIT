@@ -1,7 +1,7 @@
 
 /* testUser2.js */
 
-import { runTestsList } from "../testList/testList2.js";
+import { runTestsList } from "./testList2.js";
 
 const baseUrl = "http://localhost:8000";
 const reqLog = document.getElementById("reqLog");
@@ -9,7 +9,7 @@ const runTestBtn = document.querySelector(".run-tests-btn");
 
 
 const testUser = {
-    name: "alle",
+    name: "alle2",
     password: "yaya",
     pfp: "https://example.com/alle.jpg"
 };
@@ -230,4 +230,4 @@ async function runTestsUser() {
 }
 
 
-runTestBtn.addEventListener("click", runTestsUser());
+runTestBtn.addEventListener("click", runTestsUser);

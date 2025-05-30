@@ -10,7 +10,7 @@ function getCookie(name) {
       ?.split("=")[1] || null
   );
 }
-// Hämta användare via session_id‑cookie
+
 let currentUser = null;
 async function currentUserFind() {
   const id = getCookie("session_id");
@@ -26,9 +26,6 @@ async function currentUserFind() {
     return null;
   }
 }
-
-const toggleBtn = document.getElementById("toggleSettings");
-const container = document.getElementById("settingsContainer");
 
 function createPanelHTML() {
   return `
@@ -55,11 +52,10 @@ function settingsChoice(panel) {
   const logoutBtn = panel.querySelector(".logout");
   const deleteBtn = panel.querySelector(".delete");
 
-  //Change username & save 
   saveBtn.addEventListener("click", async () => {
-    const newName = usernameInput.value
+    const newName = usernameInput.value;
     if (!newName) {
-      console.log("Name can’t be empty."); //ändra detta till error under input field
+      console.log("Name can’t be empty.");
       return;
     }
 
@@ -68,40 +64,38 @@ function settingsChoice(panel) {
       currentUser.name = newName;
     } catch (err) {
       console.error(err);
-      //samma här visa istället vad som är problemet under input
     }
   });
 
-  //  Logout
   logoutBtn.addEventListener("click", async () => {
     try {
       await userApi.logoutUser();
-      window.location.href = "/"; //denna är jag osäker? kanske gå tillbaka till första sidan- en force reload dit..
+      window.location.href = "/";
     } catch (err) {
       console.error(err);
-    //fixa
     }
   });
 
-  //Delete account 
   deleteBtn.addEventListener("click", async () => {
     try {
       await userApi.deleteUser(currentUser.id);
-      window.location.href = "/"; //samma som ovan.. kanske en reload till main sidan
+      window.location.href = "/";
     } catch (err) {
       console.error(err);
-      //fixa
     }
   });
 }
 
-toggleBtn.addEventListener("click", async () => {
-  const panel = document.getElementById("settingsPanel");
-  if (panel) {
-    container.innerHTML = ""; // close
-  } else {
-    await currentUserFind();
-    container.innerHTML = createPanelHTML();
-    settingsChoice(container.querySelector("#settingsPanel"));
+export default async function renderSettingsView() {
+  const container = document.querySelector(".settings-box");
+  const toggleBtn = document.getElementById("toggleSettings");
+
+  if (!container) {
+    console.error("settings-box finns inte i DOM:en.");
+    return;
   }
-});
+
+  await currentUserFind();
+  container.innerHTML = createPanelHTML();
+  settingsChoice(container.querySelector("#settingsPanel"));
+}

@@ -5,7 +5,7 @@ import renderHome from "../js/homeView.js";
 import renderCreateList from "../js/createlistView.js";
 import { openRegister, openLogin } from "/js/LogInView.js";
 import renderProfile from "../js/profileView.js";
-import createPanelHTML from "../js/settingsView.js";
+import renderSettingsView from "../js/settingsView.js";
 
 function loadCSS(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
@@ -72,7 +72,7 @@ export function navigateTo(view,  data = {}) {
         case "settings":
            loadCSS("/css/settings.css");
            document.querySelector(".settings-box").style.display = "inline-block";
-           createPanelHTML()
+           renderSettingsView()
            break; 
 
         default:

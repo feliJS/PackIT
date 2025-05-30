@@ -1,4 +1,5 @@
 
+// sparade OFFLINE-data för städerna
 const weatherDB = [
     // London
     {
@@ -355,15 +356,15 @@ const weatherDB = [
   }
 ]
 
-
-// Läs in API-nyckel från apiKeys.json
+// === LÄS IN API-KEY FÖR ONLINE-LÄGE ===
 /* const apiKeysFile = await Deno.readTextFile("../../../apiKeys.json");
 const keys = JSON.parse(apiKeysFile);
-const API_KEY_WEATHER = keys[0].API_KEY_WEATHER; */
+const API_KEY_WEATHER = keys[0].API_KEY_WEATHER; 
 
-const BASE_URL = "https://api.weatherstack.com/current";
+const BASE_URL = "https://api.weatherstack.com/current"; */
 
 
+// === SKA FINNAS FÖR BÅDE OFFLINE & ONLINE!
 // Klass som innehåller nycklarna temperature, localTime och country
 class WeatherData {
     constructor(temperature, localTime, country, weatherDescriptions) {
@@ -375,22 +376,11 @@ class WeatherData {
 }
 
 
-// GET request - weatherObject
+
 export async function getWeatherDataFunc (city) {
-    // TEST REQUESTS TILL SPARAD DATA:
     
-
-    // REQUESTS ONLINE
-    // const url = `${BASE_URL}?access_key=${API_KEY_WEATHER}&query=${encodeURIComponent(city)}`; // måste ha "encodeURIComponent" för att servern ska kunna koda av parametern korrekt!
-    // console.log("URL som skickas:", url);
-
-    // const response = await fetch(url);
-    // const weatherObject = await response.json();
-
-    
-    // för online:
-    // const weather = new WeatherData(weatherObject.current.temperature, weatherObject.location.localtime, weatherObject.location.country);
-    // för offline:
+    // === OFFLINE-LÄGE ===
+    // KOMMENTERA BORT DETTA BLOCK FÖR ONLINE:
     const cityLower = city.trim().toLowerCase();
 
     const match = weatherDB.find(
@@ -402,15 +392,37 @@ export async function getWeatherDataFunc (city) {
         return null;
     }
 
-    const weather = new WeatherData(
-        match.current.temperature,
-        match.location.localtime,
-        match.location.country,
-        match.current.weather_descriptions[0]
-    );
+    if (match) {
+        const weather = new WeatherData(
+            match.current.temperature,
+            match.location.localtime,
+            match.location.country,
+            match.current.weather_descriptions[0]
+        );
+    
+        console.log("OFFLINE-weatherInstans:", weather);
+        return weather;
+    } 
 
-    console.log("weatherInstans:", weather);
+
+    // === ONLINE-LÄGE ===
+    // KOMMENTERA IN DETTA BLOCK FÖR ONLINE:
+    /*
+    const url = `${BASE_URL}?access_key=${API_KEY_WEATHER}&query=${encodeURIComponent(city)}`; // måste ha "encodeURIComponent" för att servern ska kunna koda av parametern korrekt!
+    console.log("🔵 Online request URL:", url);
+
+    const response = await fetch(url);
+    const weatherObject = await response.json();
+
+    const weather = new WeatherData(
+        weatherObject.current.temperature,
+        weatherObject.location.localtime,
+        weatherObject.location.country,
+        weatherObject.current.weather_descriptions[0]
+      );
+
+    console.log("✅ Online weather instance:", weather);
     return weather;
+    */
 }
 
-// getWeatherDataFunc("London");

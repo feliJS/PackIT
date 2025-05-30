@@ -3,7 +3,7 @@
 
 export async function runTestsList() {
 
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = "http://localhost:8000";
   const reqLog = document.getElementById("reqLog");
 
   function logTest({ title, method, status, message }) {

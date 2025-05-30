@@ -44,14 +44,14 @@ export class ListAPI {
     }
 
     // (POST)  ENDPOINT = /lists/:userId   – skapa ny lista
-    async createList(userId, listName, purpose, cover) {
+    async createList(userId, listName, purpose, cover, vehicle) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}`;
 
         const response = await fetch(reqURL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({"listName": listName, "purpose": purpose, "cover": cover}),
+            body: JSON.stringify({"listName": listName, "purpose": purpose, "cover": cover, "vehicle": vehicle}),
         });
         return this.handleResponse(response);
     }

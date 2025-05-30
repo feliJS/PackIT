@@ -54,6 +54,7 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
     }
 
     const listData = await listApi.getAllLists(user.id);
+    // om ingen basic-list - skapa ny?
     
     const profileViewDOM = document.querySelector(".profile-box")
     profileViewDOM.innerHTML = "";
@@ -85,7 +86,9 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
 async function renderNewList(userId, tripDataObj) {
     const cover = await fetchListPic(tripDataObj.country);
     const listName = tripDataObj.city
-    const newList = await listApi.createList(userId, listName, tripDataObj.purpose, cover);
+    console.log(tripDataObj.vehicle);
+    const newList = await listApi.createList(userId, listName, tripDataObj.purpose, cover, tripDataObj.vehicle);
+    console.log(newList);
     editList(newList.list, tripDataObj);
 }
 
@@ -153,7 +156,8 @@ function createListObj(list, container, tripDataObj) {
     editImg.classList.add("edit")
     editImg.addEventListener("click", async () => {
         let upToDateList = await listApi.getList(user.id, list.listId);
-        editList(upToDateList, {vehicle: list.vehicle}); // vid klick på edit symbol
+        console.log(upToDateList);
+        editList(upToDateList); // vid klick på edit symbol
         submitDestination(tripDataObj.city);
     });
 

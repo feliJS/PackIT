@@ -10,11 +10,8 @@ body {
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden;
+    min-height: 100vh;
 }
 
 
@@ -69,11 +66,13 @@ body::before {
 }
 
 .profile-box {
-    margin-top:100px;
+    margin-top:30px;
     width: 1200px;
-    min-height: 600px; /* Vet inte riktigt */
+    height: 600px; /* Vet inte riktigt */
     background-color: #EEE2D3;
     border-radius: 12px;
+
+    overflow-y: auto;
 }
 
 .profileHead {
@@ -109,9 +108,7 @@ body::before {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: center;
     justify-items:center;
-    overflow-y: auto;
-    max-height: 100%;
-    
+
 }
 
 .listContainer {

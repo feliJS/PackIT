@@ -54,8 +54,15 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
         renderNewList(user.id, tripDataObj, weatherDataObj);
     }
 
-    const listData = await listApi.getAllLists(user.id);
-    // om ingen basic-list - skapa ny?
+    
+
+    let listData = await listApi.getAllLists(user.id);
+    const hasBasicList = listData.some(list => list.listName === "Basic List");
+
+    if (!hasBasicList) {
+    await listApi.createList(user.id);
+    listData = await listApi.getAllLists(user.id);
+    }
     
     const profileViewDOM = document.querySelector(".profile-box")
     profileViewDOM.innerHTML = "";

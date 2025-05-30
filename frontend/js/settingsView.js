@@ -28,22 +28,32 @@ async function currentUserFind() {
 }
 
 function createPanelHTML() {
-  return `
-    <div class="settings-panel" id="settingsPanel">
-      <div class="settings-header">Settings</div>
-      <div class="settings-content">
-        <div id="profile-updates">
-          <p>Username</p>
-          <div class="input-row">
-            <input type="text" id="username" placeholder="Enter new name" />
-            <button class="save-btn">Save</button>
-          </div>
-        </div>
+ const profileBox = document.querySelector('.profile-box');
 
-        <button class="btn logout">Logout</button>
-        <button class="btn delete">Delete account</button>
-      </div>
-    </div>`;
+    let existingPanel = document.querySelector('.settings-panel');
+    if (existingPanel) {
+        existingPanel.classList.toggle('active');
+        return;
+    }
+
+    const panel = document.createElement('div');
+    panel.classList.add('settings-panel', 'active');
+
+    panel.innerHTML = `
+        <div class="settings-header">Settings</div>
+        <div class="settings-content">
+            <div id="profile-updates">
+                <p>Name</p>
+                <div class="input-row">
+                    <input type="text" placeholder="Update name..." />
+                    <button class="save-btn">Save</button>
+                </div>
+            </div>
+            <button class="btn delete">Delete Account</button>
+        </div>
+    `;
+
+    profileBox.appendChild(panel);
 }
 
 function settingsChoice(panel) {
@@ -86,7 +96,7 @@ function settingsChoice(panel) {
   });
 }
 
-export default async function renderSettingsView() {
+export async function renderSettingsView() {
   const container = document.querySelector(".settings-box");
   const toggleBtn = document.getElementById("toggleSettings");
 

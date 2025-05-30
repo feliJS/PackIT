@@ -34,6 +34,7 @@ export function navigateTo(view,  data = {}) {
     removeCSS("/css/create-list.css");
     removeCSS("/css/registerlogin.css");
     removeCSS("/css/profile.css");
+    removeCSS("/css/settings.css");
 
     switch (view) {
         case "home":
@@ -50,6 +51,7 @@ export function navigateTo(view,  data = {}) {
 
         case "profile":
            loadCSS("/css/profile.css");
+           loadCSS("/css/settings.css");
            document.querySelector(".profile-box").style.display = "inline-block";
            /* --- tripData, weatherData --- */
            renderProfile(data.tripDataObj, data.weatherDataObj);

@@ -21,18 +21,23 @@ settings-options button:hover {
 }
 
 .settings-panel {
-    position: fixed;
-    top: 26%;
-    right: -380px; 
+    position: absolute; /* eller ta bort position helt för att använda normal layout */
+    top: auto;
+    right: auto;
     width: 350px;
     background: #d9d9d9;
-    border-radius: 20px 0 0 20px;
+    border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    z-index: 9999;
+    z-index: 1; /* inte för högt, så den stannar i boxen */
+    margin: 20px auto; /* centrerad inuti profile-box */
 }
 .settings-panel.active {
-    right: 20px;
+      display: block;
+}
+
+.settings-panel:not(.active) {
+    display: none;
 }
 
 .settings-header {

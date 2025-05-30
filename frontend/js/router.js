@@ -5,7 +5,7 @@ import renderHome from "../js/homeView.js";
 import renderCreateList from "../js/createlistView.js";
 import { openRegister, openLogin } from "/js/LogInView.js";
 import renderProfile from "../js/profileView.js";
-
+import createPanelHTML from "../js/settingsView.js";
 
 function loadCSS(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
@@ -16,7 +16,7 @@ function loadCSS(href) {
 }
 
 function hideAllViews() {
-    document.querySelectorAll(".home-box, .create-list-box, .profile-box, .login-box, .register-box").forEach((currElem) => {
+    document.querySelectorAll(".home-box, .create-list-box, .profile-box, .login-box, .register-box .settings-box").forEach((currElem) => {
         currElem.style.display = "none";
         currElem.innerHTML = "";
     });
@@ -70,9 +70,9 @@ export function navigateTo(view,  data = {}) {
 
         
         case "settings":
-           loadCSS("/css/registerlogin.css");
-           document.querySelector(".register-box").style.display = "inline-block";
-           openRegister();
+           loadCSS("/css/settings.css");
+           document.querySelector(".settings-box").style.display = "inline-block";
+           createPanelHTML()
            break; 
 
         default:

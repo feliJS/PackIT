@@ -20,16 +20,48 @@ async function handler(req) {
         if(imageResponse) return imageResponse;
     }
 
-    if(url.pathname == "/weather") {
-        const apiKeysFile = await Deno.readTextFile("../../apiKeys.json");
-        const keys = JSON.parse(apiKeysFile);
-        const API_KEY_WEATHER = keys[0].API_KEY_WEATHER; 
-        const BASE_URL = "https://api.weatherstack.com/current";
-        let body = await req.json();
-        let res = await fetch(`${BASE_URL}?access_key=${API_KEY_WEATHER}&query=${encodeURIComponent(body.city)}`);
-        let data = await res.json();
-        return new Response(JSON.stringify(data), { headers: { "Access-Control-Allow-Origin": "*", "content-type": "application/json" } })
-    } 
+    if (url.pathname === "/weather") { //lägg annars i en egen fil
+        try {
+            // Läs API-nyckel
+            const apiKeysFile = await Deno.readTextFile("../../apiKeys.json");
+            const keys = JSON.parse(apiKeysFile);
+            const API_KEY_WEATHER = keys[0]?.API_KEY_WEATHER;
+
+            // Läs och kontrollera body
+            const body = await req.json();
+            if (!body.city) {
+                return new Response(JSON.stringify({ error: "Stad måste anges i body, t.ex. { city: 'Stockholm' }" }), {
+                    status: 400,
+                    headers: { "Access-Control-Allow-Origin": "*", "content-type": "application/json" }
+                });
+            }
+
+            // Hämta väderdata
+            const BASE_URL = "https://api.weatherstack.com/current";
+            const response = await fetch(`${BASE_URL}?access_key=${API_KEY_WEATHER}&query=${encodeURIComponent(body.city)}`);
+            const data = await response.json();
+
+            if (data.error) {
+                return new Response(JSON.stringify({ error: "Fel från väder-API" + data.error }), {
+                    status: 502,
+                    headers: { "Access-Control-Allow-Origin": "*", "content-type": "application/json" }
+                });
+            }
+
+            // Returnera väderdata
+            return new Response(JSON.stringify(data), {
+                headers: { "Access-Control-Allow-Origin": "*", "content-type": "application/json" }
+            });
+
+        } catch (err) {
+            console.error("Fel:", err);
+            return new Response(JSON.stringify({ error: "Något gick fel" }), {
+                status: 500,
+                headers: { "Access-Control-Allow-Origin": "*", "content-type": "application/json" }
+            });
+        }
+    }
+
 
     return null
 }

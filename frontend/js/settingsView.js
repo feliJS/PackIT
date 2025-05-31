@@ -27,6 +27,21 @@ async function currentUserFind() {
   }
 }
 
+function showError(panel, message) {
+  const errorDiv = panel.querySelector(".error-msg");
+  errorDiv.innerText = message;
+  const successDiv = panel.querySelector(".success-msg");
+  successDiv.innerText = "";
+}
+
+function showSuccess(panel, message) {
+  const successDiv = panel.querySelector(".success-msg");
+  successDiv.innerText = message;
+  // Rensa ev. tidigare felmeddelande
+  const errorDiv = panel.querySelector(".error-msg");
+  errorDiv.innerText = "";
+}
+
 function createPanelHTML() {
  const profileBox = document.querySelector('.profile-box');
 
@@ -47,6 +62,8 @@ function createPanelHTML() {
                 <div class="input-row">
                     <input type="text" placeholder="Update name..." />
                     <button class="save-btn">Save</button>
+                    <div class="error-msg"></div>
+                    <div class="success-msg"></div>
                 </div>
             </div>
             <button class="btn delete">Delete Account</button>
@@ -67,15 +84,16 @@ function settingsChoice(panel) {
     const newName = usernameInput.value;
     
     if (!newName) {
-      console.log("Name can’t be empty.");
+      showError(panel, "Name kan inte vara tom.");
       return;
     }
 
     try {
       await userApi.updateUser(currentUser.id, newName);
       currentUser.name = newName;
+       showSuccess(panel, "Namnet uppdaterades!");
     } catch (err) {
-      console.error(err);
+      showError(panel, "Kunde inte uppdatera namn: " + (err.message || err));
     }
   });
 
@@ -84,7 +102,7 @@ function settingsChoice(panel) {
       await userApi.logoutUser();
       window.location.href = "/";
     } catch (err) {
-      console.error(err);
+      showError(panel, "Kunde inte logga ut: " + (err.message || err));
     }
   });
 
@@ -93,7 +111,7 @@ function settingsChoice(panel) {
       await userApi.deleteUser(currentUser.id);
       window.location.href = "/";
     } catch (err) {
-      console.error(err);
+      showError(panel, "Kunde inte radera konto: " + (err.message || err));
     }
   });
 }

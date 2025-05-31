@@ -1,99 +1,76 @@
-@font-face {
-    font-family: "fredoka";
-    src: url("../assets/fonts/Fredoka-VariableFont_wdth\,wght.ttf");
-}
-
-body {
-    margin: 0;
-    font-family: "fredoka";
-    background-image: url(frontend/assets/images/background-pic.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    overflow: hidden;
-    min-height: 100vh;
-}
-
-
-/* Header: */ 
-header {
-    margin: 0;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    height: 50px;
+:root {
+    --color-primary: #34495E;
+    /* Huvudsakliga färgen: knappar, länkar, logga, aktiva element */
+    --color-primary-light: #6FA9BB;
+    --color-primary-dark: #2c3e50;
+    --color-secondary: #4a674f;
+    /* komplement till primary: andra knappar eller andra detaljer */
+    --color-accent: #f59e0b;
+    --color-orange: #CC7D5F;
+    --color-orange-matte: #cc7e5f1f;
     
-    align-items: center;
-    padding: 15px;
+    /* Fångar uppmärksamhet */
+    --color-background: #ffffff;
+    --color-surface: #f9fafb;
+    --color-border: #DFE6E9;
+    --color-text-default: #555555;
+    --color-text-muted: #7F8C8D;
 
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000; /* så att den ligger över allt annat */
-}
+    --font-size-xs: 12px;
+    --font-size-s: 14px;
+    --font-size-base: 16px;
+    --font-size-l: 20px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 36px;
+    --font-size-3xl: 48px;
 
-#header-left {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
-    padding-left: 10px;
-}
+    --font-weight-base: 400;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
 
-#header-right {
-    display: flex;
-    gap: 24px;
-    margin-right: 30px;
-}
+    --spacing-xs: 8px;
+    --spacing-s: 16px;
+    --spacing-m: 24px;
+    --spacing-l: 32px;
+    --spacing-xl: 40px;
+    --spacing-2xl: 60px;
 
-.header-img {
-    height: 32px;
-}
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 16px;
 
-#logo {
-    color: black;
-    text-shadow: none;
-    font-size: 22px;
-    height: 32px; /*så länge*/
-} 
-
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    
-    z-index: -1;
+    --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-m: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-l: 0 10px 15px rgba(0, 0, 0, 0.15);
 }
 
 .profile-box {
-    margin-top:30px;
     width: 1200px;
     height: 600px; /* Vet inte riktigt */
     background-color: #EEE2D3;
-    border-radius: 12px;
+    border-radius: var(--radius-m);
     position: relative;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .profileHead {
     height: 120px;
+    padding: var(--spacing-xs) var(--spacing-l);
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 150px 150px;
     align-items: center;
 }
 
 .nameDiv {
     display: flex;
-    gap: 8px;
-    margin-left: 40px;
+    gap: var(--spacing-s);
     justify-self: baseline;
 }
 .profile-pic {
-    width: 50px;
-    height: 50px;
-    background-color: #BF694D;
+    width: var(--spacing-2xl);
+    height: var(--spacing-2xl);
+    background-color: var(--color-accent);
     border-radius: 50%;
-    margin: 0 auto 20px;
 }
 
 
@@ -101,9 +78,9 @@ body::before {
 /* LISTOR */
 .allListsContainer {
     margin: 0 auto;
-    padding-bottom:24px;
-    width:1048px;
-    gap: 24px;
+    padding-bottom: var(--spacing-m);
+    width: 1048px;
+    gap: var(--spacing-m);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: center;
@@ -112,26 +89,25 @@ body::before {
 }
 
 .listContainer {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-background);
+    border-radius: var(--radius-m);
+    box-shadow: var(--shadow-m);
     width: 240px;
     height: 300px;
     display: flex;
     flex-direction: column;
-    max-height: 300px;
-    overflow: scroll;
+    overflow: auto;
 }
 .listHead {
-    padding: 0 16px;
-    background-color:#CC7D5F;
+    padding: 0 var(--spacing-s);
+    background-color:var(--color-orange);
     display: flex;
     justify-content: space-between;
     align-items: center;
     
 }
 .listHead h3 {
-    font-weight: 500;
+    font-weight: var(--font-weight-semibold);
 }
 
 .edit:hover {
@@ -141,38 +117,36 @@ body::before {
 
 button {
     font-family: "fredoka";
-    border-radius: 5px;
+    border-radius: var(--radius-m);
     border: none;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: var(--color-background);
+    text-shadow: var(--shadow-m);
     
-    box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-m);
     transition: transform 0.2s, box-shadow 0.2s;
     justify-self: center;
 }
 
 button:hover {
     transform: scale(1.05);
-    box-shadow: 4px 6px 12px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow-l);
 }
 
-
 #create-list-button {
-    margin-right: 40px;
+    margin-right: var(--spacing-l);
     justify-self: last baseline;
-    font-size: 16px;
-    background-color: #cc7d5f;
-    width: 150px;
+    font-size: var(--font-size-base);
+    background-color: var(--color-orange);
+    width: 120px;
     height: 50px;
 }
 
 #doneBtn {
-    margin-left: 40px;
     justify-self: last baseline;
-    font-size: 14px;
-    background-color: #4A634F;
+    font-size: var(--font-size-s);
+    background-color: var(--color-secondary);
     width: 80px;
-    height: 40px;
+    height: var(--spacing-xl);
 }
 
 
@@ -183,7 +157,7 @@ button:hover {
     width: 100vw;
     height: 100%;
     background-color: #EEE2D3;
-    z-index: 9;
+    z-index: 8;
     display: none;
     overflow: scroll;
 }
@@ -192,7 +166,7 @@ button:hover {
 #handleListView.active {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 60px;
+    gap: var(--spacing-2xl);
 }
 #editList {
     display: grid;
@@ -200,49 +174,49 @@ button:hover {
     margin: 150px 0 auto auto;
     width: 700px;
     min-height: 500px;
-    background-color: #cc7e5f31;
-    border-radius: 12px;
-    padding:20px;
+    background-color: var(--color-orange-matte);
+    border-radius: var(--radius-m);
+    padding:var(--spacing-m);
 
 }
 
 #inner {
     grid-column: span 2;
     background-color: #EEE2D3;
-    border-radius: 12px;
+    border-radius: var(--radius-m);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding-bottom: 16px;
+    gap: var(--spacing-xs);
+    padding-bottom: var(--spacing-s);
 }
 .itemDiv {
-    color: #1e2b1e;
+    color: var(--color-text-default);
     display: grid;
     grid-template-columns: 1fr 150px 1fr 1fr 1fr;
     width: 150px;
-    gap: 10px;
+    gap: var(--spacing-xs);
     align-items: center;
 }
 
 .type {
-    padding-left: 8px;
+    padding-left: var(--spacing-xs);
 
 }
 
 .checkbox {
     appearance: none;
     -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
+    width: var(--spacing-s);
+    height: var(--spacing-s);
     border: 1px solid #1e2b1e;
-    border-radius: 4px;
+    border-radius: var(--radius-s);
     background-color: #EEE2D3; /* ocheckad bakgrund */
     cursor: pointer;
     position: relative;
 }
 
 .checkbox:checked {
-    background-color: #CC7D5F; /* grön när den är ibockad */
+    background-color: var(--color-orange); /* grön när den är ibockad */
 }
 
 .checkbox:checked::after {
@@ -251,24 +225,24 @@ button:hover {
     top: 1px;
     left: 4px;
     width: 4px;
-    height: 8px;
-    border: solid #f1f1f1;
+    height: var(--spacing-xs);
+    border: solid var(--color-border);
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
 
 #addBtn {
     border-radius: 50%;
-    background-color: #cc7d5f;
-    height: 16px;
-    width: 16px;
+    background-color: var(--color-orange);
+    height: var(--spacing-s);
+    width: var(--spacing-s);
     display:flex;
     align-items: center;
     justify-content: center;
 }
 #addBtn:hover {
     cursor: pointer;
-    box-shadow: 0.5px 0.5px 1px rgba(128, 128, 128, 0.68);
+    box-shadow: var(--shadow-l);
 }
 #addBtn:active {
     box-shadow: none;
@@ -276,16 +250,16 @@ button:hover {
 
 #reduceBtn {
     border-radius: 50%;
-    border: 1px solid #cc7d5f;
-    height: 15px;
-    width: 15px;
+    border: 1px solid var(--color-orange);
+    height: var(--spacing-s);
+    width: var(--spacing-s);
     display:flex;
     align-items:center;
     justify-content: center;
 }
 #reduceBtn:hover {
     cursor: pointer;
-    box-shadow: 0.5px 0.5px 1px rgba(128, 128, 128, 0.519);
+    box-shadow: var(--shadow-l);
 }
 #reduceBtn:active {
     box-shadow: none;
@@ -293,22 +267,22 @@ button:hover {
 
 
 .textBtn {
-    font-size: 14px;
+    font-size: var(--font-size-s);
     padding: 2px;
-    color: #CC7D5F;
+    color: var(--color-orange);
 }
 
 .textBtn:hover {
     cursor: pointer;
-    text-shadow:0.5px 0.5px 1px rgba(128, 128, 128, 0.433);
+    text-shadow:var(--shadow-s);
 }
 
 .addItemInput {
     font-family: "fredoka";
-    margin-left: 8px;
-    border:1px solid #CC7D5F;
+    margin-left: var(--spacing-xs);
+    border:1px solid var(--color-orange);
     border-radius: 2px;
-    background-color: #f1f1f1;
+    background-color: var(--color-surface);
     
 }
 
@@ -319,15 +293,15 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: var(--spacing-s);
     position: relative;
 }
 
 #aboutLabel {
-    background-color: #c1654b;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
+    background-color: var(--color-orange);
+    color: var(--color-background);
+    padding: var(--spacing-xs) var(--spacing-s);
+    border-radius: var(--radius-m);
 
     position: absolute;
     top: -10px;
@@ -335,32 +309,34 @@ button:hover {
 }
 
 .aboutCard {
-    background: white;
-    padding: 1rem;
-    border-radius: 12px;
+    background: var(--color-background);
+    padding: var(--spacing-s);
+    border-radius: var(--radius-m);
     width: 100%;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-s);
 }
 
 .aboutCard.weather span {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
 }
 
 .aboutCard.bag {
-    background-color: #c1654b;
-    color: white;
-    font-size: 1rem;
-    border-radius: 12px;
+    background-color: var(--color-orange);
+    color: var(--color-background);
+    font-size: var(--font-size-base);
+    border-radius: var(--radius-m);
+    text-shadow: var(--shadow-s);
+
 }
 
 
 #settings-button {
-    margin-right: 10px;         
-    font-size: 16px;
+    margin-right: var(--spacing-xs);         
+    font-size: var(--font-size-base);
     width: 120px;
     height: 50px;
-    background-color: #4A634F;  
-    color: #ffffff;
+    background-color: var(--color-secondary);  
+    color: var(--color-background);
 }

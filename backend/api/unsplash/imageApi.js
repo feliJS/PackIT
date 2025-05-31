@@ -15,7 +15,7 @@ export async function imageHandler(req) {
     if (!body.content) {
       return new Response(JSON.stringify({ error: "Bild måste anges" }), {
         status: 400,
-        headers: {...corsHeaders,"content-type": "application/json" }
+        headers: { ...corsHeaders, "content-type": "application/json" }
       });
     }
     const imagesDB = await readImages();
@@ -23,10 +23,10 @@ export async function imageHandler(req) {
     let randomImage = await getRandomImage(body.content);
     imagesDB.ratelimit = randomImage.ratelimit;
     if (randomImage.url == null) {
-      if(!imagesDB.images[body.content] || imagesDB.images[body.content].length == 0){ //om ej finns eller längden på listan är 0
-          return new Response(JSON.stringify({ error: "Bild kunde inte hämtas" }), {
+      if (!imagesDB.images[body.content] || imagesDB.images[body.content].length == 0) { //om ej finns eller längden på listan är 0
+        return new Response(JSON.stringify({ error: "Bild kunde inte hämtas" }), {
           status: 404,
-          headers: {...corsHeaders,"content-type": "application/json" }
+          headers: { ...corsHeaders, "content-type": "application/json" }
         });
       }
       randomImage.url = imagesDB.images[body.content][Math.floor(Math.random() * imagesDB.images[body.content].length)];

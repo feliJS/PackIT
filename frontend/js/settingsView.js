@@ -34,6 +34,14 @@ function showError(panel, message) {
   successDiv.innerText = "";
 }
 
+function showSuccess(panel, message) {
+  const successDiv = panel.querySelector(".success-msg");
+  successDiv.innerText = message;
+  // Rensa ev. tidigare felmeddelande
+  const errorDiv = panel.querySelector(".error-msg");
+  errorDiv.innerText = "";
+}
+
 function createPanelHTML() {
  const profileBox = document.querySelector('.profile-box');
 
@@ -55,6 +63,7 @@ function createPanelHTML() {
                     <input type="text" placeholder="Update name..." />
                     <button class="save-btn">Save</button>
                     <div class="error-msg"></div>
+                    <div class="success-msg"></div>
                 </div>
             </div>
             <button class="btn delete">Delete Account</button>
@@ -82,6 +91,7 @@ function settingsChoice(panel) {
     try {
       await userApi.updateUser(currentUser.id, newName);
       currentUser.name = newName;
+       showSuccess(panel, "Namnet uppdaterades!");
     } catch (err) {
       showError(panel, "Kunde inte uppdatera namn: " + (err.message || err));
     }

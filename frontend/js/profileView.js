@@ -82,7 +82,7 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
 
     const createButtonSettings = document.createElement("button");
     createButtonSettings.id = "settings-button";
-    createButtonSettings.textContent = "settings"; //picture
+    createButtonSettings.textContent = "Settings"; //picture
     createButtonSettings.addEventListener("click", () => {
         renderSettingsView()
     })

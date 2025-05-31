@@ -357,11 +357,7 @@ const weatherDB = [
 ]
 
 // === LÄS IN API-KEY FÖR ONLINE-LÄGE ===
-/* const apiKeysFile = await Deno.readTextFile("../../../apiKeys.json");
-const keys = JSON.parse(apiKeysFile);
-const API_KEY_WEATHER = keys[0].API_KEY_WEATHER; 
-
-const BASE_URL = "https://api.weatherstack.com/current"; */
+/* Görs nu i api.js, eftersom det är backends jobb! */
 
 
 // === SKA FINNAS FÖR BÅDE OFFLINE & ONLINE!
@@ -374,8 +370,6 @@ class WeatherData {
         this.weatherDescriptions = weatherDescriptions;
     }
 }
-
-
 
 export async function getWeatherDataFunc (city) {
     
@@ -408,10 +402,10 @@ export async function getWeatherDataFunc (city) {
     // === ONLINE-LÄGE ===
     // KOMMENTERA IN DETTA BLOCK FÖR ONLINE:
     /*
-    const url = `${BASE_URL}?access_key=${API_KEY_WEATHER}&query=${encodeURIComponent(city)}`; // måste ha "encodeURIComponent" för att servern ska kunna koda av parametern korrekt!
+    const url = `http://localhost:8000/weather`; 
     console.log("🔵 Online request URL:", url);
 
-    const response = await fetch(url);
+    let response = await fetch(url, {method: "POST", body: JSON.stringify({city: ${city})});
     const weatherObject = await response.json();
 
     const weather = new WeatherData(

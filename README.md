@@ -17,6 +17,9 @@
 <!-- ABOUT THE PROJECT -->
 ## ✈️ About The Project
 
+Link to repository: https://github.com/feliJS/PackIT
+<br />
+<br />
 We developed a website that allows users to create and manage packing lists for their travels. Users can log in to save and access multiple lists tailored to different trips.
 * Made with deno, html & CSS, javascript and json-files.
 * Also with external apis & our own to save user data + list data.

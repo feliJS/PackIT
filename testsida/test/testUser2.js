@@ -8,28 +8,45 @@ const reqLog = document.getElementById("reqLog");
 const runTestBtn = document.querySelector(".run-tests-btn");
 
 
+
+
 const testUser = {
-    name: "alle2",
+    name: "allee12",
     password: "yaya",
     pfp: "https://example.com/alle.jpg"
 };
 
+
+
+function getCookie(name) { //hittar rätt cookie
+    return document.cookie
+        .split('; ')
+        .find(cookie => cookie.startsWith(name + "="))
+        ?.split('=')[1] || null;
+}
+
+const sessionId = getCookie("session_id");
+
+
+
 async function runTestsUser() {
-    
+
     let newUserId = null;
 
     // === LOG UTDATA TILL DOM/CONSOLE ===
     function logTest({ title, method, status, message }) {
 
+        const mainMessage = message[Object.keys(message)[0]];
         const statusClass = status >= 200 && status < 300 ? "success" : "fail";
+
         const newRow = document.createElement("div");
-        newRow.className = "row";
+        newRow.className = "row userRow";
 
         newRow.innerHTML = `
-       <div>${title}</div>
-       <div>${method}</div>
-       <div><span class="status ${statusClass}">${status}</span></div>
-       <div>${msg}</div>
+       <div class="rowDiv">${title}</div>
+       <div class="rowDiv">${method}</div>
+       <div class="rowDiv"><span class="status ${statusClass}">${status}</span></div>
+       <div class="rowDiv">${mainMessage}</div>
      `;
 
         reqLog.appendChild(newRow);
@@ -86,6 +103,7 @@ async function runTestsUser() {
     async function testLogoutUserSuccess() {
         const response = await fetch(`${baseUrl}/users/logout`, {
             method: "POST",
+            body: JSON.stringify({}),
             credentials: "include"
         });
 
@@ -101,8 +119,9 @@ async function runTestsUser() {
 
     // === DELETE /users/:id ===
     async function testDeleteUserSuccess() {
-        const response = await fetch(`${baseUrl}/users/${newUserId}`, {
+        const response = await fetch(`${baseUrl}/users/${getCookie("session_id")}`, {
             method: "DELETE",
+            body: JSON.stringify({}),
             credentials: "include"
         });
 
@@ -195,13 +214,14 @@ async function runTestsUser() {
     async function testDeleteNonexistentUser() {
         const response = await fetch(`${baseUrl}/users/999999`, {
             method: "DELETE",
+            body: JSON.stringify({}),
             headers: { "Content-Type": "application/json" }
         });
 
         const body = await response.json();
 
         logTest({
-            title: "Delete Nonexistent User",
+            title: "Delete (Not Authorized)",
             method: "DELETE",
             status: response.status,
             message: body
@@ -213,19 +233,45 @@ async function runTestsUser() {
         console.log("runTests() (testUser.js) start");
 
         await testCreateUserSuccess();          // 201
+        console.log("testCreateUserSuccess()")
+
         await testCreateDuplicateUser();        // 409
+        console.log("testCreateDuplicateUser()")
+
         await testCreateUserMissingFields();    // 400
+        console.log("testCreateUserMissingFields()")
+
         await testLoginUserSuccess();           // 200
+        console.log("testCreateUserSuccess()")
+
         await testLoginWrongPassword();         // 401
+        console.log("testLoginWrongPassword()")
+
         await testLoginMissingFields();         // 400
+        console.log("testLoginMissingFields()")
+
         await testLogoutUserSuccess();          // 200
+        console.log("testLogoutUserSuccess()")
+
+        await testLoginUserSuccess();           // 200   // EJ DOM ***
+        console.log("testCreateUserSuccess()")
+
+
+        console.log(getCookie("session_id"))
+
         await testDeleteUserSuccess();          // 200
+        console.log("testDeleteUserSuccess()")
+
+
+
         await testDeleteNonexistentUser();      // 404
+        console.log("testDeleteNonexistentUser()")
 
         console.log("runTests() (testUser.js) done");
     }
 
     await runTests();
+
     runTestsList();
 }
 

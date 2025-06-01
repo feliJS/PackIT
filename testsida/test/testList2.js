@@ -1,5 +1,7 @@
 
-/*  testList2.js */
+
+import { runTestsWeather } from "./testWeather.js";
+
 
 export async function runTestsList() {
 
@@ -8,21 +10,22 @@ export async function runTestsList() {
 
   function logTest({ title, method, status, message }) {
 
+    const mainMessage = message[Object.keys(message)[0]];
     const statusClass = status >= 200 && status < 300 ? "success" : "fail";
+
     const newRow = document.createElement("div");
-    newRow.className = "row";
+    newRow.className = "row listRow";
 
     newRow.innerHTML = `
-     <div>${title}</div>
-     <div>${method}</div>
-     <div><span class="status ${statusClass}">${status}</span></div>
-     <div>${msg}</div>
+     <div class="rowDiv">${title}</div>
+     <div class="rowDiv">${method}</div>
+     <div class="rowDiv"><span class="status ${statusClass}">${status}</span></div>
+     <div class="rowDiv">${mainMessage}</div>
    `;
 
     reqLog.appendChild(newRow);
     console.log(`testList2.js: --- [${method}] ${title} -> Status: ${status}`, message);
   }
-
 
 
   /* --------------------- TESTS --------------------- */
@@ -49,6 +52,7 @@ export async function runTestsList() {
     })
 
   }
+
   /*   // POST /lists/:userId (201)    //                          ??? 
     const response = await fetch(`${baseUrl}/lists/1`, {
       method: "POST",
@@ -75,10 +79,11 @@ export async function runTestsList() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ listName: "Barcelona", purpose: 99 })
     });
+
     const body = await response.json();
 
     logTest({
-      title: "Create List (Template Not Found)",
+      title: "Create List (Purpose Not Found)",
       method: "POST",
       status: response.status,
       message: body
@@ -92,11 +97,15 @@ export async function runTestsList() {
     const response = await fetch(`${baseUrl}/lists/1`);
     const body = await response.json();
 
+    console.log(body, " async function testGetAllLists() ")
+    const body2 = body[Object.keys(body)[0]]; /* *** */
+
+
     logTest({
-      title: "Get All Lists",
+      title: "Get List",
       method: "GET",
       status: response.status,
-      message: body
+      message: body2
     });
 
   }
@@ -108,11 +117,12 @@ export async function runTestsList() {
     const body = await response.json();
 
     logTest({
-      title: "Get List",
+      title: "Get List (Found)",
       method: "GET",
       status: response.status,
       message: body
     });
+
   }
 
   // GET /lists/:userId/:listId (404)
@@ -165,7 +175,7 @@ export async function runTestsList() {
     const response = await fetch(`${baseUrl}/lists/1/1/items`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ itemName: "Socks", itemQuantity: 3 })
+      body: JSON.stringify({ itemName: "Banana", itemQuantity: 3 })
     });
     const body = await response.json();
 
@@ -354,28 +364,68 @@ export async function runTestsList() {
     console.log("runTests() -- (testList.js) start");
 
     await testCreateList();
+    console.log("testCreateList()")
+
+    /*  
     await testCreateListTemplateNotFound();
+    console.log("testCreateListTemplateNotFound()")
+    */
+
     await testGetAllLists();
+    console.log("testCreateUserSuccess()")
+
     await testGetListFound();
+    console.log("testGetListFound()")
+
     await testGetListNotFound();
-    await testDeleteListSuccess();
-    await testDeleteListNotFound();
+    console.log("testGetListNotFound()")
+
     await testAddItemSuccess();
+    console.log("testAddItemSuccess()")
+
     await testAddItemListNotFound();
+    console.log("testAddItemListNotFound()")
+
     await testAddItemAlreadyExists();
+    console.log("testAddItemAlreadyExists()")
+
     await testGetAllItemsSuccess();
+    console.log("testGetAllItemsSuccess()")
+
     await testGetAllItemsNotFound();
+    console.log("testGetAllItemsNotFound()")
+
     await testUpdateItemSuccess();
+    console.log("testUpdateItemSuccess()")
+
     await testUpdateItemListNotFound();
+    console.log("testUpdateItemListNotFound()")
+
     await testUpdateItemNotFound();
+    console.log("testUpdateItemNotFound()")
+
     await testDeleteItemSuccess();
+    console.log("testDeleteItemSuccess()")
+
     await testDeleteItemListNotFound();
+    console.log("testDeleteItemListNotFound()")
+
     await testDeleteItemNotFound();
+    console.log("testDeleteItemNotFound()")
+
+    await testDeleteListSuccess();
+    console.log("testDeleteListSuccess()")
+
+    await testDeleteListNotFound();
+    console.log("testDeleteListNotFound()")
+
 
     console.log("runTests() -- (testList.js) done");
 
   }
 
-  runTests();
+  await runTests();
+  
+  runTestsWeather();
 
 }

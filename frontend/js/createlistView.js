@@ -356,7 +356,7 @@ export default function renderCreateList() {
             const weatherResponseOK = await submitDestination(tripDataObj.city);
 
             if (weatherResponseOK) {
-                navigateTo("profile", { tripDataObj, weatherDataObj });
+                navigateTo("profile", { tripDataObj, weatherResponseOK });
             } else {
 
                 userFeedbackDiv = document.querySelector(".user-feedback-container")

@@ -169,7 +169,7 @@ async function runTestsUser() {
             title: "Login Wrong Password",
             method: "POST",
             status: response.status,
-            message: body
+            message: `Logged in successfully: ${body.name}` 
         });
     }
 
@@ -187,7 +187,7 @@ async function runTestsUser() {
             title: "Login Missing Fields",
             method: "POST",
             status: response.status,
-            message: body
+            message: body.error
         });
     }
 
@@ -204,7 +204,7 @@ async function runTestsUser() {
             title: "Delete Nonexistent User",
             method: "DELETE",
             status: response.status,
-            message: body
+            message: body.error
         });
     }
 

@@ -3,7 +3,7 @@ export async function runTestsUnsplash() {
     const baseUrl = "http://localhost:8000";
     const reqLog = document.getElementById("reqLog");
 
-    function logTest({ title, method, status, message }) {
+    function logTest({ title, method, status, message }, matchedExpectations) {
 
         let mainMessage = null;
 
@@ -19,12 +19,14 @@ export async function runTestsUnsplash() {
             mainMessage = shortUrl.slice(0, 55) + "  ...";
         }
 
-
-
         const statusClass = status >= 200 && status < 300 ? "success" : "fail";
 
         const newRow = document.createElement("div");
-        newRow.className = "row unsplashRow";
+        if (matchedExpectations) {
+            newRow.className = "row unsplashRow expStatus";
+        } else {
+            newRow.className = "row unsplashRow notExpStatus";
+        }
 
         newRow.innerHTML = `
            <div class="rowDiv">${title}</div>
@@ -34,7 +36,6 @@ export async function runTestsUnsplash() {
          `;
 
         reqLog.appendChild(newRow);
-        console.log(`testUnsplash.js: --- [${method}] ${title} -> Status: ${status}`, message);
     }
 
 
@@ -43,28 +44,34 @@ export async function runTestsUnsplash() {
 
     // === POST /image/randomimage (200) ===
     async function testImageSuccess() {
-        console.log(" Inuti testImageSuccess ")
+        const expectedStatus = 200;
+        let matchedExpectations = false;
+
         const response = await fetch(`${baseUrl}/image/randomimage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ content: "animal" })
         });
 
-        console.log(response)
-        console.log(" ----------_____----")
         const body = await response.text();
-        console.log(body, " ----------_____----")
+
+        if (response.status === expectedStatus) {
+            matchedExpectations = true;
+        }
 
         logTest({
             title: "Random Image (Success)",
             method: "POST",
             status: response.status,
             message: body
-        });
+        }, matchedExpectations);
     }
 
     // === POST /image/randomimage (missing content) ===
     async function testImageMissingContent() {
+        const expectedStatus = 400;
+        let matchedExpectations = false;
+
         const response = await fetch(`${baseUrl}/image/randomimage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -73,54 +80,53 @@ export async function runTestsUnsplash() {
 
         const body = await response.json();
 
+        if (response.status === expectedStatus) {
+            matchedExpectations = true;
+        }
+
         logTest({
             title: "Random Image (Missing Content)",
             method: "POST",
             status: response.status,
             message: body
-        });
+        }, matchedExpectations);
     }
 
     // === POST /image/randomimage (unsuccessful fetch) ===
     async function testImageNotFound() {
+        const expectedStatus = 404;
+        let matchedExpectations = false;
+
         const response = await fetch(`${baseUrl}/image/randomimage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: "thiswontreturnanythingxyz" }) // Triggerar misslyckad hämtning
+            body: JSON.stringify({ content: "thiswontreturnanythingxyz" }) 
         });
 
         const body = await response.json();
+
+        if (response.status === expectedStatus) {
+            matchedExpectations = true;
+        }
 
         logTest({
             title: "Random Image (Fetch Failed)",
             method: "POST",
             status: response.status,
             message: body
-        });
+        }, matchedExpectations);
     }
 
 
     // === Kör alla tester ===
     async function runTests() {
-        console.log("runTestsUnsplash() start");
 
         await testImageSuccess();          // 200
-        console.log("testImageSuccess()");
-
         await testImageMissingContent();   // 400
-        console.log("testImageMissingContent()");
-
         await testImageNotFound();         // 404
-        console.log("testImageNotFound()");
-
-        console.log("runTestsUnsplash() done");
 
     }
 
     await runTests();
 
 }
-
-
-
-

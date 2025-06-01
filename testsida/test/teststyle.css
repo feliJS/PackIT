@@ -62,8 +62,11 @@ header>h1 {
 }
 
 .status.success {
-    background-color: #26a95d;
-    color: black;
+    background-color: #26a95d6a;
+}
+
+.status.fail {
+    background-color: rgba(220, 4, 4, 0.3);
 }
 
 #user-list {
@@ -93,17 +96,28 @@ header>h1 {
 
 
 .userRow {
-    background-color: blanchedalmond;
+    background-color: rgb(205, 205, 205);
 }
 
 .listRow {
-    background-color: darkgray;
+    background-color: rgb(195, 195, 195);
 }
 
 .weatherRow {
-    background-color: tan;
+    background-color: rgb(190, 190, 190);
 }
 
 .unsplashRow {
-    background-color: whitesmoke;
+    background-color: rgb(185, 185, 185);
+}
+
+.expStatus {
+    border-right: 8px solid rgb(4, 172, 4);
+    border-left: 8px solid rgb(4, 172, 4);
+
+}
+
+.notExpStatus {
+    border-right: 8px solid rgb(220, 4, 4);
+    border-left: 8px solid rgb(220, 4, 4);
 }

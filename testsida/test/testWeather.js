@@ -1,31 +1,21 @@
-
 import { runTestsUnsplash } from "./testUnsplash.js";
-
 
 export async function runTestsWeather() {
 
     const baseUrl = "http://localhost:8000";
     const reqLog = document.getElementById("reqLog");
 
-    function logTest({ title, method, status, message }) {
-
+    function logTest({ title, method, status, message }, matchedExpectations) {
 
         let mainMessage = null;
 
         if (typeof message === "object") {
 
-            console.log(mainMessage, 1)
             mainMessage = message[Object.keys(message)[0]];
 
-            console.log(mainMessage, 2)
-
             if (mainMessage.query) {
-
                 mainMessage = `{query: ${mainMessage.query} }, ... `;
-                console.log(mainMessage, 4);
             }
-
-            console.log(mainMessage, 5)
 
         } else {
             mainMessage = message;
@@ -34,7 +24,12 @@ export async function runTestsWeather() {
         const statusClass = status >= 200 && status < 300 ? "success" : "fail";
 
         const newRow = document.createElement("div");
-        newRow.className = "row weatherRow";
+        if (matchedExpectations) {
+            newRow.className = "row weatherRow expStatus";
+        } else {
+            newRow.className = "row weatherRow notExpStatus";
+        }
+
 
         newRow.innerHTML = `
            <div class="rowDiv">${title}</div>
@@ -44,34 +39,40 @@ export async function runTestsWeather() {
          `;
 
         reqLog.appendChild(newRow);
-        console.log(`testWeather.js: --- [${method}] ${title} -> Status: ${status}`, message);
+
     }
-
-
-
 
     /* --------------------- TESTS --------------------- */
 
     // === POST /weather (Success) ===
     async function testWeatherSuccess() {
+        const expectedStatus = 200;
+        let matchedExpectations = false;
+
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
             body: JSON.stringify({ city: "stockholm" })
         });
 
-        console.log(response)
         const body = await response.json();
+
+        if (response.status === expectedStatus) {
+            matchedExpectations = true;
+        }
 
         logTest({
             title: "Weather (Success)",
             method: "POST",
             status: response.status,
             message: body
-        });
+        }, matchedExpectations);
     }
 
     // === POST /weather (Missing City) ===
     async function testWeatherMissingCity() {
+        const expectedStatus = 400;
+        let matchedExpectations = false;
+
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
             body: JSON.stringify({})
@@ -79,16 +80,23 @@ export async function runTestsWeather() {
 
         const body = await response.json();
 
+        if (response.status === expectedStatus) {
+            matchedExpectations = true;
+        }
+
         logTest({
             title: "Weather (Missing City)",
             method: "POST",
             status: response.status,
             message: body
-        });
+        }, matchedExpectations);
     }
 
     // === POST /weather (API Failure Simulated) ===
     async function testWeatherApiFailure() {
+        const expectedStatus = 502;
+        let matchedExpectations = false;
+
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
             body: JSON.stringify({ city: "wrongcity123456" }) // eller något som api:n returnerar fel på
@@ -96,16 +104,23 @@ export async function runTestsWeather() {
 
         const body = await response.json();
 
+        if (response.status === expectedStatus) {
+            matchedExpectations = true;
+        }
+
         logTest({
             title: "Weather (API Error)",
             method: "POST",
             status: response.status,
             message: body
-        });
+        }, matchedExpectations);
     }
 
     // === POST /weather (Internal Server Error Simulated) ===
     async function testWeatherInternalError() {
+        const expectedStatus = 500;
+        let matchedExpectations = false;
+
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
             body: JSON.stringify({ city: null }) // Triggar troligen 500
@@ -113,38 +128,32 @@ export async function runTestsWeather() {
 
         const body = await response.json();
 
+        if (response.status === expectedStatus) {
+            matchedExpectations = true;
+        }
+
         logTest({
             title: "Weather (Internal Error)",
             method: "POST",
             status: response.status,
             message: body
-        });
+        }, matchedExpectations);
     }
 
     // === Kör alla tester ===
     async function runTests() {
-        console.log("runTestsWeather() start");
 
         await testWeatherSuccess();         // 200
-        console.log("testWeatherSuccess()");
-
         await testWeatherMissingCity();     // 400
-        console.log("testWeatherMissingCity()");
-
         await testWeatherApiFailure();      // 502
-        console.log("testWeatherApiFailure()");
+        await testWeatherInternalError();   // 500
 
-        console.log("runTestsWeather() done");
     }
 
-
-/*     await runTests(); */
+    await runTests();
 
     await runTestsUnsplash();
-
-
 }
-
 
 
 

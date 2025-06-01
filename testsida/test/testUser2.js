@@ -25,22 +25,23 @@ function getCookie(name) { //hittar rätt cookie
         ?.split('=')[1] || null;
 }
 
-const sessionId = getCookie("session_id");
-
-
 
 async function runTestsUser() {
 
     let newUserId = null;
 
     // === LOG UTDATA TILL DOM/CONSOLE ===
-    function logTest({ title, method, status, message }) {
+    function logTest({ title, method, status, message }, matchedExpectations) {
 
         const mainMessage = message[Object.keys(message)[0]];
         const statusClass = status >= 200 && status < 300 ? "success" : "fail";
 
         const newRow = document.createElement("div");
-        newRow.className = "row userRow";
+        if (matchedExpectations) {
+            newRow.className = "row userRow expStatus";
+        } else {
+            newRow.className = "row userRow notExpStatus";
+        }
 
         newRow.innerHTML = `
        <div class="rowDiv">${title}</div>
@@ -50,224 +51,259 @@ async function runTestsUser() {
      `;
 
         reqLog.appendChild(newRow);
-        console.log(`testUser2.js: --- [${method}] ${title} -> Status: ${status}`, message);
-
     }
 
 
 
     /* --------------------- TESTS --------------------- */
 
-    // === POST /users ===
-    async function testCreateUserSuccess() {
-        const response = await fetch(`${baseUrl}/users`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(testUser)
-        });
+ // === POST /users === (201 Created)
+async function testCreateUserSuccess() {
+    const expectedStatus = 201;
+    let matchedExpectations = false;
 
-        const body = await response.json();
-        newUserId = body.id;
+    const response = await fetch(`${baseUrl}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(testUser)
+    });
 
-        logTest({
-            title: "Create User (Success)",
-            method: "POST",
-            status: response.status,
-            message: body
-        });
+    const body = await response.json();
+    newUserId = body.id;
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === POST /users/login ===
-    async function testLoginUserSuccess() {
-        const response = await fetch(`${baseUrl}/users/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({
-                name: testUser.name,
-                password: testUser.password
-            })
-        });
+    logTest({
+        title: "Create User (Success)",
+        method: "POST",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === POST /users/login === (200 OK)
+async function testLoginUserSuccess() {
+    const expectedStatus = 200;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Login User (Success)",
-            method: "POST",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+            name: testUser.name,
+            password: testUser.password
+        })
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === POST /users/logout ===
-    async function testLogoutUserSuccess() {
-        const response = await fetch(`${baseUrl}/users/logout`, {
-            method: "POST",
-            body: JSON.stringify({}),
-            credentials: "include"
-        });
+    logTest({
+        title: "Login User (Success)",
+        method: "POST",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === POST /users/logout === (200 OK)
+async function testLogoutUserSuccess() {
+    const expectedStatus = 200;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Logout User (Success)",
-            method: "POST",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users/logout`, {
+        method: "POST",
+        body: JSON.stringify({}),
+        credentials: "include"
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === DELETE /users/:id ===
-    async function testDeleteUserSuccess() {
-        const response = await fetch(`${baseUrl}/users/${getCookie("session_id")}`, {
-            method: "DELETE",
-            body: JSON.stringify({}),
-            credentials: "include"
-        });
+    logTest({
+        title: "Logout User (Success)",
+        method: "POST",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === DELETE /users/:id === (200 OK – om session_id matchar)
+async function testDeleteUserSuccess() {
+    const expectedStatus = 200;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Delete User (Success)",
-            method: "DELETE",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users/${getCookie("session_id")}`, {
+        method: "DELETE",
+        body: JSON.stringify({}),
+        credentials: "include"
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === POST /users (duplicate user) ===
-    async function testCreateDuplicateUser() {
-        const response = await fetch(`${baseUrl}/users`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(testUser)
-        });
+    logTest({
+        title: "Delete User (Success)",
+        method: "DELETE",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === POST /users (duplicate user) === (409 Conflict)
+async function testCreateDuplicateUser() {
+    const expectedStatus = 409;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Create Duplicate User (Conflict)",
-            method: "POST",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(testUser)
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === POST /users (missing fields) ===
-    async function testCreateUserMissingFields() {
-        const response = await fetch(`${baseUrl}/users`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: "namnlös" }) // saknar lösenord och pfp
-        });
+    logTest({
+        title: "Create Duplicate User (Conflict)",
+        method: "POST",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === POST /users (missing fields) === (400 Bad Request)
+async function testCreateUserMissingFields() {
+    const expectedStatus = 400;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Create User (Missing Fields)",
-            method: "POST",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: "namnlös" }) // saknar lösenord och pfp
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === POST /users/login (wrong password) ===
-    async function testLoginWrongPassword() {
-        const response = await fetch(`${baseUrl}/users/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: testUser.name,
-                password: "fel_losen"
-            })
-        });
+    logTest({
+        title: "Create User (Missing Fields)",
+        method: "POST",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === POST /users/login (wrong password) === (401 Unauthorized)
+async function testLoginWrongPassword() {
+    const expectedStatus = 401;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Login Wrong Password",
-            method: "POST",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: testUser.name,
+            password: "fel_losen"
+        })
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === POST /users/login (missing fields) ===
-    async function testLoginMissingFields() {
-        const response = await fetch(`${baseUrl}/users/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: testUser.name }) // saknar password
-        });
+    logTest({
+        title: "Login Wrong Password",
+        method: "POST",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === POST /users/login (missing fields) === (400 Bad Request)
+async function testLoginMissingFields() {
+    const expectedStatus = 400;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Login Missing Fields",
-            method: "POST",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: testUser.name }) // saknar password
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
 
-    // === DELETE /users/999999 (nonexistent) ===
-    async function testDeleteNonexistentUser() {
-        const response = await fetch(`${baseUrl}/users/999999`, {
-            method: "DELETE",
-            body: JSON.stringify({}),
-            headers: { "Content-Type": "application/json" }
-        });
+    logTest({
+        title: "Login Missing Fields",
+        method: "POST",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
 
-        const body = await response.json();
+// === DELETE /users/999999 (nonexistent) === (403 Not Found)
+async function testDeleteNonexistentUser() {
+    const expectedStatus = 403;
+    let matchedExpectations = false;
 
-        logTest({
-            title: "Delete (Not Authorized)",
-            method: "DELETE",
-            status: response.status,
-            message: body
-        });
+    const response = await fetch(`${baseUrl}/users/999999`, {
+        method: "DELETE",
+        body: JSON.stringify({}),
+        headers: { "Content-Type": "application/json" }
+    });
+
+    const body = await response.json();
+
+    if (response.status === expectedStatus) {
+        matchedExpectations = true;
     }
+
+    logTest({
+        title: "Delete (Not Authorized)",
+        method: "DELETE",
+        status: response.status,
+        message: body
+    }, matchedExpectations);
+}
+
 
     // === Kör alla tester ===
     async function runTests() {
-        console.log("runTests() (testUser.js) start");
 
         await testCreateUserSuccess();          // 201
-        console.log("testCreateUserSuccess()")
-
         await testCreateDuplicateUser();        // 409
-        console.log("testCreateDuplicateUser()")
-
         await testCreateUserMissingFields();    // 400
-        console.log("testCreateUserMissingFields()")
-
         await testLoginUserSuccess();           // 200
-        console.log("testCreateUserSuccess()")
-
         await testLoginWrongPassword();         // 401
-        console.log("testLoginWrongPassword()")
-
         await testLoginMissingFields();         // 400
-        console.log("testLoginMissingFields()")
-
         await testLogoutUserSuccess();          // 200
-        console.log("testLogoutUserSuccess()")
-
-        await testLoginUserSuccess();           // 200   // EJ DOM ***
-        console.log("testCreateUserSuccess()")
-
-
-        console.log(getCookie("session_id"))
-
+        await testLoginUserSuccess();           // 200 
         await testDeleteUserSuccess();          // 200
-        console.log("testDeleteUserSuccess()")
-
-
-
         await testDeleteNonexistentUser();      // 404
-        console.log("testDeleteNonexistentUser()")
-
-        console.log("runTests() (testUser.js) done");
     }
 
     await runTests();

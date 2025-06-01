@@ -29,7 +29,7 @@ async function runTestsUser() {
        <div>${title}</div>
        <div>${method}</div>
        <div><span class="status ${statusClass}">${status}</span></div>
-       <div>${msg}</div>
+       <div>${message}</div>
      `;
 
         reqLog.appendChild(newRow);

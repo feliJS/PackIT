@@ -115,17 +115,6 @@
     filter:brightness(0.25);
 }
 
-button {
-    font-family: "fredoka";
-    border-radius: var(--radius-m);
-    border: none;
-    color: var(--color-background);
-    text-shadow: var(--shadow-m);
-    
-    box-shadow: var(--shadow-m);
-    transition: transform 0.2s, box-shadow 0.2s;
-    justify-self: center;
-}
 
 button:hover {
     transform: scale(1.05);

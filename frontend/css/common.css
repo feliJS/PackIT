@@ -13,6 +13,7 @@
     --color-accent: #f59e0b;
     --color-orange: #CC7D5F;
     --color-orange-matte: #cc7e5f1f;
+    --color-beige: #EEE2D3;
 
     /* Fångar uppmärksamhet */
     --color-background: #ffffff;
@@ -118,4 +119,17 @@
 .footer {
     font-size: var(--font-size-s);
     color: var(--color-accent);
+}
+
+
+button {
+    font-family: "fredoka";
+    border-radius: var(--radius-m);
+    border: none;
+    color: var(--color-background);
+    text-shadow: var(--shadow-m);
+    
+    box-shadow: var(--shadow-m);
+    transition: transform 0.2s, box-shadow 0.2s;
+    justify-self: center;
 }

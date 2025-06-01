@@ -1,3 +1,50 @@
+:root {
+    --color-primary: #34495E;
+    /* Huvudsakliga färgen: knappar, länkar, logga, aktiva element */
+    --color-primary-light: #6FA9BB;
+    --color-primary-dark: #2c3e50;
+    --color-secondary: #4a674f;
+    /* komplement till primary: andra knappar eller andra detaljer */
+    --color-accent: #f59e0b;
+    --color-orange: #CC7D5F;
+    --color-orange-matte: #cc7e5f1f;
+    --color-beige: #EEE2D3;
+
+    /* Fångar uppmärksamhet */
+    --color-background: #ffffff;
+    --color-surface: #f9fafb;
+    --color-border: #DFE6E9;
+    --color-text-default: #555555;
+    --color-text-muted: #7F8C8D;
+
+    --font-size-xs: 12px;
+    --font-size-s: 14px;
+    --font-size-base: 16px;
+    --font-size-l: 20px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 36px;
+    --font-size-3xl: 48px;
+
+    --font-weight-base: 400;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --spacing-xs: 8px;
+    --spacing-s: 16px;
+    --spacing-m: 24px;
+    --spacing-l: 32px;
+    --spacing-xl: 40px;
+    --spacing-2xl: 60px;
+
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 16px;
+
+    --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-m: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-l: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     height: 100vh;
@@ -7,7 +54,7 @@ body {
 }
 
 .open-button {
-  background-color: #555;
+  background-color: var(--color-text-default);
   color: white;
   padding: 16px 20px;
   border: none;
@@ -31,10 +78,10 @@ body {
     transform: translate(-50%, -50%);
     max-width: 320px;
     width: 90%;
-    padding: 24px 28px 32px;
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px #1e2b20;
+    padding: var(--spacing-m) var(--spacing-m) var(--spacing-l);
+    background-color: var(--color-background);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-l);
     text-align: center;
 }
 .account-container h1{
@@ -42,42 +89,42 @@ body {
 }
 
 .account-container #create-text{
-    color: #BF694D;
-    font-size: 20px;
+    color: var(--color-orange);
+    font-size: var(--font-size-l);
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: var(--spacing-2xl);
 }
 
 /* Gör profilbilden rund */
 .profile-pic {
     width: 96px;
     height: 96px;
-    background-color: #BF694D;
+    background-color: var(--color-orange);
     border-radius: 50%;
-    margin: 0 auto 20px;
+    margin: 0 auto var(--spacing-m);
 }
 
 .account-container input {
     width: 100%;
-    padding: 14px 16px;
-    font-size: 1rem;
-    border: 1px solid #BF694D;
-    border-radius: 8px;
+    padding: 14px var(--spacing-s);
+    font-size: var(--font-size-base);
+    border: 1px solid var(--color-orange);
+    border-radius: var(--radius-m);
     background: #f1f1f1;
     transition: box-shadow 0.25s ease, transform 0.2s ease;
 }
 
 .account-container input:focus {
     outline: none;
-    background: #fff;
-    box-shadow: 0 0 8px #BF694D;
+    background: var(--color-background);
+    box-shadow: 0 0 8px var(--color-orange);
     transform: scale(1.03);
 }
 
 .account-container .btn {
-    background-color: #BF694D;
-    color: white;
-    padding: 16px 20px;
+    background-color: var(--color-orange);
+    color: var(--color-background);
+    padding: var(--spacing-s) var(--spacing-m);
     border: none;
     cursor: pointer;
     width: 100%;
@@ -87,26 +134,26 @@ body {
 .inputs{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-s);
 }
 
 .btn {
-    background-color: #BF694D;
-    color: #fff;
-    padding: 16px 20px;
+    background-color: var(--color-orange);
+    color: var(--color-background);
+    padding: var(--spacing-s) var(--spacing-m);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     cursor: pointer;
     width: 100%;
-    font-size: 1rem;
+    font-size: var(--font-size-m);
     transition: box-shadow 0.2s ease;
 }
 .btn:hover {
-    box-shadow: 0 6px 16px #BF694D;
+    box-shadow: 0 6px 16px var(--color-orange);
 }
 .btn.cancel {
-    background-color: #4A674F;
+    background-color: var(--color-secondary);
 }
 .btn.cancel:hover {
-    box-shadow: 0 6px 16px #1e2b20;
+    box-shadow: 0 6px 16px var(--color-text-default);
 }

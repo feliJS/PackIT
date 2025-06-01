@@ -78,10 +78,10 @@
 }
 
 .create-list-button {
-    padding: var(--spacing-m) var(--spacing-xl);
-    background-color: var(--color-accent);
-    color: var(--color-primary);
-    border-radius: var(--radius-l);
+    font-size: var(--font-size-base);
+    background-color: var(--color-orange);
+    width: 120px;
+    height: 50px;
 }
 
 .log-create-acc-buttons {

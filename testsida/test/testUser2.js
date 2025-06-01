@@ -56,7 +56,7 @@ async function runTestsUser() {
             title: "Create User (Success)",
             method: "POST",
             status: response.status,
-            message: body.name
+            message: `${body.name} was created`
         });
     }
 
@@ -130,7 +130,7 @@ async function runTestsUser() {
             title: "Create Duplicate User (Conflict)",
             method: "POST",
             status: response.status,
-            message: body
+            message: body.error
         });
     }
 
@@ -148,7 +148,7 @@ async function runTestsUser() {
             title: "Create User (Missing Fields)",
             method: "POST",
             status: response.status,
-            message: body
+            message: body.error
         });
     }
 

@@ -1,7 +1,8 @@
 
 // users-api.js
 
-import {
+import { //Här laddas in alla funktioner som hanterar själva business‐logiken kring användare (CRUD och inloggning).
+    //Dessa funktioner exporteras från usersFunctions.js.
   getAllUsersFunc,
   createUserFunc,
   getUserFunc,

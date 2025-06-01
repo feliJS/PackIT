@@ -56,7 +56,7 @@ async function runTestsUser() {
             title: "Create User (Success)",
             method: "POST",
             status: response.status,
-            message: body
+            message: body.name
         });
     }
 

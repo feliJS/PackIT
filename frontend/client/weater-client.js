@@ -24,9 +24,7 @@ export async function getWeatherDataFunc(city) {
         return weatherCache[city];
     }
 
-    // === OFFLINE-LÄGE (lokal endpoint) ===
     const url = `http://localhost:8000/weather`;
-    console.log("🔵 Online request URL:", url);
 
     let response = await fetch(url, {
         method: "POST",
@@ -35,7 +33,6 @@ export async function getWeatherDataFunc(city) {
     const weatherObject = await response.json();
     counter++
 
-    // Skapa en instans av WeatherData
     const weather = new WeatherData(
         weatherObject.current.temperature,
         weatherObject.location.localtime,
@@ -43,38 +40,6 @@ export async function getWeatherDataFunc(city) {
         weatherObject.current.weather_descriptions[0]
     );
 
-    // Spara i cache innan vi returnerar
     weatherCache[city] = weather;
     return weather;
 }
-
-// === ONLINE-LÄGE (riktigt API) ===
-// KOMMENTERA IN DETTA BLOCK FÖR ONLINE:
-/*
-export async function getWeatherDataFunc(city) {
-    if (weatherCache[city]) {
-        return weatherCache[city];
-    }
-
-    const API_KEY = "DIN_ONLINE_API_KEY";
-    const BASE_URL = "https://api.weatherstack.com/current";
-    const response = await fetch(
-        `${BASE_URL}?access_key=${API_KEY}&query=${encodeURIComponent(city)}`
-    );
-    const data = await response.json();
-
-    if (data.error) {
-        throw new Error("Fel från väder-API: " + data.error.type);
-    }
-
-    const weather = new WeatherData(
-        data.current.temperature,
-        data.location.localtime,
-        data.location.country,
-        data.current.weather_descriptions[0]
-    );
-
-    weatherCache[city] = weather;
-    return weather;
-}
-*/

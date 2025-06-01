@@ -12,13 +12,11 @@ export class ListAPI {
             try {
                 err = await response.json();
             } catch { }
-            throw { error: "Något gick fel" }; // NGT MER?
+            throw { error: "Något gick fel" }; 
         }
 
         return response.json();
     }
-
-    /* SKA CREDENTIALS VARA MED? *** */
 
 
     // --- LISTOR ---
@@ -96,7 +94,7 @@ export class ListAPI {
         return this.handleResponse(response);
     }
 
-    // (PUT)   ENDPOINT = /lists/:userId/:listId/items/:itemId   – uppdatera item *** ?
+    // (PUT)   ENDPOINT = /lists/:userId/:listId/items/:itemId   – uppdatera item 
     async updateItem(userId, listId, itemId, updatedFields) {
 
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}/items/${itemId}`;

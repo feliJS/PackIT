@@ -27,7 +27,7 @@ function removeCSS(href) {
 }
 
 
-export function navigateTo(view,  data = {}) {
+export function navigateTo(view, data = {}) {
 
     hideAllViews();
     removeCSS("/css/home.css");
@@ -50,24 +50,23 @@ export function navigateTo(view,  data = {}) {
             break;
 
         case "profile":
-           loadCSS("/css/profile.css");
-           loadCSS("/css/settings.css");
-           document.querySelector(".profile-box").style.display = "inline-block";
-           /* --- tripData, weatherData --- */
-           renderProfile(data.tripDataObj, data.weatherDataObj);
-           break; 
+            loadCSS("/css/profile.css");
+            loadCSS("/css/settings.css");
+            document.querySelector(".profile-box").style.display = "inline-block";
+            renderProfile(data.tripDataObj, data.weatherDataObj);
+            break;
 
         case "login":
-           loadCSS("/css/registerlogin.css");
-           document.querySelector(".login-box").style.display = "inline-block";
-           openLogin();
-           break; 
+            loadCSS("/css/registerlogin.css");
+            document.querySelector(".login-box").style.display = "inline-block";
+            openLogin();
+            break;
 
         case "register":
-           loadCSS("/css/registerlogin.css");
-           document.querySelector(".register-box").style.display = "inline-block";
-           openRegister();
-           break; 
+            loadCSS("/css/registerlogin.css");
+            document.querySelector(".register-box").style.display = "inline-block";
+            openRegister();
+            break;
 
         default:
             loadCSS("/css/home.css");

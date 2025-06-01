@@ -487,6 +487,6 @@ export async function runTestsList() {
   await runTests();
 
   // Använder API KEYS för weather och unsplash nedan
-  // runTestsWeather();
+  runTestsWeather();
 
 }

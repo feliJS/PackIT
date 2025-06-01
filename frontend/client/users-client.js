@@ -18,7 +18,7 @@ export class UserAPI {
   // (GET) /users – hämta alla användare
   async getAllUsers() {
     const res = await fetch(`${this.baseUrl}/users`, {
-      credentials: "include", // skicka/ta emot cookie
+      credentials: "include", 
     });
     return this.handleResponse(res);
   }
@@ -77,7 +77,7 @@ export class UserAPI {
     return this.handleResponse(res);
   }
 
-  // (POST) /users/logout – logga ut (kan egentligen vara en GET)
+  // (POST) /users/logout – logga ut 
   async logoutUser() {
     const res = await fetch(`${this.baseUrl}/users/logout`, {
       method: "POST",

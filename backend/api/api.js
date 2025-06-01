@@ -5,29 +5,29 @@ import { imageHandler } from "./unsplash/imageApi.js";
 async function handler(req) {
     let url = new URL(req.url);
 
-    if(url.pathname.startsWith("/users")) {
+    if (url.pathname.startsWith("/users")) {
         let usersResponse = usersHandler(req);
-        if(usersResponse) return usersResponse;
+        if (usersResponse) return usersResponse;
     }
 
-    if(url.pathname.startsWith("/lists")){
+    if (url.pathname.startsWith("/lists")) {
         let listResponse = listHandler(req);
-        if(listResponse) return listResponse;
+        if (listResponse) return listResponse;
     }
 
-    if(url.pathname.startsWith("/image")) {
+    if (url.pathname.startsWith("/image")) {
         let imageResponse = imageHandler(req);
-        if(imageResponse) return imageResponse;
+        if (imageResponse) return imageResponse;
     }
 
-    if (url.pathname === "/weather") { //lägg annars i en egen fil
+    if (url.pathname === "/weather") {
         try {
-            // Läs API-nyckel
+
             const apiKeysFile = await Deno.readTextFile("../../apiKeys.json");
             const keys = JSON.parse(apiKeysFile);
             const API_KEY_WEATHER = keys[0]?.API_KEY_WEATHER;
 
-            // Läs och kontrollera body
+
             const body = await req.json();
             if (!body.city) {
                 return new Response(JSON.stringify({ error: "Stad måste anges i body, t.ex. { city: 'Stockholm' }" }), {
@@ -36,7 +36,7 @@ async function handler(req) {
                 });
             }
 
-            // Hämta väderdata
+
             const BASE_URL = "https://api.weatherstack.com/current";
             const response = await fetch(`${BASE_URL}?access_key=${API_KEY_WEATHER}&query=${encodeURIComponent(body.city)}`);
             const data = await response.json();
@@ -48,7 +48,7 @@ async function handler(req) {
                 });
             }
 
-            // Returnera väderdata
+
             return new Response(JSON.stringify(data), {
                 headers: { "Access-Control-Allow-Origin": "*", "content-type": "application/json" }
             });

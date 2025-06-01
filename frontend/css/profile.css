@@ -1,16 +1,15 @@
 :root {
     --color-primary: #34495E;
-    /* Huvudsakliga färgen: knappar, länkar, logga, aktiva element */
+
     --color-primary-light: #6FA9BB;
     --color-primary-dark: #2c3e50;
     --color-secondary: #4a674f;
-    /* komplement till primary: andra knappar eller andra detaljer */
+
     --color-accent: #f59e0b;
     --color-orange: #CC7D5F;
     --color-orange-matte: #cc7e5f1f;
     --color-beige: #EEE2D3;
     
-    /* Fångar uppmärksamhet */
     --color-background: #ffffff;
     --color-surface: #f9fafb;
     --color-border: #DFE6E9;
@@ -47,7 +46,7 @@
 
 .profile-box {
     width: 1200px;
-    height: 600px; /* Vet inte riktigt */
+    height: 600px; 
     background-color: #EEE2D3;
     border-radius: var(--radius-m);
     position: relative;
@@ -152,7 +151,6 @@ button:hover {
     overflow: scroll;
 }
 
-/* När den ska visas */
 #handleListView.active {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -200,13 +198,13 @@ button:hover {
     height: var(--spacing-s);
     border: 1px solid #1e2b1e;
     border-radius: var(--radius-s);
-    background-color: #EEE2D3; /* ocheckad bakgrund */
+    background-color: #EEE2D3;
     cursor: pointer;
     position: relative;
 }
 
 .checkbox:checked {
-    background-color: var(--color-orange); /* grön när den är ibockad */
+    background-color: var(--color-orange); 
 }
 
 .checkbox:checked::after {

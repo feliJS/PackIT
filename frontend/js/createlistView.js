@@ -20,7 +20,6 @@ export async function submitDestination(city) {
             weatherDescriptions: weatherResponse.weatherDescriptions
         };
 
-        console.log("det fungerade! omfg:", weatherDataObj);
         return weatherDataObj;
 
     } catch (error) {
@@ -40,10 +39,7 @@ export default function renderCreateList() {
         duration: "",
         purpose: 1,
         vehicle: 2,
-        /*      AKTIVERRA NÄR LOGIN FUNGERAR ***
-        userId: getCookie("session_id") 
-        */
-        userId: 1748265198014
+        userId: null
     };
 
     const weatherDataObj = {
@@ -63,7 +59,6 @@ export default function renderCreateList() {
     let currentStep = 1;
     goToStep(currentStep);
 
-    // (Varje "step" anges som parameter i funktionsanrop)
     function goToStep(step) {
 
         currentStep = step;
@@ -109,8 +104,6 @@ export default function renderCreateList() {
         </div>
         `;
 
-
-        /* --- EVENTLISTENERS (BTN) --- */
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
             navigateTo("profile")
         })
@@ -132,8 +125,6 @@ export default function renderCreateList() {
             goToStep(2);
         });
 
-
-        /* --- create-list-box (APPENDCHILD) --- */
         return newDiv;
     }
 
@@ -179,8 +170,6 @@ export default function renderCreateList() {
 
         </div>`;
 
-
-        /* --- EVENTLISTENERS (BTN) --- */
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
             navigateTo("profile")
         })
@@ -192,7 +181,7 @@ export default function renderCreateList() {
             tripDataObj.duration = newDiv.querySelector(".create-list-module-user-input-duration").value;
 
             if (!tripDataObj.day || !tripDataObj.month || !tripDataObj.duration) {
-                
+
                 userFeedbackDiv = document.querySelector(".user-feedback-container")
                 handleError("Please enter all fields");
 
@@ -211,8 +200,6 @@ export default function renderCreateList() {
             goToStep(1);
         });
 
-
-        /* --- create-list-box (APPENDCHILD) --- */
         return newDiv;
     }
 
@@ -260,8 +247,6 @@ export default function renderCreateList() {
     
         </div>`;
 
-
-        /* --- EVENTLISTENERS (BTN) --- */
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
             navigateTo("profile")
         })
@@ -282,8 +267,6 @@ export default function renderCreateList() {
             goToStep(2);
         });
 
-
-        /* --- create-list-box (APPENDCHILD) --- */
         return newDiv;
     }
 
@@ -329,9 +312,6 @@ export default function renderCreateList() {
     
         </div>`;
 
-
-        /* --- EVENTLISTENERS (BTN) --- */
-
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
 
             userFeedbackDiv = document.querySelector(".user-feedback-container")
@@ -364,8 +344,6 @@ export default function renderCreateList() {
             }
         });
 
-
-        /* --- create-list-box (APPENDCHILD) --- */
         return newDiv;
     }
 

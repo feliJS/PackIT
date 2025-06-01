@@ -64,7 +64,6 @@ function createAccountPopup(
     </div>
   `;
 
-  // Dölj gamla felmeddelanden om popupen öppnas igen
   hideError(containerSelector);
 
   const cancelBtn = document.getElementById("cancel-btn");
@@ -99,7 +98,7 @@ async function createRegister() {
       try {
         await userApi.newAccount(username, password, cachedAvatarUrl);
         close();
-        navigateTo("profile") //denna borde funka sen
+        navigateTo("profile")
       } catch (err) {
         let errorMsg = "Kunde inte skapa konto!";
         if (err?.error) errorMsg = err.error;
@@ -129,7 +128,7 @@ function createLogin() {
       try {
         await userApi.loginUser(username, password);
         close();
-        navigateTo("profile") //denna borde funka sen
+        navigateTo("profile")
       } catch (err) {
         let errorMsg = "Kunde inte logga in!";
         if (err?.error) errorMsg = err.error;

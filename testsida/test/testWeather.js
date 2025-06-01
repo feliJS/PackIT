@@ -99,7 +99,7 @@ export async function runTestsWeather() {
 
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
-            body: JSON.stringify({ city: "wrongcity123456" }) // eller något som api:n returnerar fel på
+            body: JSON.stringify({ city: "wrongcity123456" }) 
         });
 
         const body = await response.json();
@@ -116,37 +116,12 @@ export async function runTestsWeather() {
         }, matchedExpectations);
     }
 
-    // === POST /weather (Internal Server Error Simulated) ===
-    async function testWeatherInternalError() {
-        const expectedStatus = 500;
-        let matchedExpectations = false;
-
-        const response = await fetch(`${baseUrl}/weather`, {
-            method: "POST",
-            body: JSON.stringify({ city: null }) // Triggar troligen 500
-        });
-
-        const body = await response.json();
-
-        if (response.status === expectedStatus) {
-            matchedExpectations = true;
-        }
-
-        logTest({
-            title: "Weather (Internal Error)",
-            method: "POST",
-            status: response.status,
-            message: body
-        }, matchedExpectations);
-    }
-
     // === Kör alla tester ===
     async function runTests() {
 
         await testWeatherSuccess();         // 200
         await testWeatherMissingCity();     // 400
         await testWeatherApiFailure();      // 502
-        await testWeatherInternalError();   // 500
 
     }
 

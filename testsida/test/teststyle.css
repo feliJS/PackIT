@@ -7,14 +7,16 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+
 header {
     display: flex;
     justify-content: space-between;
 }
 
 header>h1 {
-margin: 0;
+    margin: 0;
 }
+
 .run-tests-btn {
     padding: 10px 20px;
 }
@@ -22,19 +24,21 @@ margin: 0;
 #wrap {
     width: 100%;
     display: flex;
+    flex-direction: column;
+
     gap: 8px;
 }
 
 .request-log {
-    flex: 3 1 0;
-    width: 700px;
+    width: 100%;
     display: grid;
     gap: 4px;
 }
 
 .row {
-    display: grid;
-    grid-template-columns: 200px 150px 1fr 1fr;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
     background-color: aliceblue;
@@ -44,6 +48,11 @@ margin: 0;
 .row.header {
     background-color: rgb(200, 208, 214);
     font-weight: bold;
+}
+
+
+.rowDiv {
+    flex: 1;
 }
 
 .status {
@@ -80,4 +89,21 @@ margin: 0;
     padding: 4px 8px;
     border-radius: 4px;
     background-color: rgb(200, 208, 214);
+}
+
+
+.userRow {
+    background-color: blanchedalmond;
+}
+
+.listRow {
+    background-color: darkgray;
+}
+
+.weatherRow {
+    background-color: tan;
+}
+
+.unsplashRow {
+    background-color: whitesmoke;
 }

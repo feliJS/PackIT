@@ -174,7 +174,6 @@ function createListObj(list, container, tripDataObj) {
         let upToDateList = await listApi.getList(user.id, list.listId);
         console.log(upToDateList);
         editList(upToDateList); // vid klick på edit symbol
-        submitDestination(tripDataObj.city);
     });
 
     let deleteListBtn = document.createElement("img");

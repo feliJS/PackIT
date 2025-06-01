@@ -5,9 +5,7 @@ import  renderProfile  from "./profileView.js";
 const listApi = new ListAPI("http://localhost:8000");
 
 
-export async function editList(list, tripDataObj) {
-    console.log("editList mottog:", list, tripDataObj);
-
+export async function editList(list) {
     const weatherDataObj = await submitDestination(list.listName);
 
     const handleListView = document.createElement("div");

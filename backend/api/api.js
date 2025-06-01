@@ -42,7 +42,7 @@ async function handler(req) {
             const data = await response.json();
 
             if (data.error) {
-                return new Response(JSON.stringify({ error: "Fel från väder-API" + data.error }), {
+                return new Response(JSON.stringify({ error: "Fel från väder-API: " + data.error.type }), {
                     status: 502,
                     headers: { "Access-Control-Allow-Origin": "*", "content-type": "application/json" }
                 });

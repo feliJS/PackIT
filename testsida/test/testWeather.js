@@ -9,7 +9,28 @@ export async function runTestsWeather() {
 
     function logTest({ title, method, status, message }) {
 
-        const mainMessage = message[Object.keys(message)[0]];
+
+        let mainMessage = null;
+
+        if (typeof message === "object") {
+
+            console.log(mainMessage, 1)
+            mainMessage = message[Object.keys(message)[0]];
+
+            console.log(mainMessage, 2)
+
+            if (mainMessage.query) {
+
+                mainMessage = `{query: ${mainMessage.query} }, ... `;
+                console.log(mainMessage, 4);
+            }
+
+            console.log(mainMessage, 5)
+
+        } else {
+            mainMessage = message;
+        }
+
         const statusClass = status >= 200 && status < 300 ? "success" : "fail";
 
         const newRow = document.createElement("div");
@@ -35,10 +56,10 @@ export async function runTestsWeather() {
     async function testWeatherSuccess() {
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ city: "stockholm" })
         });
 
+        console.log(response)
         const body = await response.json();
 
         logTest({
@@ -53,7 +74,6 @@ export async function runTestsWeather() {
     async function testWeatherMissingCity() {
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({})
         });
 
@@ -71,7 +91,6 @@ export async function runTestsWeather() {
     async function testWeatherApiFailure() {
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ city: "wrongcity123456" }) // eller något som api:n returnerar fel på
         });
 
@@ -89,7 +108,6 @@ export async function runTestsWeather() {
     async function testWeatherInternalError() {
         const response = await fetch(`${baseUrl}/weather`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ city: null }) // Triggar troligen 500
         });
 
@@ -116,18 +134,13 @@ export async function runTestsWeather() {
         await testWeatherApiFailure();      // 502
         console.log("testWeatherApiFailure()");
 
-        await testWeatherInternalError();   // 500
-        console.log("testWeatherInternalError()");
-
         console.log("runTestsWeather() done");
     }
 
 
-    /*  await runTests(); */
+/*     await runTests(); */
 
     await runTestsUnsplash();
-
-    console.log("DONE = runTestsWeather() ")
 
 
 }

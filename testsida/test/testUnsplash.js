@@ -8,10 +8,18 @@ export async function runTestsUnsplash() {
         let mainMessage = null;
 
         if (typeof message === "object") {
-            mainMessage = message[Object.keys(message)[0]];
+            const firstKey = Object.keys(message)[0];
+            mainMessage = message[firstKey];
         } else {
             mainMessage = message;
         }
+
+        if (typeof mainMessage === "string" && mainMessage.includes("images.unsplash.com")) {
+            const shortUrl = mainMessage.split("?")[0];
+            mainMessage = shortUrl.slice(0, 55) + "  ...";
+        }
+
+
 
         const statusClass = status >= 200 && status < 300 ? "success" : "fail";
 

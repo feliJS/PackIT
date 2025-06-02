@@ -3,62 +3,7 @@
     "id": 1,
     "name": "Frog",
     "password": "123",
-    "pfp": "orkoqwp"
-  },
-  {
-    "id": 2,
-    "name": "Alex",
-    "password": "abc",
-    "pfp": "bildurl"
-  },
-  {
-    "id": 123,
-    "name": "Trelleborg",
-    "password": "hej123",
-    "lists": []
-  },
-  {
-    "id": 1747410984686,
-    "name": "felicia",
-    "password": "1337",
-    "lists": []
-  },
-  {
-    "id": 1747737444202,
-    "name": "Hej",
-    "password": "123",
-    "lists": []
-  },
-  {
-    "id": 1747808034298,
-    "name": "testingg",
-    "password": "2",
-    "lists": []
-  },
-  {
-    "id": 1747808510359,
-    "name": "MichaelScott123",
-    "password": "321"
-  },
-  {
-    "id": 1747808781628,
-    "name": "707",
-    "password": "lolol"
-  },
-  {
-    "id": 1747810227928,
-    "name": "yo",
-    "password": "123"
-  },
-  {
-    "id": 1747810563127,
-    "name": "Felicia",
-    "password": "cool123"
-  },
-  {
-    "id": 1747815041445,
-    "name": "Testare",
-    "password": "123"
+    "pfp": "https://images.unsplash.com/photo-1615824996195-f780bba7cfab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTE2Mzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDgwMDAxNTJ8&ixlib=rb-4.1.0&q=80&w=400"
   },
   {
     "id": 1748000196149,

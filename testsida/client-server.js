@@ -1,6 +1,3 @@
-
-// enkel test-server
-
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
 
 const PORT = 3000;

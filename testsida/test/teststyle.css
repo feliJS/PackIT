@@ -7,14 +7,16 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+
 header {
     display: flex;
     justify-content: space-between;
 }
 
 header>h1 {
-margin: 0;
+    margin: 0;
 }
+
 .run-tests-btn {
     padding: 10px 20px;
 }
@@ -22,19 +24,21 @@ margin: 0;
 #wrap {
     width: 100%;
     display: flex;
+    flex-direction: column;
+
     gap: 8px;
 }
 
 .request-log {
-    flex: 3 1 0;
-    width: 700px;
+    width: 100%;
     display: grid;
     gap: 4px;
 }
 
 .row {
-    display: grid;
-    grid-template-columns: 200px 150px 1fr 1fr;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
     background-color: aliceblue;
@@ -46,6 +50,11 @@ margin: 0;
     font-weight: bold;
 }
 
+
+.rowDiv {
+    flex: 1;
+}
+
 .status {
     padding: 0.15em 0.5em;
     border-radius: 4px;
@@ -53,8 +62,11 @@ margin: 0;
 }
 
 .status.success {
-    background-color: #26a95d;
-    color: black;
+    background-color: #26a95d6a;
+}
+
+.status.fail {
+    background-color: rgba(220, 4, 4, 0.3);
 }
 
 #user-list {
@@ -80,4 +92,32 @@ margin: 0;
     padding: 4px 8px;
     border-radius: 4px;
     background-color: rgb(200, 208, 214);
+}
+
+
+.userRow {
+    background-color: rgb(205, 205, 205);
+}
+
+.listRow {
+    background-color: rgb(195, 195, 195);
+}
+
+.weatherRow {
+    background-color: rgb(190, 190, 190);
+}
+
+.unsplashRow {
+    background-color: rgb(185, 185, 185);
+}
+
+.expStatus {
+    border-right: 8px solid rgb(4, 172, 4);
+    border-left: 8px solid rgb(4, 172, 4);
+
+}
+
+.notExpStatus {
+    border-right: 8px solid rgb(220, 4, 4);
+    border-left: 8px solid rgb(220, 4, 4);
 }

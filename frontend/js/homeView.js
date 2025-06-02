@@ -1,7 +1,6 @@
 import { UserAPI } from "/client/users-client.js";
 import { navigateTo } from "./router.js";
 const userApi = new UserAPI("http://localhost:8000");
-// Om användaren är inloggad aktiveras "create-list"-knappen
 
 const isCookie = document.cookie
   .split('; ')
@@ -22,7 +21,6 @@ function toggleCreateListBtn() {
   }
 }
 
-// Spara originalinnehållet för login-div
 const loginDivDefaultHTML = `
   <p>Log in to see your lists</p>
   <div class="login-button-div">
@@ -44,7 +42,7 @@ async function toggleProfilePicture() {
   const profileImgEl = document.querySelector(
     ".header-container-right .user-profile"
   );
-  if (!isCookie) { //om ingen profil bild visa standard ikon
+  if (!isCookie) { 
     profileImgEl.src = "/assets/icons/user2.png";
     return;
   }
@@ -54,10 +52,10 @@ async function toggleProfilePicture() {
     if (user.pfp) {
       profileImgEl.src = user.pfp;
     } else {
-      profileImgEl.src = "/assets/icons/user2.png"; // fallback om pfp saknas
+      profileImgEl.src = "/assets/icons/user2.png"; 
     }
   } catch (err) {
-    profileImgEl.src = "/assets/icons/user2.png";   // fallback vid fel
+    profileImgEl.src = "/assets/icons/user2.png";   
   }
 }
 

@@ -5,13 +5,13 @@
 
 :root {
     --color-primary: #34495E;
-    /* Huvudsakliga färgen: knappar, länkar, logga, aktiva element */
     --color-primary-light: #6FA9BB;
     --color-primary-dark: #2c3e50;
     --color-secondary: #4a674f;
-    /* komplement till primary: andra knappar eller andra detaljer */
     --color-accent: #f59e0b;
-    /* Fångar uppmärksamhet */
+    --color-orange: #CC7D5F;
+    --color-orange-matte: #cc7e5f1f;
+    --color-beige: #EEE2D3;
     --color-background: #ffffff;
     --color-surface: #f9fafb;
     --color-border: #DFE6E9;
@@ -47,8 +47,6 @@
     --shadow-l: 0 10px 15px rgba(0, 0, 0, 0.15);
 }
 
-
-/* --- Modul  --- */
 .create-list-module {
     background-color: var(--color-primary-light);
     box-sizing: border-box;
@@ -62,7 +60,6 @@
     min-height: 600px;
 }
 
-/* --- Rubriker --- */
 .create-list-module-h1,
 .create-list-module-h3 {
     color: var(--color-background);
@@ -85,12 +82,6 @@
     font-size: var(--spacing-m);
     color: var(--color-text-default);
 }
-
-
-
-
-
-/* --- Input containers --- */
 
 .create-list-header-container {
     color: var(--color-surface);
@@ -169,17 +160,12 @@
     font-size: var(--spacing-s);
 }
 
-/* .create-list-module-user-input-month, .create-list-module-user-input-day {
-padding: var(--spacing-xs) var(--spacing-m);
-} */
-
 .create-list-purpose-options-wellness-container {
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
-/* --- Knappar --- */
 .create-list-btn {
     background-color: var(--color-secondary);
     color: var(--color-surface);

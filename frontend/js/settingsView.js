@@ -1,7 +1,6 @@
 import { UserAPI } from "/client/users-client.js";
 const userApi = new UserAPI("http://localhost:8000");
 
-// (returnerar null om ej hittad)
 function getCookie(name) {
   return (
     document.cookie
@@ -22,7 +21,6 @@ async function currentUserFind() {
     return currentUser;
   } catch (err) {
     console.error(err);
-    alert("Kunde inte hämta användardata.");
     return null;
   }
 }
@@ -37,7 +35,6 @@ function showError(panel, message) {
 function showSuccess(panel, message) {
   const successDiv = panel.querySelector(".success-msg");
   successDiv.innerText = message;
-  // Rensa ev. tidigare felmeddelande
   const errorDiv = panel.querySelector(".error-msg");
   errorDiv.innerText = "";
 }

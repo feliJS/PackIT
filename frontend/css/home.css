@@ -1,13 +1,15 @@
 :root {
     --color-primary: #34495E;
-    /* Huvudsakliga färgen: knappar, länkar, logga, aktiva element */
+ 
     --color-primary-light: #6FA9BB;
     --color-primary-dark: #2c3e50;
     --color-secondary: #4a674f;
-    /* komplement till primary: andra knappar eller andra detaljer */
+
     --color-accent: #f59e0b;
+    --color-orange: #CC7D5F;
+    --color-orange-matte: #cc7e5f1f;
     --color-beige: #EEE2D3;
-    /* Fångar uppmärksamhet */
+
     --color-background: #ffffff;
     --color-surface: #f9fafb;
     --color-border: #DFE6E9;
@@ -78,15 +80,14 @@
 }
 
 .create-list-button {
-    padding: var(--spacing-m) var(--spacing-xl);
-    background-color: var(--color-accent);
-    color: var(--color-primary);
-    border-radius: var(--radius-l);
+    font-size: var(--font-size-base);
+    background-color: var(--color-orange);
+    width: 120px;
+    height: 50px;
 }
 
 .log-create-acc-buttons {
     padding: var(--spacing-s) var(--spacing-l);
-    border-radius: var(--radius-l);
 }
 
 .login-button {
@@ -103,9 +104,8 @@ button:hover {
     cursor: pointer;
 }
 
-/* Om användaren ej är inloggad */
 button.create-list-btn-disabled {
-    background-color: var(--color-accent);
+    background-color: var(--color-orange);
     opacity: 0.6;
     cursor: not-allowed;
 }

@@ -19,11 +19,11 @@ export async function imageHandler(req) {
       });
     }
     const imagesDB = await readImages();
-    if (!imagesDB.images[body.content]) imagesDB.images[body.content] = []; // lägg till om ej finns
+    if (!imagesDB.images[body.content]) imagesDB.images[body.content] = [];
     let randomImage = await getRandomImage(body.content);
     imagesDB.ratelimit = randomImage.ratelimit;
     if (randomImage.url == null) {
-      if (!imagesDB.images[body.content] || imagesDB.images[body.content].length == 0) { //om ej finns eller längden på listan är 0
+      if (!imagesDB.images[body.content] || imagesDB.images[body.content].length == 0) {
         return new Response(JSON.stringify({ error: "Bild kunde inte hämtas" }), {
           status: 404,
           headers: { ...corsHeaders, "content-type": "application/json" }

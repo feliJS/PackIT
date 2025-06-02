@@ -23,7 +23,7 @@ function createBasicList(urlUserId, listDB) {
         userId: Number(urlUserId),
         listId: basicListId,
         listName: "Basic List",
-        listItems: JSON.parse(JSON.stringify(defaultBasic.listItems)) // djup kopia
+        listItems: JSON.parse(JSON.stringify(defaultBasic.listItems)) 
     };
 
     listDB.push(newBasicList);
@@ -32,27 +32,26 @@ function createBasicList(urlUserId, listDB) {
 // /users/:userId/lists
 // (POST) - skapa en ny lista efter alla steg användaren klickat sig genom
 export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders) {
-    
-    const { listName, purpose, cover, vehicle } = reqBody;  // listName = stad som user valt, purpose = typ av resa user har valt (måstre hämta ut i req som inputs..)
-    
-    if (!listName && !purpose && !cover && !vehicle) {
-    let userBasicList = listDB.find(l =>
-        l.userId === Number(urlUserId) &&
-        l.listName.toLowerCase() === "basic list"
-    );
 
-    if (!userBasicList) {
-        userBasicList = createBasicList(urlUserId, listDB);
-        await saveDB(listDB); // <-- Spara när vi skapat en ny lista
+    const { listName, purpose, cover, vehicle } = reqBody; 
+
+    if (!listName && !purpose && !cover && !vehicle) {
+        let userBasicList = listDB.find(l =>
+            l.userId === Number(urlUserId) &&
+            l.listName.toLowerCase() === "basic list"
+        );
+
+        if (!userBasicList) {
+            userBasicList = createBasicList(urlUserId, listDB);
+            await saveDB(listDB); 
+        }
+
+        return new Response(JSON.stringify({ message: "Basic list created", list: userBasicList }), {
+            status: 201,
+            headers: { ...responseHeaders }
+        });
     }
 
-    return new Response(JSON.stringify({ message: "Basic list created", list: userBasicList }), {
-        status: 201,
-        headers: { ...responseHeaders }
-    });
-}
-
-    // Mappa purpose-id till rätt listnamn
     const purposeMap = {
         1: "Suntrip List",
         2: "Business List",
@@ -60,10 +59,10 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
     };
 
     const mappedPurposeName = purposeMap[purpose];
-    
+
 
     function getRecommendedBag(vehicle) {
-        switch(vehicle) {
+        switch (vehicle) {
             case 1: return "Backpack";
             case 2: return "Cabin Bag";
             case 3: return "Sportbag";
@@ -72,19 +71,16 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
     }
     const recommendedBag = getRecommendedBag(Number(vehicle));
 
-    // Kolla om användaren redan har en Basic List
-        let userBasicList = listDB.find(l =>
+    let userBasicList = listDB.find(l =>
         l.userId === Number(urlUserId) &&
         l.listName.toLowerCase() === "basic list"
     );
 
-    // Om inte – skapa en kopia av defaulten
     if (!userBasicList) {
         userBasicList = createBasicList(urlUserId, listDB);
     }
-  
 
-    // Hämta rätt template-lista baserat på purpose
+
     const typeTemplate = listDB.find(l =>
         l.userId === 0 &&
         l.listName.toLowerCase() === mappedPurposeName.toLowerCase()
@@ -92,8 +88,8 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
 
     if (!typeTemplate) {
         return new Response(JSON.stringify({ error: "Purpose template not found" }), {
-          status: 404,
-          headers: { ...responseHeaders }
+            status: 404,
+            headers: { ...responseHeaders }
         });
     }
 
@@ -109,7 +105,6 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
         cover: cover,
         bag: recommendedBag
     };
-    console.log(newList);
 
     listDB.push(newList);
     await saveDB(listDB);
@@ -123,14 +118,13 @@ export async function createListFunc(urlUserId, reqBody, listDB, responseHeaders
 
 // (GET) - hämta alla listor för en userId (behövs till profilsidan för att displaya alla listor)
 export async function getAllListsFunc(urlUserId, listDB, responseHeaders) {
-    console.log("I getAllListsFunc")
     const userLists = listDB.filter(list => list.userId == urlUserId);
-  
+
     return new Response(JSON.stringify(userLists), {
-      status: 200,
-      headers: { ...responseHeaders }
+        status: 200,
+        headers: { ...responseHeaders }
     });
-  }
+}
 
 2
 // /users/:userId/lists/:listId

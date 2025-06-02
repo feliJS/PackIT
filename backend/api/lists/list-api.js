@@ -75,8 +75,6 @@ export async function listHandler(req) {
         if (allListsMatch) {
             const { userId } = allListsMatch.pathname.groups;
 
-            console.log("I getAllListsFunc i (LIST_API)")
-
             return getAllListsFunc(userId, listDB, responseHeaders);
         }
     }

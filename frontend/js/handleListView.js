@@ -1,19 +1,17 @@
 import { ListAPI } from "/client/list-client.js";
 import { submitDestination } from "./createlistView.js";
-import  renderProfile  from "./profileView.js";
+import renderProfile from "./profileView.js";
 
 const listApi = new ListAPI("http://localhost:8000");
 
 
-export async function editList(list, tripDataObj) {
-    console.log("editList mottog:", list, tripDataObj);
-
+export async function editList(list) {
     const weatherDataObj = await submitDestination(list.listName);
 
     const handleListView = document.createElement("div");
     handleListView.id = "handleListView";
     document.querySelector("#app").appendChild(handleListView);
-    
+
     handleListView.classList.add("active");
     handleListView.innerHTML = "";
 
@@ -86,12 +84,11 @@ export async function editList(list, tripDataObj) {
             const listId = list.listId;
 
             const added = await listApi.addItem(userId, listId, box.id, itemName, 1);
-            if(added) {
+            if (added) {
                 const itemDiv = createItem(added.item, list);
                 itemsContainer.appendChild(itemDiv);
             }
-            //// Här visa om det inte gick...
-            
+
         });
 
         box.appendChild(inputDiv);

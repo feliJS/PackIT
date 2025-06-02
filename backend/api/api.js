@@ -5,21 +5,21 @@ import { imageHandler } from "./unsplash/imageApi.js";
 async function handler(req) {
     let url = new URL(req.url);
 
-    if(url.pathname.startsWith("/users")) {
+    if (url.pathname.startsWith("/users")) {
         let usersResponse = usersHandler(req); //returnerar en promise! som kan vara null eller faktiska functionen
-        if(usersResponse) return usersResponse; //om det är false... returna inte den. men om true ! gör det
+        if (usersResponse) return usersResponse; //om det är false... returna inte den. men om true ! gör det
         //detta användes innan eftersom /users fanns också på listHandler, vi hade /users/lists och behövde kolla båda på ett sätt-
         //så egentligen behövs inte detta längre.
     }
 
-    if(url.pathname.startsWith("/lists")){
+    if (url.pathname.startsWith("/lists")) {
         let listResponse = listHandler(req);
-        if(listResponse) return listResponse;
+        if (listResponse) return listResponse;
     }
 
-    if(url.pathname.startsWith("/image")) {
+    if (url.pathname.startsWith("/image")) {
         let imageResponse = imageHandler(req);
-        if(imageResponse) return imageResponse;
+        if (imageResponse) return imageResponse;
     }
 
     if (url.pathname === "/weather") { //lägg annars i en egen fil, just nu är de samma som de andra förutom den ligger direkt i servern
@@ -68,7 +68,7 @@ async function handler(req) {
         }
     }
 
-    
+
     return null //om ingen av de ovanstående rutterna matchade, returnera null.
     //i denos serve-miljlö bnetyder det att denna handler inte ger ett svar- i praktiken bör man returnera en 404 not found här men i den gär koden görs det via sub-handlerna på ett sätt.
 }

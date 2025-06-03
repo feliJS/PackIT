@@ -96,7 +96,7 @@ export async function listHandler(req) {
 
     // === PUT ===
     // /lists/:userId/:listId/items/:itemId
-    if (reqMethod === "PUT" && singleItemMatch) {
+    if (reqMethod === "PUT" && singleItemMatch) { //jag tror inte vi använder denna någon gång
         const { userId, listId, itemId } = singleItemMatch.pathname.groups;
         return updateItemFunc(reqBody, userId, listId, itemId, listDB, responseHeaders);
     }

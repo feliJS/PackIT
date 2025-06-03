@@ -13,7 +13,7 @@ async function handler(req) {
     }
 
     if (url.pathname.startsWith("/lists")) {
-        let listResponse = listHandler(req);
+        let listResponse = listHandler(req);    
         if (listResponse) return listResponse;
     }
 

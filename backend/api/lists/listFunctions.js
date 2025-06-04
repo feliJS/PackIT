@@ -338,7 +338,7 @@ export async function deleteItemFunc(urlUserId, urlListId, urlItemId, listDB, re
         });
     }
     /**Loopar genom foundList.listItems och sparar indexet där itemId matchar.
-
+    hade kunnat använda findIndex
     Om inget hittas (index = -1), returnera 409 Conflict. */
     let itemIndex = -1;
     for (let i = 0; i < foundList.listItems.length; i++) {

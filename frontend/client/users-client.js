@@ -18,7 +18,7 @@ export class UserAPI {
   // (GET) /users – hämta alla användare
   async getAllUsers() {
     const res = await fetch(`${this.baseUrl}/users`, {
-      credentials: "include", 
+      credentials: "include", //talar om att webbläsaren ska skicka med cookies!
     });
     return this.handleResponse(res);
   }
@@ -72,7 +72,7 @@ export class UserAPI {
       method: "DELETE",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({})
+      body: JSON.stringify({}) //man brukar ej ha det, så de borde inte finnas
     });
     return this.handleResponse(res);
   }
@@ -83,7 +83,8 @@ export class UserAPI {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({})
+      body: JSON.stringify({}) //samma sak här vi behöver bara ta bort cookies...
+      //inte specifisera vem!
     });
     return this.handleResponse(res);
   }

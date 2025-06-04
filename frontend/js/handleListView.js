@@ -2,7 +2,7 @@ import { ListAPI } from "/client/list-client.js";
 import { submitDestination } from "./createlistView.js";
 import renderProfile from "./profileView.js";
 
-const listApi = new ListAPI("http://localhost:8000");
+const listApi = new ListAPI("http://localhost:8000"); //konstruktorn! baseURL
 
 
 export async function editList(list) {

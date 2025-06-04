@@ -2,20 +2,23 @@
 
 export class ListAPI {
 
-    constructor(baseUrl) {
-        this.baseUrl = baseUrl;
+    constructor(baseUrl) { //konstruktorn skapas alltid när du gör en ny list instans.
+        this.baseUrl = baseUrl; //mer flexibel ig för att man kan byta url om man ska köra på ngn
+        //test version eller nått? så behöver man ej byta överallt
     }
 
-    async handleResponse(response) {
+    async handleResponse(response) { //en emtod i klassen som expektar en response
 
         if (!response.ok) {
             try {
-                err = await response.json();
-            } catch { }
-            throw { error: "Något gick fel" }; 
+                err = await response.json(); //eftersom vi måste hämta responsen
+                //vilket måste vara json
+            } catch { } //vi gör inget den går direkt till något gick fel
+            //om de ej är json
+            throw { error: "Något gick fel" }; //annars får vi ju kasta en error.
         }
 
-        return response.json();
+        return response.json(); //returnerar en promise
     }
 
 
@@ -49,7 +52,7 @@ export class ListAPI {
         const response = await fetch(reqURL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({"listName": listName, "purpose": purpose, "cover": cover, "vehicle": vehicle}),
+            body: JSON.stringify({ "listName": listName, "purpose": purpose, "cover": cover, "vehicle": vehicle }),
         });
         return this.handleResponse(response);
     }
@@ -61,7 +64,8 @@ export class ListAPI {
 
         const response = await fetch(reqURL, {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" } //Egentligen behövs ju ej denna
+            //för vi har ingen body.
         });
         return this.handleResponse(response);
     }
@@ -76,7 +80,7 @@ export class ListAPI {
         const reqURL = `${this.baseUrl}/lists/${userId}/${listId}/items`;
 
         const response = await fetch(reqURL, {
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" }, //Returnerar items som en json?
         });
         return this.handleResponse(response);
     }

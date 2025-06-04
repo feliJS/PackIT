@@ -12,7 +12,7 @@ export async function editList(list) {
     handleListView.id = "handleListView";
     document.querySelector("#app").appendChild(handleListView);
 
-    handleListView.classList.add("active");
+    handleListView.classList.add("active"); //lägger till klassen active
     handleListView.innerHTML = "";
 
     let listContainer = document.createElement("div");
@@ -29,7 +29,7 @@ export async function editList(list) {
     listContainer.appendChild(doneBtn);
 
     doneBtn.addEventListener("click", () => {
-        handleListView.classList.remove("active");
+        handleListView.classList.remove("active"); //tar bort klassen active
         handleListView.style.display = "none";
         renderProfile();
     });

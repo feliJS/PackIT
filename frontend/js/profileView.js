@@ -1,4 +1,17 @@
-/* profileView.js */
+/* profileView.js 
+Syfte: Visa användarens profilsida, där vi ser namn och profilbild, 
+en “Create List”-knapp, en “Settings”-knapp, 
+samt en lista över användarens befintliga listor som brickor. 
+Från denna vy kan man även klicka “Edit” eller “Delete” för varje lista.  
+
+ori: När användaren klickar “profil” i headern anropas navigateTo("profile"). 
+Då anropas denna renderProfile(tripDataObj, weatherDataObj). 
+Om vi nyss skapat en lista via createList‐vyn, 
+skickas tripDataObj och weatherDataObj med, 
+vilket i så fall triggar renderNewList och vi lägger direkt till den nya 
+'listan i användarens vy. Annars visar vi befintliga listor.
+
+*/
 
 import { UserAPI } from '/client/users-client.js';
 import { ListAPI } from '/client/list-client.js';
@@ -13,7 +26,7 @@ const imageApiBase = "http://localhost:8000/image";
 
 
 
-async function findUser() {
+async function findUser() { //returnera rätt användare
     function getCookie(name) {
         return document.cookie
             .split('; ')
@@ -32,7 +45,7 @@ async function findUser() {
     }
 }
 
-async function fetchListPic(destination) {
+async function fetchListPic(destination) { //ta en ny bild!
     const res = await fetch(`${imageApiBase}/randomimage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,25 +55,27 @@ async function fetchListPic(destination) {
 }
 
 
-export default async function renderProfile(tripDataObj, weatherDataObj) {
+//tar in tripdataObj och weatherDataObj
+export default async function renderProfile(tripDataObj, weatherDataObj) { //man behöver ej specifia vad man exporterar
     const user = await findUser();
-    if (!user) {
-        navigateTo("login")
+    if (!user) { //om user inte finns
+        navigateTo("login") //då får man logga in
         return
     }
 
-    if (tripDataObj && weatherDataObj) {
-        renderNewList(user.id, tripDataObj, weatherDataObj);
+    if (tripDataObj && weatherDataObj) { //om tripdataObj och weatherdataobj finns, render ny lista
+        //om det liksom skickades med, så kommer det finnas en ny lista och då tar man renderNewList
+        renderNewList(user.id, tripDataObj, weatherDataObj); //dvs om vi kommit från att skapa en resa till profilen
     }
 
 
 
     let listData = await listApi.getAllLists(user.id);
     const hasBasicList = listData.some(list => list.listName === "Basic List");
-
+    //ovan säkerställer om användaren har en basic lista, annars så måste man skapa en basic list
     if (!hasBasicList) {
         await listApi.createList(user.id);
-        listData = await listApi.getAllLists(user.id);
+        listData = await listApi.getAllLists(user.id); //sötter variablen med det nya
     }
 
     const profileViewDOM = document.querySelector(".profile-box")
@@ -76,34 +91,37 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
     createButton.id = "create-list-button";
     createButton.textContent = "Create List";
     createButton.addEventListener("click", () => {
-        navigateTo("create-list");
+        navigateTo("create-list"); //om man klickar createList gå till createList viewn
     })
 
     const createButtonSettings = document.createElement("button");
     createButtonSettings.id = "settings-button";
     createButtonSettings.textContent = "Settings"; 
     createButtonSettings.addEventListener("click", () => {
-        renderSettingsView()
+        renderSettingsView() //settingsbutton renders
+        //OBS! detta är ingen vy, för att den ska vara på profilen!
     })
 
     profileContainer.appendChild(loadName(user));
     profileContainer.appendChild(createButton);
     profileContainer.appendChild(createButtonSettings);
 
-    loadLists(user.id, allListsContainer);
+    loadLists(user.id, allListsContainer); //loada upp alla listor för just den användaren
 
-    async function renderNewList(userId, tripDataObj) {
-        const cover = await fetchListPic(tripDataObj.country);
-        const listName = tripDataObj.city
-        const newList = await listApi.createList(userId, listName, tripDataObj.purpose, cover, tripDataObj.vehicle);
-        editList(newList.list, tripDataObj);
+    async function renderNewList(userId, tripDataObj) { //renderar den nya listan också
+        const cover = await fetchListPic(tripDataObj.country); //ger den ett nytt cover
+        const listName = tripDataObj.city //ett nytt namn
+        const newList = await listApi.createList(userId, listName, tripDataObj.purpose, cover, tripDataObj.vehicle); //skapar listan
+        editList(newList.list, tripDataObj); //efter vi skapade den nya listan så kommer vi visa editList
+        //detta är för när vi klickar createList, går igenom frågorna så kommer vi först till profile, med tripdata och wather, sen in till edit mode i listan vi nyss skapade
+        //så quiz -> profile -> edit mode -> profile när man är klar!
     }
 
     function loadLists(userId, container) {
-        if (listData) {
-            listApi.getAllLists(userId).then((x) => {
+        if (listData) {  //om vi har listData, dvs alla listor
+            listApi.getAllLists(userId).then((x) => {//Hämta alla för just den användaren
 
-                for (let list of x) {
+                for (let list of x) { //för varje lista skapa ett listObj med lista och container
                     createListObj(list, container);
 
                 }
@@ -114,7 +132,7 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
     }
 
 
-    function loadName(user) {
+    function loadName(user) { //hämtar namnet
         const nameDiv = document.createElement("div");
         nameDiv.classList.add("nameDiv");
 
@@ -134,13 +152,13 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
     function createListObj(list, container, tripDataObj) {
         const listDOM = document.createElement("div");
         listDOM.classList.add("listContainer");
-        if (list.listName === "Basic List") {
+        if (list.listName === "Basic List") { //ge namnet om de e basic list ge jpg
             let backPic = "../assets/images/backpack.jpg"
             listDOM.style.backgroundImage = `url("${backPic}")`;
             listDOM.style.backgroundSize = "cover";
             listDOM.style.backgroundPosition = "top";
         }
-        if (list.cover) {
+        if (list.cover) { //ge list cover om de finns
             listDOM.style.backgroundImage = `url("${list.cover}")`;
             listDOM.style.backgroundSize = "cover";
             listDOM.style.backgroundPosition = "center";
@@ -162,7 +180,8 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
         editImg.classList.add("edit")
         editImg.addEventListener("click", async () => {
             let upToDateList = await listApi.getList(user.id, list.listId);
-            editList(upToDateList); 
+            //om man vill redigera kommer den först hämta listan (vi får ladda in den igen för den kanske är uppdaterad)
+            editList(upToDateList);  //sen går vi in i editList med listan
         });
 
         let deleteListBtn = document.createElement("img");
@@ -172,8 +191,8 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
         deleteListBtn.addEventListener("click", () => {
             const confirmed = window.confirm("Är du säker på att du vill radera listan?")
             if (confirmed) {
-                listApi.deleteList(user.id, list.listId);
-                listDOM.remove();
+                listApi.deleteList(user.id, list.listId); //raderar listan
+                listDOM.remove(); //raderar den från dommen
             }
         });
 
@@ -189,6 +208,6 @@ export default async function renderProfile(tripDataObj, weatherDataObj) {
 }
 
 const profileBtn = document.querySelector(".user-profile");
-profileBtn.addEventListener("click", () => {
+profileBtn.addEventListener("click", () => { //om klicka profil bara ladda om, gå till profil.
     navigateTo("profile")
 })

@@ -11,7 +11,7 @@ function getCookie(name) {
 }
 
 let currentUser = null;
-async function currentUserFind() {
+async function currentUserFind() { 
   const id = getCookie("session_id");
   if (!id) {
     return null;
@@ -43,8 +43,8 @@ function createPanelHTML() {
  const profileBox = document.querySelector('.profile-box');
 
     let existingPanel = document.querySelector('.settings-panel');
-    if (existingPanel) {
-        existingPanel.classList.toggle('active');
+    if (existingPanel) { //kolalr om den finns
+        existingPanel.classList.toggle('active'); //Om den finns så försvinner den om den inte finns lägg till
         return;
     }
 

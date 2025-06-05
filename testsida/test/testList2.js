@@ -13,7 +13,7 @@ export async function runTestsList() {
     let mainMessage = null;
     if (typeof message === "object") {
 
-      mainMessage = message[Object.keys(message)[0]];
+      mainMessage = message[Object.keys(message)[0]]; //den ger mig en array med bara keys från ett objekt
       if (mainMessage.itemName) {
 
         mainMessage = `{itemName: ${mainMessage.itemName} }, ... `;

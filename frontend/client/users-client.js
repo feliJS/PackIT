@@ -49,8 +49,8 @@ export class UserAPI {
   async getSpecificUser(id) {
     const res = await fetch(`${this.baseUrl}/users/${id}`, {
       method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      credentials: "include", //denna behövs inte, bara på post/delete
+      headers: { "Content-Type": "application/json" }, //samma med denna för ingen reqBody
     });
     return this.handleResponse(res);
   }

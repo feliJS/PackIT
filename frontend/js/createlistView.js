@@ -7,20 +7,21 @@ import { getWeatherDataFunc } from "../client/weater-client.js";
 
 export async function submitDestination(city) {
     try {
-        const weatherResponse = await getWeatherDataFunc(city);
+        const weatherResponse = await getWeatherDataFunc(city); //hämtar väder data
 
         if (!weatherResponse) {
             throw new Error("No weather data returned");
         }
 
-        const weatherDataObj = {
+        const weatherDataObj = { //onödig
+            //ta bort den och bara returnera weather response direkt
             temperature: weatherResponse.temperature,
             localTime: weatherResponse.localTime,
             country: weatherResponse.country,
             weatherDescriptions: weatherResponse.weatherDescriptions
         };
 
-        return weatherDataObj;
+        return weatherDataObj; //denna gör liksom inget man kan bara returnera weatherResponse direkt
 
     } catch (error) {
         console.error("Kunde inte hämta väderdata:", error);
@@ -31,6 +32,7 @@ export async function submitDestination(city) {
 
 export default function renderCreateList() {
 
+    //Skapar ett objekt som ska hålla användarens val under alla fyra steg. Förutbestämda värden:
     const tripDataObj = {
         city: "",
         country: "",
@@ -42,6 +44,7 @@ export default function renderCreateList() {
         userId: null
     };
 
+    //Ett tomt objekt som vi avser att fylla med data när vi kallar submitDestination på steg 4.
     const weatherDataObj = {
         country: "",
         temperature: "",
@@ -56,15 +59,16 @@ export default function renderCreateList() {
         return;
     }
 
-    let currentStep = 1;
-    goToStep(currentStep);
+    let currentStep = 1; //variabel som håller koll på vilket steg
+    goToStep(currentStep); //gå till det steget man är på
+
 
     function goToStep(step) {
 
         currentStep = step;
         createlistDiv.innerHTML = "";
 
-        switch (step) {
+        switch (step) { //byta ssteg
             case 1:
                 createlistDiv.appendChild(renderStep1());
                 break;
@@ -82,7 +86,7 @@ export default function renderCreateList() {
 
 
     /* ---  STEP 1 --- */
-    function renderStep1() {
+    function renderStep1() { //första
         const newDiv = document.createElement("div");
         newDiv.innerHTML = `
         <div class="create-list-module">
@@ -105,14 +109,14 @@ export default function renderCreateList() {
         `;
 
         newDiv.querySelector(".create-list-header-close-icon-outside").addEventListener("click", () => {
-            navigateTo("profile")
+            navigateTo("profile") //om close g till profile
         })
 
         newDiv.querySelector(".create-list-btn-next").addEventListener("click", async () => {
-            tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim();
+            tripDataObj.city = newDiv.querySelector(".create-list-module-user-input-city").value.trim(); //trim tar bort alla mellanslag och sånt, för att input kan man ju bara skriva en massa mellanslag så de tar bort de
             tripDataObj.country = newDiv.querySelector(".create-list-module-user-input-country").value.trim();
 
-            if (!tripDataObj.city || !tripDataObj.country) {
+            if (!tripDataObj.city || !tripDataObj.country) { //man måste skriva in båda
 
                 userFeedbackDiv = document.querySelector(".user-feedback-container")
                 handleError("Please enter both city and country");
@@ -336,7 +340,9 @@ export default function renderCreateList() {
             const weatherResponseOK = await submitDestination(tripDataObj.city);
 
             if (weatherResponseOK) {
-                navigateTo("profile", { tripDataObj, weatherDataObj });
+                navigateTo("profile", { tripDataObj, weatherDataObj }); //man navigerar till profile med nya objketen!
+                //och profile tittade ju ifall man hade med sig dem eller inte.. dvs om man ska rendera med den nya listan eller hur det fungerar.
+                //men att man också ska komma in i editView direkt efter detta.
             } else {
 
                 userFeedbackDiv = document.querySelector(".user-feedback-container")

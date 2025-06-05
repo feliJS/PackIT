@@ -5,8 +5,8 @@ import renderProfile from "./profileView.js";
 const listApi = new ListAPI("http://localhost:8000"); //konstruktorn! baseURL
 
 
-export async function editList(list) {
-    const weatherDataObj = await submitDestination(list.listName);
+export async function editList(list) { //tar emot själva list objektet 
+    const weatherDataObj = await submitDestination(list.listName);//funktionen hämtar väderdata från staden
 
     const handleListView = document.createElement("div");
     handleListView.id = "handleListView";
@@ -38,15 +38,18 @@ export async function editList(list) {
     itemBox.id = "inner";
 
     let types = [...new Set(list.listItems.map((item) => item.itemType || "other"))];
-    let containers = {};
+    //list.listItems.map((item) => item.itemType || "other") - fast alla items fast itemtype
+    //types är bara en array av alla typer som finns (clothes, hygein och allt sånt)
+    //set var en lista som inte kan ha duplicates, 
+    let containers = {}; //detta är för att lägga in rätt item i rätt kateogri
 
-    for (let type of types) {
+    for (let type of types) { //för varje typ då så får man ju skapa en div som kommer hålla i dem
         let box = document.createElement("div");
         box.classList.add("type");
         box.id = `${type}`;
 
         let p = document.createElement("p");
-        p.textContent = type[0].toUpperCase() + type.slice(1) + ":";
+        p.textContent = type[0].toUpperCase() + type.slice(1) + ":"; //ja få det i stor bokstav i början
         box.appendChild(p);
 
         const itemsContainer = document.createElement("div");
@@ -76,15 +79,15 @@ export async function editList(list) {
         inputDiv.appendChild(addItemBtn);
 
         addItemBtn.addEventListener("click", async () => {
-            const itemName = input.value.trim();
-            if (!itemName) return;
-            input.value = "";
+            const itemName = input.value.trim(); //ja men såhär ta bort mellanslag
+            if (!itemName) return; //om inte ngt nytt item return
+            input.value = ""; //input värde rensat
 
             const userId = list.userId;
             const listId = list.listId;
 
-            const added = await listApi.addItem(userId, listId, box.id, itemName, 1);
-            if (added) {
+            const added = await listApi.addItem(userId, listId, box.id, itemName, 1); //add item
+            if (added) { //om de gick bra lägg till det i domen
                 const itemDiv = createItem(added.item, list);
                 itemsContainer.appendChild(itemDiv);
             }
@@ -93,18 +96,18 @@ export async function editList(list) {
 
         box.appendChild(inputDiv);
 
-        containers[type] = {
-            box,
-            itemsContainer,
-            input,
+        containers[type] = { //typen (clothes t ex)
+            box, //hela boxen för liksom hela typen
+            itemsContainer, //alla items
+            input, //själva input
         };
         itemBox.appendChild(box);
     }
 
-    for (let item of list.listItems) {
-        const container = containers[item.itemType];
-        if (container) {
-            const itemDiv = createItem(item, list);
+    for (let item of list.listItems) { //denna kommer faktiskt lägga till allting på skärmen
+        const container = containers[item.itemType]; //så gå igenom alla items och lägg in dem en och en vilken typ
+        if (container) { //om container finns så skapa itemet där, och lägg till dem
+            const itemDiv = createItem(item, list); //skapa itemsen liksom så man ser dem
             container.itemsContainer.appendChild(itemDiv);
         }
     }
@@ -145,7 +148,7 @@ export async function editList(list) {
 }
 
 
-export function createItem(item, list) {
+export function createItem(item, list) { //skapa en item liksom dom
     let itemDiv = document.createElement("div");
     itemDiv.classList.add("itemDiv");
 
@@ -179,10 +182,10 @@ export function createItem(item, list) {
     addBtn.appendChild(png);
     quantDiv.appendChild(addBtn);
 
-    addBtn.addEventListener("click", async () => {
+    addBtn.addEventListener("click", async () => { //lägg mer till på itemquantitiy
         item.itemQuantity++;
         quant.textContent = item.itemQuantity;
-        await listApi.updateItem(list.userId, list.listId, item.itemId, {
+        await listApi.updateItem(list.userId, list.listId, item.itemId, { //uppdatera itemquan
             itemQuantity: item.itemQuantity,
         });
     });
@@ -195,9 +198,9 @@ export function createItem(item, list) {
     reduceBtn.appendChild(minPng);
     quantDiv.appendChild(reduceBtn);
 
-    reduceBtn.addEventListener("click", async () => {
-        if (item.itemQuantity > 0) {
-            item.itemQuantity--;
+    reduceBtn.addEventListener("click", async () => { //ta bort
+        if (item.itemQuantity > 0) { //om större än noll
+            item.itemQuantity--; //minus minus
             quant.textContent = item.itemQuantity;
             await listApi.updateItem(list.userId, list.listId, item.itemId, {
                 itemQuantity: item.itemQuantity,
@@ -212,7 +215,7 @@ export function createItem(item, list) {
     removeBtn.textContent = "Remove";
     itemDiv.appendChild(removeBtn);
 
-    removeBtn.addEventListener("click", async () => {
+    removeBtn.addEventListener("click", async () => { //remove btn
         await listApi.deleteItem(list.userId, list.listId, item.itemId);
         itemDiv.remove();
     });
